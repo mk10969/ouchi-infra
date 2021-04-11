@@ -1,0 +1,5 @@
+- name: playbook test...
+  hosts: 100.64.1.101
+  become: yes
+  roles:
+    - test
