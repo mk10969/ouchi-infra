@@ -1,0 +1,100 @@
+- tasks:
+    - name: add k8s apt-key
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        state: present
+      become: yes
+
+    - name: add k8s apt repository
+      apt_repository:
+        repo: "deb https://apt.kubernetes.io/kubernetes-xenial main"
+        state: present
+        filename: kubernetes
+        update_cache: yes
+      become: yes
+
+    - name: apt-get install tools
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      with_items:
+        - apt-transport-https
+        - curl
+        - vim
+      become: yes
+
+    - name: apt-get install k8s
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      with_items:
+        - kubelet
+        - kubeadm
+        - kubectl
+        - docker.io
+      become: yes
+
+    - name: hold packages
+      dpkg_selections:
+        name: "{{ item }}"
+        selection: hold
+      with_items:
+        - kubelet
+        - kubeadm
+        - kubectl
+        - docker.io
+      become: yes
+
+    - name: change sysctl
+      sysctl:
+        name: net.bridge.bridge-nf-call-iptables
+        value: 1
+        state: present
+      become: yes
+
+    - name: systemd unmask docker.service
+      systemd:
+        name: docker.service
+        masked: no
+      become: yes
+
+    - name: systemd unmask docker.socket
+      systemd:
+        name: docker.socket
+        masked: no
+      become: yes
+
+    - name: systemd enable
+      systemd:
+        name: docker.service
+        enabled: yes
+      become: yes
+
+    - name: systemd start
+      systemd:
+        name: docker.service
+        state: started
+      become: yes
+
+    - name: add modules
+      modprobe:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - ip_vs_rr
+        - ip_vs_wrr
+        - ip_vs_sh
+        - ip_vs
+      become: yes
+
+    - name: Remove swapfile from /etc/fstab
+      mount:
+        name: swap
+        fstype: swap
+        state: absent
+      become: yes
+
+    - name: Disable swap
+      command: swapoff -a
+      when: ansible_swaptotal_mb > 0
+      become: yes

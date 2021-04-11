@@ -1,0 +1,7 @@
+# do apt-get update and dist-upgrade
+- name: apt-get update and dist-upgrade
+  apt:
+    upgrade: dist
+    update-cache: yes
+  changed_when: 0
+  become: yes
