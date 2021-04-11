@@ -1,0 +1,45 @@
+---
+- name: Disable swap
+  command: swapoff -a
+  become: yes
+  when: ansible_swaptotal_mb > 0
+
+- name: Check swap state (/etc/fstab)
+  shell: grep -v "\s*#" /etc/fstab | awk '{print $2}' | grep swap -c
+  register: swap_state_in_fstab
+  check_mode: false
+  changed_when: false
+  ignore_errors: true
+
+- name: Disable swap (/etc/fstab)
+  replace:
+    path: /etc/fstab
+    regexp: ([^\s]+\s+swap\s+.*)
+    replace: '# \1'
+  become: yes
+  when: swap_state_in_fstab.stdout != '0'
+
+- name: Enable brige Config (change sysctl)
+  sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: "1"
+    state: present
+  become: yes
+
+- name: "Add cgroup config"
+  copy:
+    src: ../files/cmdline.txt
+    dest: /boot/firmware/cmdline.txt
+    owner: root
+    group: root
+    mode: 0755
+# - name: add modules
+#   modprobe:
+#     name: "{{ item }}"
+#     state: present
+#   with_items:
+#     - ip_vs_rr
+#     - ip_vs_wrr
+#     - ip_vs_sh
+#     - ip_vs
+#   become: yes
