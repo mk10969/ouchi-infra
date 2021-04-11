@@ -1,0 +1,35 @@
+---
+# - name: apt-get update and dist-upgrade
+#   apt:
+#     upgrade: dist
+#     update-cache: yes
+#   changed_when: 0
+#   become: yes
+
+- name: Add netplan file
+  template:
+    src: ../templates/99_config.j2
+    dest: /etc/netplan/99_config.yaml
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+
+- name: Add hosts file
+  template:
+    src: ../templates/hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+
+- name: Set hostname
+  become: true
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Set timezone to Asia/Tokyo
+  become: true
+  timezone:
+    name: Asia/Tokyo

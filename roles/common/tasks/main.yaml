@@ -1,2 +1,1 @@
-# - include_tasks: apt_update_upgrade.yaml
-- include_tasks: add_hosts.yaml
+- include_tasks: common.yaml
