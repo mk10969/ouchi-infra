@@ -1,0 +1,9 @@
+---
+- name: "Add hosts file"
+  template:
+    src: ../templates/hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
