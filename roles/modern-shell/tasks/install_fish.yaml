@@ -6,7 +6,7 @@
     update_cache: yes
   become: yes
 
-- name: check fish version
+- name: Check fish version
   shell: fish --version
   register: check_fish_version
   failed_when: false
@@ -25,10 +25,16 @@
     (check_fish_version.rc != 0) or
     (FISH.UPGRADE)
 
-- name: "Add fish config file"
+- name: Add fish config file
   copy:
     src: ../files/config.fish
     dest: ~/.config/fish/config.fish
     owner: "{{ FISH.CONFIG.OWNER }}"
     group: "{{ FISH.CONFIG.GROUP }}"
     mode: "{{ FISH.CONFIG.MODE }}"
+  when: check_fish_version.rc != 0
+
+- name: Change fish shell
+  shell: chsh -s /usr/bin/fish
+  become: yes
+  when: check_fish_version.rc != 0

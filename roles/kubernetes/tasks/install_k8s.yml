@@ -5,7 +5,7 @@
     state: present
   become: yes
 
-- name: add k8s apt repository
+- name: Add k8s apt repository
   apt_repository:
     repo: "deb https://apt.kubernetes.io/kubernetes-xenial main"
     state: present
@@ -34,11 +34,11 @@
     - kubectl
   become: yes
 
-- name: check kubelet version
+- name: Check kubelet version
   shell: kubelet --version
 
-- name: check kubelet version
+- name: Check kubelet version
   shell: kubeadm --version
 
-- name: check kubectl version
+- name: Check kubectl version
   shell: kubectl version

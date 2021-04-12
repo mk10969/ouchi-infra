@@ -59,6 +59,6 @@
     masked: no
   become: yes
 
-- name: check docker version
+- name: Check docker version
   shell: docker --version
   # register: check_docker_version

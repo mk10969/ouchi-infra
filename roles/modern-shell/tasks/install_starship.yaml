@@ -1,5 +1,5 @@
 ---
-- name: check starship version
+- name: Check starship version
   shell: starship --version
   register: check_starship_version
   failed_when: false

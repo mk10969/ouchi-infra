@@ -20,7 +20,7 @@ starship init fish | source
 
 ### alias
 alias ll='ls -la'
-alias lt='ls -ltra'
+
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
