@@ -6,22 +6,22 @@ raspi4-02 ansible_host=100.64.1.102
 raspi4-03 ansible_host=100.64.1.103
 raspi4-04 ansible_host=100.64.1.104
 
-[zero]
-raspi0-01 ansible_host=100.64.1.151
+; [zero]
+; raspi0-01 ansible_host=100.64.1.151
 
-[pico]
-raspiP-01 ansible_host=100.64.1.201
+; [pico]
+; raspiP-01 ansible_host=100.64.1.201
 
 [k8s:children]
 master
 node
 
-[sensor:children]
-zero
-pico
+; [sensor:children]
+; zero
+; pico
 
-[raspi:children]
+[raspi-all:children]
 master
 node
-zero
-pico
+; zero
+; pico

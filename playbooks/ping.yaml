@@ -1,5 +1,5 @@
 - name: playbook test...
-  hosts: raspi4-01
+  hosts: raspi-all
   become: yes
   roles:
     - test

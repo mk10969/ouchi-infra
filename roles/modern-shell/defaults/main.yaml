@@ -1,0 +1,9 @@
+FISH:
+  UPGRADE: false
+  CONFIG:
+    OWNER: ubuntu
+    GROUP: ubuntu
+    MODE: 0644
+
+STARSHIP:
+  UPGRADE: false

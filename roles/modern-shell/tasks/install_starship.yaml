@@ -1,0 +1,12 @@
+---
+- name: check starship version
+  shell: starship --version
+  register: check_starship_version
+  failed_when: false
+  changed_when: false
+
+- name: Install starship package
+  shell: curl -fsSL https://starship.rs/install.sh | bash
+  when: >
+    (check_starship_version != 0) or
+    (STARSHIP.UPGRADE)
