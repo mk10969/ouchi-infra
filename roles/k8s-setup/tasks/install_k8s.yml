@@ -1,0 +1,44 @@
+---
+- name: Add k8s GPG key
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+  become: yes
+
+- name: Add k8s apt repository
+  apt_repository:
+    repo: "deb https://apt.kubernetes.io/kubernetes-xenial main"
+    state: present
+    filename: kubernetes
+    update_cache: yes
+  become: yes
+
+- name: Install k8s packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - kubelet
+    - kubeadm
+    - kubectl
+  become: yes
+
+- name: Hold k8s packages
+  dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  with_items:
+    - kubelet
+    - kubeadm
+    - kubectl
+  become: yes
+
+- name: Check kubelet version
+  shell: kubelet --version
+
+- name: Check kubelet version
+  shell: kubeadm --version
+
+- name: Check kubectl version
+  shell: kubectl version
