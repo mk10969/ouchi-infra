@@ -1,11 +1,4 @@
 ---
-# - name: apt-get update and dist-upgrade
-#   apt:
-#     upgrade: dist
-#     update-cache: yes
-#   changed_when: 0
-#   become: yes
-
 - name: Add netplan file
   template:
     src: ../templates/99_config.j2
@@ -13,6 +6,10 @@
     owner: root
     group: root
     mode: 0644
+  become: yes
+
+- name: Apply netplan
+  shell: netplan apply
   become: yes
 
 - name: Add hosts file
