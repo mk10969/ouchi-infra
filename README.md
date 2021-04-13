@@ -1,6 +1,13 @@
 # ouchi-ansible
 
-playbook become=yesは、sudoの意味。
+- pre install
+ 
+pip install ansible
+pip install openshift
+
+required python >= 3
+required ansible >= 2.9
+required openshift >= 0.6
 
 
 - ping command  

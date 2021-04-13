@@ -1,4 +1,0 @@
-- include_tasks: common.yaml
-- include_tasks: install_basic_pkg.yaml
-- include_tasks: install_docker.yaml
-- include_tasks: install_k8s.yaml

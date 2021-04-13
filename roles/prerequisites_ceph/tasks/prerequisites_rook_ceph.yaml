@@ -1,0 +1,18 @@
+---
+- name: Install lvm2 (for using ceph)
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - lvm2
+  become: yes
+
+# udev_sync=1 and udev_rules=1
+- name: Change lvm2 config file
+  copy:
+    src: ../files/lvm.conf
+    dest: /etc/lvm/lvm.conf
+    owner: root
+    group: root
+    mode: 644
