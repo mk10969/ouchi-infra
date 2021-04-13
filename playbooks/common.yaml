@@ -1,4 +1,4 @@
 - name: Raspi common playbook
-  hosts: raspi4-01
+  hosts: raspi-all
   roles:
     - common

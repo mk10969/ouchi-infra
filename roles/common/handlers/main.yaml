@@ -1,0 +1,11 @@
+---
+- name: netplan_apply
+  shell: netplan apply
+  become: yes
+
+- name: sshd_restart
+  systemd:
+    name: sshd.service
+    state: restarted
+    daemon_reload: yes
+  become: yes

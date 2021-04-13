@@ -15,4 +15,4 @@
     dest: /etc/lvm/lvm.conf
     owner: root
     group: root
-    mode: 644
+    mode: 0644

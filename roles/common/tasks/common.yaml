@@ -7,10 +7,7 @@
     group: root
     mode: 0644
   become: yes
-
-- name: Apply netplan
-  shell: netplan apply
-  become: yes
+  notify: netplan_apply
 
 - name: Add hosts file
   template:
@@ -30,3 +27,14 @@
   become: true
   timezone:
     name: Asia/Tokyo
+
+# Basic password Auth = false
+- name: Add ssh config file
+  copy:
+    src: ../files/10-sshd.conf
+    dest: /etc/ssh/sshd_config.d/10-sshd.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify: sshd_restart

@@ -1,5 +1,5 @@
 127.0.0.1 localhost
 
-{% for host in groups['raspi'] %}
+{% for host in groups['raspi-all'] %}
 {{ hostvars[host].ansible_host }} {{ hostvars[host].inventory_hostname }}
 {% endfor %}

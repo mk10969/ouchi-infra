@@ -1,6 +1,5 @@
 - name: kubernetes cluster playbook
   hosts: k8s-cluster
   roles:
-    - common
     - modern-shell
     - k8s-setup
