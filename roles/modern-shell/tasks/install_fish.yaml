@@ -14,27 +14,24 @@
 
 - name: Install fish shell packages
   apt:
-    name: "{{ item }}"
+    name: fish
     state: present
     update_cache: yes
-  with_items:
-    - fish
   become: yes
-  # packageがない場合、または、upgradeフラグがTrueのときのみ、実行許可。
   when: >
     (check_fish_version.rc != 0) or
     (FISH.UPGRADE)
 
+- name: Change user shell for fish
+  user:
+    name: "{{ FISH.CONFIG.OWNER }}"
+    shell: /bin/fish
+  become: yes
+
 - name: Add fish config file
   copy:
     src: ../files/config.fish
-    dest: ~/.config/fish/config.fish
+    dest: "/home/{{ FISH.CONFIG.OWNER }}/.config/fish/config.fish"
     owner: "{{ FISH.CONFIG.OWNER }}"
     group: "{{ FISH.CONFIG.GROUP }}"
     mode: "{{ FISH.CONFIG.MODE }}"
-  when: check_fish_version.rc != 0
-
-- name: Change fish shell
-  shell: chsh -s /usr/bin/fish
-  become: yes
-  when: check_fish_version.rc != 0

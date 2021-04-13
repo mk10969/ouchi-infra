@@ -2,3 +2,4 @@
   hosts: raspi-all
   roles:
     - common
+    - modern-shell

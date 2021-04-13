@@ -1,11 +1,9 @@
 ---
 - name: Install lvm2 (for using ceph)
   apt:
-    name: "{{ item }}"
+    name: lvm2
     state: latest
     update_cache: yes
-  with_items:
-    - lvm2
   become: yes
 
 # udev_sync=1 and udev_rules=1

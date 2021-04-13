@@ -6,7 +6,8 @@
   changed_when: false
 
 - name: Install starship package
-  shell: curl -fsSL https://starship.rs/install.sh | bash
+  script: ../files/starship_install.sh --yes
   when: >
-    (check_starship_version != 0) or
+    (check_starship_version.rc != 0) or
     (STARSHIP.UPGRADE)
+  become: yes
