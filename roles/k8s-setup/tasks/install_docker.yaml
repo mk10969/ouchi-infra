@@ -9,6 +9,7 @@
   apt_repository:
     repo: "deb [arch=arm64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
     state: present
+    filename: docker
     update_cache: yes
   become: yes
 
@@ -24,7 +25,7 @@
   become: yes
   notify: require_restart_docker
 
-- name: Hold k8s packages
+- name: Hold Docker packages
   dpkg_selections:
     name: "{{ item }}"
     selection: hold

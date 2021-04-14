@@ -7,7 +7,7 @@
 
 - name: Add k8s apt repository
   apt_repository:
-    repo: "deb https://apt.kubernetes.io/kubernetes-xenial main"
+    repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
     state: present
     filename: kubernetes
     update_cache: yes
