@@ -10,4 +10,5 @@
     - curl
     - gnupg
     - lsb-release
+    - lvm2
   become: yes

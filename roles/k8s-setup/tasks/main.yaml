@@ -1,8 +1,5 @@
 # k8s cluster 共通
-- include_tasks: common.yaml
+- include_tasks: config_k8s.yaml
 - include_tasks: install_basic_pkg.yaml
 - include_tasks: install_docker.yaml
 - include_tasks: install_k8s.yaml
-# nodeのみ、lvm2のインストールと設定のオーバライドを行う。
-- include_tasks: prerequisites_rook_ceph.yaml
-  when: "{{ inventory_hostname }} in groups['k8s-node']"

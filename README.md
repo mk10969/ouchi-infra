@@ -18,3 +18,7 @@ cat ~/inventories/hosts
 ```
 $ ansible-playbook -i inventories/hosts playbooks/ping.yaml
 ```
+
+
+### TODO
+fishのカラー設定を加える。

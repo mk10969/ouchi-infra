@@ -22,6 +22,7 @@
     - docker-ce-cli
     - containerd.io
   become: yes
+  notify: require_restart_docker
 
 - name: Hold k8s packages
   dpkg_selections:
@@ -40,24 +41,19 @@
     append: yes
   become: yes
 
-- name: Ensure docker service is enabled
-  systemd:
-    name: docker
-    state: started
-    enabled: yes
-  become: yes
-
 - name: Systemd unmask docker.service
   systemd:
     name: docker.service
     masked: no
   become: yes
+  notify: require_restart_docker
 
 - name: Systemd unmask docker.socket
   systemd:
     name: docker.socket
     masked: no
   become: yes
+  notify: require_restart_docker
 
 - name: Check docker version
   shell: docker --version
