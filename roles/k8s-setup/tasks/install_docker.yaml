@@ -37,7 +37,7 @@
 - name: Add user to docker group
   user:
     name: "{{ UBUNTU.USER }}"
-    groups: docker
+    groups: ["docker"] # add group. do not change primmary group
     append: yes
   become: yes
 
@@ -57,4 +57,9 @@
 
 - name: Check docker version
   shell: docker --version
-  # register: check_docker_version
+  register: check_docker_version
+  changed_when: false
+
+- name: Debug docker version
+  debug:
+    msg: "{{ check_docker_version.stdout }}"

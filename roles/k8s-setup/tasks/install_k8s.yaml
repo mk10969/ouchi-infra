@@ -38,9 +38,27 @@
 
 - name: Check kubelet version
   shell: kubelet --version
+  register: check_kubelet_version
+  changed_when: false
 
-- name: Check kubelet version
+- name: Debug kubelet version
+  debug:
+    msg: "{{ check_kubelet_version.stdout }}"
+
+- name: Check kubeadm version
   shell: kubeadm --version
+  register: check_kubeadm_version
+  changed_when: false
+
+- name: Debug kubeadm version
+  debug:
+    msg: "{{ check_kubeadm_version.stdout }}"
 
 - name: Check kubectl version
   shell: kubectl version
+  register: check_kubectl_version
+  changed_when: false
+
+- name: Debug kubectl version
+  debug:
+    msg: "{{ check_kubectl_version.stdout }}"

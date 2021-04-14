@@ -2,7 +2,7 @@
 - name: Install basic list of packages
   apt:
     name: "{{ item }}"
-    state: latest
+    state: present
     update_cache: yes
   loop:
     - apt-transport-https
