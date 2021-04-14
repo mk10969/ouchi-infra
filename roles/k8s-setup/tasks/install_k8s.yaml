@@ -18,7 +18,7 @@
     name: "{{ item }}"
     state: present
     update_cache: yes
-  with_items:
+  loop:
     - kubelet
     - kubeadm
     - kubectl
@@ -28,7 +28,7 @@
   dpkg_selections:
     name: "{{ item }}"
     selection: hold
-  with_items:
+  loop:
     - kubelet
     - kubeadm
     - kubectl

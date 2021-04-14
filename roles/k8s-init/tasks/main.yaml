@@ -1,1 +1,1 @@
-- include_tasks: install_argocd.yaml
+- import_tasks: install_argocd.yaml

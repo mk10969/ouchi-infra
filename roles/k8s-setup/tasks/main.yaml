@@ -1,5 +1,5 @@
 # k8s cluster 共通
-- include_tasks: config_k8s.yaml
-- include_tasks: install_basic_pkg.yaml
-- include_tasks: install_docker.yaml
-- include_tasks: install_k8s.yaml
+- import_tasks: install_basic_pkg.yaml
+- import_tasks: config_k8s.yaml
+- import_tasks: install_docker.yaml
+- import_tasks: install_k8s.yaml

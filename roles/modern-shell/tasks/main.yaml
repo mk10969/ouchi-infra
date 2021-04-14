@@ -1,3 +1,2 @@
-- include_tasks: install_fish.yaml
-
-- include_tasks: install_starship.yaml
+- import_tasks: install_fish.yaml
+- import_tasks: install_starship.yaml

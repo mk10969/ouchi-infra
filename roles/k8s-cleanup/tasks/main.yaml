@@ -1,1 +1,1 @@
-- include_tasks: xxxx.yaml
+- import_tasks: xxxx.yaml

@@ -23,6 +23,7 @@
   modprobe:
     name: br_netfilter
     state: present
+  become: yes
   # modprobe br_netfilter は、sysctlで設定変更する「前」に行う。
   # とドキュメントに書いてあった
   # > Make sure that the br_netfilter module is loaded before this step.
@@ -41,6 +42,7 @@
   loop:
     - { key: "net.bridge.bridge-nf-call-iptables", value: 1 }
     - { key: "net.bridge.bridge-nf-call-ip6tables", value: 1 }
+  become: yes
 
 - name: Add cgroup config
   copy:
@@ -49,6 +51,7 @@
     owner: root
     group: root
     mode: 0755
+  become: yes
 
 # udev_sync=1 and udev_rules=1
 - name: Change lvm2 config file
@@ -58,3 +61,4 @@
     owner: root
     group: root
     mode: 0644
+  become: yes

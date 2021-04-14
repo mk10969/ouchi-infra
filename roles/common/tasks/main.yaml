@@ -1,1 +1,1 @@
-- include_tasks: common.yaml
+- import_tasks: common.yaml
