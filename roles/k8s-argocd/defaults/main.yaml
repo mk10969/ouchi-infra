@@ -1,0 +1,5 @@
+K8S:
+  CONFIG:
+    OWNER: ubuntu
+    GROUP: ubuntu
+    MODE: 0644

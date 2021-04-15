@@ -1,31 +1,42 @@
 ---
-# Basic password Auth = false
+- name: Copy arogcd manifest file
+  copy:
+    src: ../files/argocd.yaml
+    dest: /home/{{ K8S.CONFIG.OWNER }}/argocd.yaml
+    owner: "{{ K8S.CONFIG.OWNER }}"
+    group: "{{ K8S.CONFIG.GROUP }}"
+    mode: "{{ K8S.CONFIG.MODE }}"
+
 - name: Copy arogcd-app manifest file
   copy:
     src: ../files/argocd-app.yaml
-    dest: /tmp/argocd-app.yaml
-    owner: ubuntu
-    group: root
-    mode: 0644
-  become: true
+    dest: /home/{{ K8S.CONFIG.OWNER }}/argocd-app.yaml
+    owner: "{{ K8S.CONFIG.OWNER }}"
+    group: "{{ K8S.CONFIG.GROUP }}"
+    mode: "{{ K8S.CONFIG.MODE }}"
 
 - name: Install argocd
-  shell: kubectl apply -f
+  shell: kubectl apply -f /home/{{ K8S.CONFIG.OWNER }}/argocd.yaml
 
-- name: Get admin password
+- name: Get arogcd admin password
   shell: kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-  register: admin_password
-  changed_when: no
+  register: argocd_admin_password
+  changed_when: false
 
 - name: Get argocd server pod name
   shell: kubectl get pod -n argocd |grep argocd-server
   register: argocd_server_pod_name
-  changed_when: no
+  changed_when: false
 
-- name: Setting argocd config
-  shell: "xxxxxxxxxxxxxxx"
+- name: Debug arogcd admin password
+  debug:
+    msg: "{{ argocd_admin_password.stdout }}"
 
-- name: Deployment argocd-app
-  community.kubernetes.k8s:
-    state: present
-    src: ../files/argocd-app.yaml
+- name: Debug argocd server pod name
+  debug:
+    msg: "{{ argocd_server_pod_name.stdout }}"
+# - name: Setting argocd config
+#   shell: "xxxxxxxxxxxxxxx"
+
+# - name: Deploy argocd-app
+#   shell: kubectl apply -f /home/{{ K8S.CONFIG.OWNER }}/argocd-app.yaml
