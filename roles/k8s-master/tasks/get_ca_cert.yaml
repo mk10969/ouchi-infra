@@ -1,0 +1,6 @@
+---
+- name: Get ca cert from k8s
+  shell: openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
+  check_mode: false
+  changed_when: false
+  register: k8s_token_ca_cert

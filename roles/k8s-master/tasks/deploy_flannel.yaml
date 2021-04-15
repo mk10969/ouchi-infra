@@ -1,0 +1,5 @@
+---
+- name: Deploy flannel to k8s
+  community.kubernetes.k8s:
+    state: present
+    src: ../files/kube-flannel.yaml
