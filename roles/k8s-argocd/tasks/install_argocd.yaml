@@ -1,8 +1,16 @@
 ---
+# Basic password Auth = false
+- name: Copy arogcd-app manifest file
+  copy:
+    src: ../files/argocd-app.yaml
+    dest: /tmp/argocd-app.yaml
+    owner: ubuntu
+    group: root
+    mode: 0644
+  become: true
+
 - name: Install argocd
-  community.kubernetes.k8s:
-    state: present
-    src: ../files/argocd.yaml
+  shell: kubectl apply -f
 
 - name: Get admin password
   shell: kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d

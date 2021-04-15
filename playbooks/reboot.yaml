@@ -1,4 +1,4 @@
-- name: Reboot
+- name: reboot
   hosts: all
   become: true
   tasks:

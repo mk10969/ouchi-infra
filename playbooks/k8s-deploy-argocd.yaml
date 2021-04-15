@@ -1,0 +1,4 @@
+- name: deploy arogcd to k8s cluster
+  hosts: k8s-master
+  roles:
+    - k8s-arogcd

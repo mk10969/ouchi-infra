@@ -3,4 +3,4 @@
   roles:
     # install kubeadm, kubectl, kubelet, and docker.
     # configure cgroup, swap, bridge, and lvm.
-    - k8s-setup
+    - k8s-common

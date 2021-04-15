@@ -33,3 +33,4 @@ kubeadm join済みであれば、return code=1
 
 ### TODO
 fishのカラー設定を加える。
+k8s cluster お掃除role and playbook

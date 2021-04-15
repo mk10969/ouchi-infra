@@ -1,0 +1,5 @@
+# Once run playbook
+- name: kubeadm int playbook
+  hosts: k8s-master
+  roles:
+    - k8s-master
