@@ -1,7 +1,7 @@
 ---
-- name: Execute kubeadm init
-  shell: kubeadm init --pod-network-cidr=10.244.0.0/16
-  become: true
+# - name: Execute kubeadm init
+#   shell: kubeadm init --pod-network-cidr=10.244.0.0/16
+#   become: true
 
 - name: Create $HOME/.kube directory
   file:
