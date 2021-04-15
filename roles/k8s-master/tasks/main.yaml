@@ -1,1 +1,2 @@
-# - include_tasks: kebeadm_init.yaml
+- import_tasks: kebeadm_init.yaml
+- import_tasks: deploy_flannel.yaml

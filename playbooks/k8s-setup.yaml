@@ -1,4 +1,4 @@
-- name: kubernetes cluster playbook
+- name: kubernetes cluster setup playbook
   hosts: k8s-cluster
   roles:
     - k8s-setup

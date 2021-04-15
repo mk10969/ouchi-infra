@@ -1,4 +1,0 @@
----
-- name: Create token with k8s
-  shell: kubeadm token create
-  register: k8s_token

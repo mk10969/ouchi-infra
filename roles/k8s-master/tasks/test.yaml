@@ -1,3 +1,0 @@
-- name: Connection test
-  debug:
-    msg: "Coonection Succeed!"
