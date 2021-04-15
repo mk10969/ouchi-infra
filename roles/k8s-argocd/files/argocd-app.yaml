@@ -5,15 +5,13 @@ metadata:
   namespace: argocd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: ..
-    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: argocd
-    notifications.argoproj.io/subscribe.app-sync-failed.slack: argocd
-    notifications.argoproj.io/subscribe.app-health-degraded.slack: argocd
+    notifications.argoproj.io/subscribe.sync-operation-change.slack: argocd
 spec:
   project: default
   source:
-    repoURL: https://github.com/mk10969/ouchi-k8s-cd
+    repoURL: https://github.com/mk10969/ouchi-kubernetes
     targetRevision: HEAD
-    path: argocd-app/prd
+    path: argocd-app/base
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

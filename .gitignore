@@ -1,1 +1,4 @@
+# ansbile exec log > current directory
 *.log
+# use direnv
+.envrc

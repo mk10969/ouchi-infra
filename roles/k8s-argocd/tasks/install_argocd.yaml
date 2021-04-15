@@ -18,13 +18,16 @@
 - name: Install argocd
   shell: kubectl apply -f /home/{{ K8S.CONFIG.OWNER }}/argocd.yaml
 
+# - name: Wait (waiting... argocd deploy ok)
+
 - name: Get arogcd admin password
   shell: kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
   register: argocd_admin_password
   changed_when: false
 
 - name: Get argocd server pod name
-  shell: kubectl get pod -n argocd |grep argocd-server
+
+  shell: kubectl get pod -n argocd |grep argocd-server |awk '{print $1}'
   register: argocd_server_pod_name
   changed_when: false
 
@@ -35,8 +38,14 @@
 - name: Debug argocd server pod name
   debug:
     msg: "{{ argocd_server_pod_name.stdout }}"
-# - name: Setting argocd config
-#   shell: "xxxxxxxxxxxxxxx"
+
+- name: Setting argocd config
+  shell:
+    cmd: |
+      kubectl exec -i pod/{{ argocd_server_pod_name.stdout }} -n argocd -- bash <<'EOC'
+      argocd login localhost:8080 --username admin --password {{ argocd_admin_password.stdout }} --insecure
+      argocd repo add https://github.com/mk10969/ouchi-kubernetes --username mk10969 --password {{ ansible_env.GITHUB_ACCESS_TOKEN }}
+      EOC
 
 # - name: Deploy argocd-app
 #   shell: kubectl apply -f /home/{{ K8S.CONFIG.OWNER }}/argocd-app.yaml
