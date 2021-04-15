@@ -1,4 +1,0 @@
----
-master_node: "{{hostvars[groups.k8s-master[0]].ansible_host}}"
-token: "{{hostvars[groups.k8s-master[0]].k8s_token.stdout}}"
-ca_cert: "{{hostvars[groups.k8s-master[0]].k8s_ca_cert.stdout}}"
