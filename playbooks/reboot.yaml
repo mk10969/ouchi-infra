@@ -1,5 +1,5 @@
 - name: Reboot
-  hosts: raspi-all
+  hosts: all
   become: true
   tasks:
     - name: Reboot the machine (Wait for 5 min)

@@ -20,7 +20,7 @@ k8s-worker
 ; zero
 ; pico
 
-[raspi-all:children]
+[all:children]
 k8s-master
 k8s-worker
 ; zero
