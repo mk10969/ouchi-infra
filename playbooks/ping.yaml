@@ -1,4 +1,5 @@
-- name: playbook test...
+---
+- name: connection check playbook
   hosts: all
   become: yes
   roles:

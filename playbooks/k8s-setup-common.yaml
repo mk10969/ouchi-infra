@@ -1,6 +1,8 @@
-- name: kubernetes cluster setup playbook
+---
+- name: k8s cluster setup playbook
   hosts: k8s-cluster
   roles:
+    - modern-shell
     # install kubeadm, kubectl, kubelet, and docker.
     # configure cgroup, swap, bridge, and lvm.
     - k8s-common

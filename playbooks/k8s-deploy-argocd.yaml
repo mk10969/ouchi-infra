@@ -1,4 +1,5 @@
-- name: deploy arogcd to k8s cluster
+---
+- name: deploy arogcd to k8s cluster playbook
   hosts: k8s-master
   roles:
     - k8s-arogcd

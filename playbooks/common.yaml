@@ -1,5 +1,0 @@
-- name: Raspi common playbook
-  hosts: all
-  roles:
-    - common
-    - modern-shell

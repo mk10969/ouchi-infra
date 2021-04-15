@@ -1,7 +1,8 @@
-- name: reboot
+---
+- name: reboot playbook
   hosts: all
   become: true
   tasks:
-    - name: Reboot the machine (Wait for 5 min)
+    - name: Reboot the machine (Wait for 2 min)
       reboot:
         reboot_timeout: 120
