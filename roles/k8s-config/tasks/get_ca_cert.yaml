@@ -4,3 +4,4 @@
   check_mode: false
   changed_when: false
   register: k8s_ca_cert
+  become: yes

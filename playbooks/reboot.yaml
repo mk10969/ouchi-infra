@@ -1,0 +1,7 @@
+- name: Reboot
+  hosts: raspi-all
+  become: true
+  tasks:
+    - name: Reboot the machine (Wait for 5 min)
+      reboot:
+        reboot_timeout: 120

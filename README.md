@@ -1,23 +1,31 @@
 # ouchi-ansible
 
-- pre install
- 
-pip install ansible
-pip install openshift
+- Prerequisites  
 
-required python >= 3
-required ansible >= 2.9
-required openshift >= 0.6
+  1. install  
+  ``` 
+  pip install ansible
+  ```
+    - required python >= 3
+    - required ansible >= 2.9
 
 
-- ping command  
+  1. ping
+  ```
+  $ ansible-playbook -i inventories/hosts playbooks/ping.yaml
+  ```
 
-cat ~/inventories/hosts 
-で標準出力されたhostに対して、接続可能かpingを打つ。
-
+- setup (for k8s cluster)
 ```
-$ ansible-playbook -i inventories/hosts playbooks/ping.yaml
+$ ansible-playbook -i inventories/hosts playbooks/common.yaml
+$ ansible-playbook -i inventories/hosts playbooks/k8s-setup.yaml
+$ ansible-playbook -i inventories/hosts playbooks/reboot.yaml
 ```
+- create k8s cluster
+```
+$ ansible-playbook -i inventories/hosts playbooks/k8s-init.yaml
+```
+
 
 
 ### TODO
