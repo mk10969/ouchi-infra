@@ -7,7 +7,7 @@
     group: root
     mode: 0644
   become: yes
-  notify: required_netplan_apply
+  notify: require_netplan_apply
 
 - name: Add hosts file
   template:
@@ -37,4 +37,4 @@
     group: root
     mode: 0644
   become: true
-  notify: required_sshd_restart
+  notify: require_sshd_restart

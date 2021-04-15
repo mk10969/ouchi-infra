@@ -23,6 +23,7 @@
     - kubeadm
     - kubectl
   become: yes
+  notify: require_restart_kubelet
 
 - name: Hold k8s packages
   dpkg_selections:
@@ -33,8 +34,6 @@
     - kubeadm
     - kubectl
   become: yes
-  notify:
-    - require_restart_kubelet
 
 - name: Check kubelet version
   shell: kubelet --version
@@ -46,19 +45,10 @@
     msg: "{{ check_kubelet_version.stdout }}"
 
 - name: Check kubeadm version
-  shell: kubeadm --version
+  shell: kubeadm version
   register: check_kubeadm_version
   changed_when: false
 
 - name: Debug kubeadm version
   debug:
     msg: "{{ check_kubeadm_version.stdout }}"
-
-- name: Check kubectl version
-  shell: kubectl version
-  register: check_kubectl_version
-  changed_when: false
-
-- name: Debug kubectl version
-  debug:
-    msg: "{{ check_kubectl_version.stdout }}"

@@ -9,7 +9,7 @@
   register: swap_state_in_fstab
   check_mode: false
   changed_when: false
-  ignore_errors: true
+  ignore_errors: true # Expected rc=1
 
 - name: Disable swap (/etc/fstab)
   replace:

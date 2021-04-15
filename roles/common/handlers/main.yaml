@@ -2,7 +2,7 @@
 - name: netplan_apply
   shell: netplan apply
   become: yes
-  listen: required_netplan_apply
+  listen: require_netplan_apply
 
 - name: sshd_restart
   systemd:
@@ -10,4 +10,4 @@
     state: restarted
     daemon_reload: yes
   become: yes
-  listen: required_sshd_restart
+  listen: require_sshd_restart

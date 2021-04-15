@@ -42,19 +42,19 @@
     append: yes
   become: yes
 
-- name: Systemd unmask docker.service
-  systemd:
-    name: docker.service
-    masked: no
-  become: yes
-  notify: require_restart_docker
+# - name: Systemd unmask docker.service
+#   systemd:
+#     name: docker.service
+#     masked: no
+#   become: yes
+#   notify: require_restart_docker
 
-- name: Systemd unmask docker.socket
-  systemd:
-    name: docker.socket
-    masked: no
-  become: yes
-  notify: require_restart_docker
+# - name: Systemd unmask docker.socket
+#   systemd:
+#     name: docker.socket
+#     masked: no
+#   become: yes
+#   notify: require_restart_docker
 
 - name: Check docker version
   shell: docker --version
