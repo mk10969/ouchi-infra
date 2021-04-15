@@ -27,6 +27,9 @@ $ ansible-playbook -i inventories/hosts playbooks/k8s-init.yaml
 ```
 
 
+kubeadm init済みであれば、return code=1
+kubeadm join済みであれば、return code=1
+
 
 ### TODO
 fishのカラー設定を加える。

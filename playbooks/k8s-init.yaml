@@ -3,11 +3,11 @@
 - name: kubernetes cluster master playbook
   hosts: k8s-master
   roles:
-    - k8s-master
-    - k8s-config
+    - k8s-kubeadm-init
+    - k8s-get-token
 
 # k8s workerを、masterに、joinさせる。
 - name: kubernetes cluster worker playbook
   hosts: k8s-worker
   roles:
-    - k8s-worker
+    - k8s-kubeadm-join
