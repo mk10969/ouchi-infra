@@ -1,0 +1,6 @@
+DISK_NAME: "/dev/sda"
+
+K8S:
+  CONFIG:
+    OWNER: ubuntu
+    GROUP: ubuntu

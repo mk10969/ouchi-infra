@@ -1,0 +1,5 @@
+---
+- name: disk fresh (on k8s cluster) playbook
+  hosts: k8s-cluster
+  roles:
+    - disk-fresh

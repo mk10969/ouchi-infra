@@ -1,0 +1,19 @@
+---
+- name: Copy cleanup shell
+  template:
+    src: ../templates/cleanup.j2
+    dest: /home/{{ K8S.CONFIG.OWNER }}/cleanup.sh
+    owner: "{{ K8S.CONFIG.OWNER }}"
+    group: "{{ K8S.CONFIG.GROUP }}"
+    mode: 0755
+
+- name: Run cleanup shell (Disk fresh)
+  shell: /home/{{ K8S.CONFIG.OWNER }}/cleanup.sh
+
+- name: Check lsblk -f
+  shell: lsblk -f |grep {{ DISK_NAME }}
+  register: result_disk_status
+
+- name: Debug {{ DISK_NAME }} disk status
+  debug:
+    msg: "{{ result_disk_status.stdout }}"
