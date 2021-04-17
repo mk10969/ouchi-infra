@@ -1,0 +1,8 @@
+---
+- name: Copy metallb manifest file
+  copy:
+    src: ../files/metallb.yaml
+    dest: /home/{{ K8S.CONFIG.OWNER }}/metallb.yaml
+    owner: "{{ K8S.CONFIG.OWNER }}"
+    group: "{{ K8S.CONFIG.GROUP }}"
+    mode: "{{ K8S.CONFIG.MODE }}"

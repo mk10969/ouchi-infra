@@ -42,6 +42,27 @@
   loop:
     - { key: "net.bridge.bridge-nf-call-iptables", value: 1 }
     - { key: "net.bridge.bridge-nf-call-ip6tables", value: 1 }
+    # - { key: "net.ipv4.ip_forward", value: 1 }
+  become: yes
+
+- name: Install Legacy binary
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - iptables
+    - arptables
+    - ebtables
+  become: yes
+
+- name: Revert to default iptables
+  shell: "{{ item }}"
+  loop:
+    - "update-alternatives --set iptables /usr/sbin/iptables-legacy"
+    - "update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy"
+    - "update-alternatives --set arptables /usr/sbin/arptables-legacy"
+    - "update-alternatives --set ebtables /usr/sbin/ebtables-legacy"
   become: yes
 
 - name: Add cgroup config

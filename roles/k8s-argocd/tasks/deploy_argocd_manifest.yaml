@@ -1,0 +1,16 @@
+---
+- name: Copy arogcd manifest file
+  copy:
+    src: ../files/argocd.yaml
+    dest: /home/{{ K8S.CONFIG.OWNER }}/argocd.yaml
+    owner: "{{ K8S.CONFIG.OWNER }}"
+    group: "{{ K8S.CONFIG.GROUP }}"
+    mode: "{{ K8S.CONFIG.MODE }}"
+
+- name: Copy arogcd-app manifest file
+  copy:
+    src: ../files/argocd-app.yaml
+    dest: /home/{{ K8S.CONFIG.OWNER }}/argocd-app.yaml
+    owner: "{{ K8S.CONFIG.OWNER }}"
+    group: "{{ K8S.CONFIG.GROUP }}"
+    mode: "{{ K8S.CONFIG.MODE }}"
