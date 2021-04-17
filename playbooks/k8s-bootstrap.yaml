@@ -1,0 +1,4 @@
+- import_playbook: k8s-setup-common.yaml
+- import_playbook: reboot.yaml
+- import_playbook: k8s-init-master.yaml
+- import_playbook: k8s-join-worker.yaml
