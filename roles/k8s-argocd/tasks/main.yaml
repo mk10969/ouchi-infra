@@ -1,3 +1,1 @@
-# - import_tasks: install_argocd.yaml
-- import_tasks: deploy_argocd_manifest.yaml
-- import_tasks: deploy_metallb_manifest.yaml
+- import_tasks: install_argocd.yaml

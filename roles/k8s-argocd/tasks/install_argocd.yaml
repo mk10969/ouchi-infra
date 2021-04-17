@@ -18,8 +18,15 @@
 - name: Install argocd
   shell: kubectl apply -f /home/{{ K8S.CONFIG.OWNER }}/argocd.yaml
 
-### TODO
-# - name: Wait (waiting for... argocd deploy ok)
+- name: Wait for argocd server running
+  shell: kubectl get pod -n argocd |grep argocd-server | awk '{print $3}'
+  register: argocd_server_state
+  until: argocd_server_state.stdout == "Running"
+  # Re-execute(60 x 5 seconds) until Ready,
+  # and then proceed to the next task.
+  retries: 60
+  delay: 5
+  changed_when: false
 
 - name: Get arogcd admin password
   shell: kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
