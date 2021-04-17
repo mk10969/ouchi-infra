@@ -1,0 +1,8 @@
+---
+- name: Drain workers
+  shell: kubectl drain {{ item }} --delete-local-data --force --ignore-daemonsets
+  loop: "{{ groups['k8s-worker'] }}"
+
+- name: Drain master
+  shell: kubectl drain {{ item }} --delete-local-data --force --ignore-daemonsets
+  loop: "{{ groups['k8s-master'] }}"

@@ -1,0 +1,8 @@
+---
+- name: Delete workers
+  shell: kubectl delete node {{ item }}
+  loop: "{{ groups['k8s-worker'] }}"
+
+- name: Delete master
+  shell: kubectl delete node {{ item }}
+  loop: "{{ groups['k8s-master'] }}"

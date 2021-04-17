@@ -1,0 +1,3 @@
+- import_tasks: drain_nodes.yaml
+- import_tasks: delete_nodes.yaml
+# - import_tasks: kubeadm_reset.yaml

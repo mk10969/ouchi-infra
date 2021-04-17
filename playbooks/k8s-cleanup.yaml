@@ -1,0 +1,15 @@
+---
+- name: k8 cluster clean
+  hosts: k8s-master
+  roles:
+    - k8s-clean
+
+- name: k8 cluster reset workers
+  hosts: k8s-worker
+  roles:
+    - k8s-reset
+
+- name: k8 cluster reset master
+  hosts: k8s-master
+  roles:
+    - k8s-reset
