@@ -1,4 +1,4 @@
-DISK_NAME: "/dev/sda"
+DISK_NAME: sda
 
 K8S:
   CONFIG:

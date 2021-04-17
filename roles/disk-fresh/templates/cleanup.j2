@@ -3,7 +3,7 @@
 ##### ref ######
 # https://rook.io/docs/rook/v1.5/ceph-teardown.html
 
-DISK={{ DISK_NAME }}
+DISK=/dev/{{ DISK_NAME }}
 
 # Zap the disk to a fresh, usable state (zap-all is important, b/c MBR has to be clean)
 # You will have to run this step for all disks.

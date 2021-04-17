@@ -14,6 +14,6 @@
   shell: lsblk -f |grep {{ DISK_NAME }}
   register: result_disk_status
 
-- name: Debug {{ DISK_NAME }} disk status
+- name: Debug /dev/{{ DISK_NAME }} disk status
   debug:
     msg: "{{ result_disk_status.stdout }}"
