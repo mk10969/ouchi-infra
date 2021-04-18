@@ -1,0 +1,23 @@
+- name: Copy self build file
+  copy:
+    src: node_exporter
+    dest: /usr/bin/node_exporter
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy systemd file
+  copy:
+    src: node_exporter.service
+    dest: /etc/systemd/system/node_exporter.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: require_node_exporter_restart
+
+- name: Enabled and start node_exporter service
+  systemd:
+    name: node_exporter.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
