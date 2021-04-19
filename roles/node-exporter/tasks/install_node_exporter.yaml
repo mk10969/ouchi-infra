@@ -1,15 +1,15 @@
 - name: Copy node_exporter binary file
   copy:
     src: ../files/node_exporter
-    dest: /usr/local/bin/node_exporter
+    dest: "{{ NODE_EXPORTER.DEST }}/node_exporter"
     owner: root
     group: root
     mode: 0755
   become: true
 
 - name: Copy systemd file
-  copy:
-    src: ../files/node_exporter.service
+  template:
+    src: ../files/node_exporter.service.j2
     dest: /etc/systemd/system/node_exporter.service
     owner: root
     group: root

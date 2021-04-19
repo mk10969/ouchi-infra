@@ -1,0 +1,2 @@
+NODE_EXPORTER:
+  DEST: "/use/local/bin"

@@ -3,7 +3,7 @@ Description=Node Exporter
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/node_exporter \
+ExecStart={{ NODE_EXPORTER.DEST }}/node_exporter \
   --collector.cpu \
   --collector.meminfo \
   --collector.diskstats \
@@ -58,6 +58,7 @@ ExecStart=/usr/bin/node_exporter \
   --no-collector.xfs \
   --no-collector.zfs
 PrivateTmp=false
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
