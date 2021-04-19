@@ -1,0 +1,7 @@
+- name: Require vmagent restart
+  systemd:
+    name: vmagent.service
+    state: restarted
+    daemon_reload: yes
+  become: yes
+  listen: require_vmagent_restart

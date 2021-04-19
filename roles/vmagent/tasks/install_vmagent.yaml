@@ -1,0 +1,44 @@
+- name: Copy vmagent binary file
+  copy:
+    src: ../files/vmagent
+    dest: "{{ VMAGENT.DEST }}/vmagent"
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: Make directory {{ PROMETHEUS.DEST }}
+  file:
+    path: "{{ PROMETHEUS.DEST }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy prometheus.yml file
+  template:
+    src: ../templates/prometheus.yml.j2
+    dest: "{{ PROMETHEUS.DEST }}/prometheus.yml"
+    owner: root
+    group: root
+    mode: 0644
+  notify: require_vmagent_restart
+  become: true
+
+- name: Copy systemd file
+  template:
+    src: ../templates/vmagent.service.j2
+    dest: /etc/systemd/system/vmagent.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: require_vmagent_restart
+  become: true
+
+- name: Enabled and start vmagent service
+  systemd:
+    name: vmagent.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: true
