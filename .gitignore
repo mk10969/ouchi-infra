@@ -2,3 +2,4 @@
 *.log
 # use direnv
 .envrc
+tmp/*
