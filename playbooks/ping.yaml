@@ -2,4 +2,4 @@
 - name: connection check playbook
   hosts: all
   roles:
-    - test
+    - 99-test
