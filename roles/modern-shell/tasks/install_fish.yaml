@@ -28,6 +28,14 @@
     shell: /bin/fish
   become: yes
 
+- name: Create directory /home/{{ FISH.CONFIG.OWNER }}/.config/fish
+  file:
+    path: "/home/{{ FISH.CONFIG.OWNER }}/.config/fish"
+    state: directory
+    owner: "{{ FISH.CONFIG.OWNER }}"
+    group: "{{ FISH.CONFIG.GROUP }}"
+    mode: 0700
+
 - name: Add fish config file
   copy:
     src: ../files/config.fish

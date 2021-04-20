@@ -7,7 +7,7 @@
     mode: 0755
   become: true
 
-- name: Make directory {{ PROMETHEUS.DEST }}
+- name: Create directory {{ PROMETHEUS.DEST }}
   file:
     path: "{{ PROMETHEUS.DEST }}"
     state: directory
