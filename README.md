@@ -2,7 +2,7 @@
 
 ## Prerequisites  
 
-- install on ansible execution host
+- install ansible on execution host
   ``` 
   pip install ansible
   ```
@@ -43,7 +43,7 @@ $ ansible-playbook -i inventories/hosts playbooks/k8s-bootstrap.yaml
 
 ## Deployment Argo CD
 
-Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes.
+Argo CD is a declarative, GitOps continuous delivery tool for kubernetes.
 
 ```
 $ ansible-playbook -i inventories/hosts playbooks/k8s-deploy-argocd.yaml
