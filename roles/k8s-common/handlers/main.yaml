@@ -1,18 +1,18 @@
 ---
 - name: Start and enable docker
   systemd:
+    name: docker
     state: restarted
     daemon_reload: yes
     enabled: yes
-    name: docker
   become: yes
   listen: require_restart_docker
 
 - name: Start and enable kubelet
   systemd:
+    name: kubelet
     state: restarted
     daemon_reload: yes
     enabled: yes
-    name: kubelet
   become: yes
   listen: require_restart_kubelet

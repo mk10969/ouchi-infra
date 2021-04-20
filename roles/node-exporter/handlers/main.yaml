@@ -1,7 +1,9 @@
+---
 - name: Require node exporter restart
   systemd:
     name: node_exporter.service
     state: restarted
     daemon_reload: yes
+    enabled: yes
   become: yes
   listen: require_node_exporter_restart
