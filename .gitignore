@@ -3,3 +3,6 @@
 # use direnv
 .envrc
 tmp/*
+
+docker-sample/
+local_memo.txt
