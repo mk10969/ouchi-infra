@@ -1,5 +1,5 @@
 ---
-- name: reboot playbook
+- name: apt udpate and upgrade playbook
   hosts: k8s-cluster
   become: true
   tasks:
