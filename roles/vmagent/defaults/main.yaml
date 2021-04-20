@@ -2,7 +2,7 @@ VICTORIA_METRICS:
   REMOTE_URL: "https://victoria-metrics-host:8428/api/v1/write"
 
 VMAGENT:
-  DEST: "/use/local/bin"
+  DEST: "/usr/local/bin"
 
 PROMETHEUS:
   DEST: "/etc/prometheus"
