@@ -1,3 +1,7 @@
 - import_tasks: drain_nodes.yaml
 - import_tasks: delete_nodes.yaml
 # - import_tasks: kubeadm_reset.yaml
+
+# ref
+# https://kubernetes.io/ja/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#tear-down
+# http://tjtjtj.hatenablog.com/entry/2019/02/13/230000

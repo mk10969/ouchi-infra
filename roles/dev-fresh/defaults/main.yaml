@@ -1,4 +1,4 @@
-DISK_NAME: sda
+RAW_DEVICE_NAME: sda
 
 K8S:
   CONFIG:

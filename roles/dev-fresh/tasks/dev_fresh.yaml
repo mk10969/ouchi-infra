@@ -7,14 +7,19 @@
     group: "{{ K8S.CONFIG.GROUP }}"
     mode: 0755
 
-- name: Run cleanup shell (Disk fresh)
+- name: Run cleanup shell (target raw device fresh)
   shell: /home/{{ K8S.CONFIG.OWNER }}/cleanup.sh
   become: yes
 
-- name: Check lsblk -f
-  shell: lsblk -f |grep {{ DISK_NAME }}
-  register: result_disk_status
+## todo wait
 
-- name: Debug /dev/{{ DISK_NAME }} disk status
+- name: Check lsblk -f
+  shell: lsblk -f |grep {{ RAW_DEVICE_NAME }}
+  register: result_disk_status
+  failed_when: false
+  changed_when: false
+
+- name: Debug raw device; /dev/{{ RAW_DEVICE_NAME }} status
   debug:
     msg: Raw device checking..."{{ result_disk_status.stdout }}"
+  changed_when: false

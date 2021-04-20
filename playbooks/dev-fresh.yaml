@@ -1,6 +1,6 @@
 ---
 # Prerequisites when Using rook/ceph
-- name: disk fresh (on k8s-worker) playbook
+- name: device fresh (on k8s-worker) playbook
   hosts: k8s-worker
   roles:
-    - disk-fresh
+    - dev-fresh

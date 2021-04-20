@@ -3,7 +3,6 @@
 
 # installing kubernetes with deployment tools
 - import_playbook: k8s-setup-common.yaml
-- import_playbook: disk-fresh.yaml
 - import_playbook: reboot.yaml
 
 # bootstrapping kubernetes clusters

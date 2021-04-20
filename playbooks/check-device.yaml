@@ -1,0 +1,14 @@
+---
+- name: check raw device sda status
+  hosts: all
+  tasks:
+    - name: Check lsblk -f
+      shell: lsblk -f |grep sda
+      register: result_disk_status
+      failed_when: false
+      changed_when: false
+
+    - name: Debug raw device; /dev/{{ RAW_DEVICE_NAME }} status
+      debug:
+        msg: Raw device checking..."{{ result_disk_status.stdout }}"
+      changed_when: false
