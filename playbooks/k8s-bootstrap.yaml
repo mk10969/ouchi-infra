@@ -1,7 +1,11 @@
+# setting OS
 - import_playbook: setup-common.yaml
 
+# installing kubernetes with deployment tools
 - import_playbook: k8s-setup-common.yaml
-- import_playbook: disk_fresh.yaml
+- import_playbook: disk-fresh.yaml
 - import_playbook: reboot.yaml
+
+# bootstrapping kubernetes clusters
 - import_playbook: k8s-init-master.yaml
 - import_playbook: k8s-join-worker.yaml
