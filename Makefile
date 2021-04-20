@@ -16,6 +16,7 @@ update/node-exporter:
 	rm -fr ./tmp/node_exporter-$(NODE_EXPORTER_VERSION).linux-arm64.tar.gz
 	rm -fr ./tmp/node_exporter-$(NODE_EXPORTER_VERSION).linux-arm64
 
+.PHONY: update/vmagent
 update/vmagent:
 	curl -sLf -o ./tmp/vmutils-arm64-$(VMAGENT_VERSION).tar.gz \
 		https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/$(VMAGENT_VERSION)/vmutils-arm64-$(VMAGENT_VERSION).tar.gz
