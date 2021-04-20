@@ -1,5 +1,6 @@
 ---
-- name: disk fresh (on k8s cluster) playbook
-  hosts: k8s-cluster
+# Prerequisites when Using rook/ceph
+- name: disk fresh (on k8s-worker) playbook
+  hosts: k8s-worker
   roles:
     - disk-fresh
