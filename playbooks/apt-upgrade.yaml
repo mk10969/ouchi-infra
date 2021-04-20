@@ -1,0 +1,9 @@
+---
+- name: reboot playbook
+  hosts: k8s-cluster
+  become: true
+  tasks:
+    - name: apt update
+      apt: update_cache=yes
+    - name: apt upgrade
+      apt: upgrade=dist
