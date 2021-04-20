@@ -9,6 +9,7 @@
 
 - name: Run cleanup shell (Disk fresh)
   shell: /home/{{ K8S.CONFIG.OWNER }}/cleanup.sh
+  become: yes
 
 - name: Check lsblk -f
   shell: lsblk -f |grep {{ DISK_NAME }}
@@ -16,4 +17,4 @@
 
 - name: Debug /dev/{{ DISK_NAME }} disk status
   debug:
-    msg: "{{ result_disk_status.stdout }}"
+    msg: Raw device checking..."{{ result_disk_status.stdout }}"
