@@ -65,6 +65,16 @@
   become: yes
   notify: require_restart_docker
 
+- name: Make directory /etc/systemd/system/docker.service.d
+  file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: yes
+  notify: require_restart_docker
+
 - name: Check docker version
   shell: docker --version
   register: check_docker_version

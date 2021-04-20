@@ -29,8 +29,7 @@
   # > Make sure that the br_netfilter module is loaded before this step.
   #
   # この処理が無いと /proc/sys/net/bridge 以下が存在せず、
-  # ↓の処理が失敗するため。
-  # (sysctl --systemだと問題無かったが、、、)
+  # ↓の処理が失敗するため。(sysctl --systemだと問題無かったが、、、)
 - name: Confiture sysctl
   sysctl:
     name: "{{ item.key }}"
@@ -45,26 +44,6 @@
     # - { key: "net.ipv4.ip_forward", value: 1 }
   become: yes
 
-# - name: Install Legacy binary
-#   apt:
-#     name: "{{ item }}"
-#     state: present
-#     update_cache: yes
-#   loop:
-#     - iptables
-#     - arptables
-#     - ebtables
-#   become: yes
-
-# - name: Revert to default iptables
-#   shell: "{{ item }}"
-#   loop:
-#     - "update-alternatives --set iptables /usr/sbin/iptables-legacy"
-#     - "update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy"
-#     - "update-alternatives --set arptables /usr/sbin/arptables-legacy"
-#     - "update-alternatives --set ebtables /usr/sbin/ebtables-legacy"
-#   become: yes
-
 - name: Add cgroup config
   copy:
     src: ../files/cmdline.txt
@@ -73,13 +52,12 @@
     group: root
     mode: 0755
   become: yes
-
 # udev_sync=1 and udev_rules=1
-- name: Change lvm2 config file
-  copy:
-    src: ../files/lvm.conf
-    dest: /etc/lvm/lvm.conf
-    owner: root
-    group: root
-    mode: 0644
-  become: yes
+# - name: Change lvm2 config file
+#   copy:
+#     src: ../files/lvm.conf
+#     dest: /etc/lvm/lvm.conf
+#     owner: root
+#     group: root
+#     mode: 0644
+#   become: yes
