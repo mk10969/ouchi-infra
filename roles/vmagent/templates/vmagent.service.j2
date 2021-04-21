@@ -6,8 +6,7 @@ After=network.target
 Type=simple
 ExecStart={{ VMAGENT.DEST }}/vmagent \
   -promscrape.config={{ PROMETHEUS.DEST }}/prometheus.yml \
-  -remoteWrite.url={{ VICTORIA_METRICS.REMOTE_URL }} \
-  -remoteWrite.tmpDataPath=/tmp
+  -remoteWrite.url={{ VICTORIA_METRICS.REMOTE_URL }}
 PrivateTmp=false
 Restart=always
 
