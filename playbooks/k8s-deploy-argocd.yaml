@@ -3,9 +3,9 @@
   hosts: k8s-master
   roles:
     - k8s-argocd
-  tasks:
-    - name: Create metallb memberlist secret (metallb-system)
-      shell: kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="(openssl rand -base64 128)"
-      changed_when: false
-      # If it has already been created, an error will occur.
-      ignore_errors: true
+  # tasks:
+  #   - name: Create metallb memberlist secret (metallb-system)
+  #     shell: kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="(openssl rand -base64 128)"
+  #     changed_when: false
+  #     # If it has already been created, an error will occur.
+  #     ignore_errors: true

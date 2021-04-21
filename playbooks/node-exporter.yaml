@@ -1,5 +1,5 @@
 ---
-- name: install node exporter
+- name: install node exporter playbook
   hosts: all
   roles:
     - node-exporter

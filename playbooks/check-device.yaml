@@ -1,14 +1,14 @@
 ---
-- name: check raw device sda status
+- name: check raw device sda status playbook
   hosts: all
   tasks:
     - name: Check lsblk -f
-      shell: lsblk -f |grep sda
+      shell: lsblk -f |grep sda | sed -e 's/ \+/ /g'
       register: result_disk_status
       failed_when: false
       changed_when: false
 
-    - name: Debug raw device; /dev/{{ RAW_DEVICE_NAME }} status
+    - name: Debug raw device; /dev/sda status
       debug:
-        msg: Raw device checking..."{{ result_disk_status.stdout }}"
+        msg: "{{ result_disk_status.stdout_lines }}"
       changed_when: false

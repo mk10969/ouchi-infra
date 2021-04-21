@@ -1,0 +1,14 @@
+---
+- name: check rook/ceph status playbook
+  hosts: k8s-master
+  tasks:
+    - name: Check rook/ceph status
+      shell: kubectl -n rook-ceph exec -it $(kubectl -n rook-ceph get pod -l 'app=rook-ceph-tools' -o jsonpath='{.items[0].metadata.name}') -- bash -c 'ceph status'
+      register: result_ceph_status
+      failed_when: false
+      changed_when: false
+
+    - name: Debug rook/ceph status
+      debug:
+        msg: "{{ result_ceph_status.stdout_lines }}"
+      changed_when: false
