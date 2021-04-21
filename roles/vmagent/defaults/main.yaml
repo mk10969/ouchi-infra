@@ -1,5 +1,5 @@
 VICTORIA_METRICS:
-  REMOTE_URL: "https://victoria-metrics-host:8428/api/v1/write"
+  REMOTE_URL: "http://vminsert-vmcluster.monitoring-system.svc:8480/insert/0/prometheus/api/v1/write"
 
 VMAGENT:
   DEST: "/usr/local/bin"

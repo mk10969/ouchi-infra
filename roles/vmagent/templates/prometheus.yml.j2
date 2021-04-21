@@ -12,9 +12,9 @@ scrape_configs:
 
   - job_name: 'raspi-node'
     static_configs:
-    {% for host in groups['all'] %}
+{% for host in groups['all'] %}
       - targets:
         - {{ hostvars[host].ansible_host }}:9100
         labels:
           node_name: {{ hostvars[host].inventory_hostname }}
-    {% endfor %}
+{% endfor %}
