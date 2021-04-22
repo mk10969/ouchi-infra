@@ -11,15 +11,35 @@
   shell: /home/{{ K8S.CONFIG.OWNER }}/cleanup.sh
   become: yes
 
-## todo wait
-
 - name: Check lsblk -f
-  shell: lsblk -f |grep {{ RAW_DEVICE_NAME }}
+  shell: lsblk -f |grep {{ RAW_DEVICE_NAME }} | sed -e 's/ \+/ /g'
   register: result_disk_status
   failed_when: false
   changed_when: false
 
 - name: Debug raw device; /dev/{{ RAW_DEVICE_NAME }} status
   debug:
-    msg: Raw device checking..."{{ result_disk_status.stdout }}"
+    msg: "{{ result_disk_status.stdout_lines }}"
+  changed_when: false
+
+- name: Check /dev/mapper/ceph-*
+  shell: ls /dev/mapper/ceph-*
+  register: result_dev_mapper_ceph_status
+  failed_when: false
+  changed_when: false
+
+- name: Debug /dev/mapper/ceph-* status
+  debug:
+    msg: "{{ result_dev_mapper_ceph_status.stdout_lines }}"
+  changed_when: false
+
+- name: Check /dev/ceph-*
+  shell: ls /dev/ceph-*
+  register: result_dev_ceph_status
+  failed_when: false
+  changed_when: false
+
+- name: Debug /dev/ceph-* status
+  debug:
+    msg: "{{ result_dev_ceph_status.stdout_lines }}"
   changed_when: false

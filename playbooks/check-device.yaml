@@ -12,3 +12,25 @@
       debug:
         msg: "{{ result_disk_status.stdout_lines }}"
       changed_when: false
+
+    - name: Check /dev/mapper/ceph-*
+      shell: ls /dev/mapper/ceph-*
+      register: result_dev_mapper_ceph_status
+      failed_when: false
+      changed_when: false
+
+    - name: Debug /dev/mapper/ceph-* status
+      debug:
+        msg: "{{ result_dev_mapper_ceph_status.stdout_lines }}"
+      changed_when: false
+
+    - name: Check /dev/ceph-*
+      shell: ls /dev/ceph-*
+      register: result_dev_ceph_status
+      failed_when: false
+      changed_when: false
+
+    - name: Debug /dev/ceph-* status
+      debug:
+        msg: "{{ result_dev_ceph_status.stdout_lines }}"
+      changed_when: false
