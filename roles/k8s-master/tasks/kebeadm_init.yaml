@@ -6,7 +6,7 @@
 
 - name: Display stdout of result (kubeadm init)
   debug:
-    msg: "{{ result_kubeadm_init.stdout }}"
+    msg: "{{ result_kubeadm_init.stdout_lines }}"
 
 - name: Create $HOME/.kube directory
   file:
