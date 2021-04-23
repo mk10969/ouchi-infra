@@ -34,3 +34,14 @@
       debug:
         msg: "{{ result_dev_ceph_status.stdout_lines }}"
       changed_when: false
+
+    - name: Check /var/lib/rook
+      shell: ls /var/lib/rook
+      register: result_ls
+      failed_when: false
+      changed_when: false
+
+    - name: Debug /var/lib/rook
+      debug:
+        msg: "{{ result_ls.stdout_lines }}"
+      changed_when: false

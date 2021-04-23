@@ -4,6 +4,7 @@
   hosts: k8s-worker
   roles:
     - dev-fresh
-
-# required reboot
-- import_playbook: reboot.yaml
+  tasks:
+    - name: Remove rook/ceph data
+      shell: rm -fr /var/lib/rook
+      become: yes
