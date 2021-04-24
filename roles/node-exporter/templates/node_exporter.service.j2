@@ -9,6 +9,7 @@ ExecStart={{ NODE_EXPORTER.DEST }}/node_exporter \
   --collector.diskstats \
   --collector.filesystem \
   --collector.thermal_zone \
+  --collector.uname \
   --no-collector.vmstat \
   --no-collector.arp \
   --no-collector.bcache \
@@ -53,7 +54,6 @@ ExecStart={{ NODE_EXPORTER.DEST }}/node_exporter \
   --no-collector.textfile \
   --no-collector.time \
   --no-collector.timex \
-  --no-collector.uname \
   --no-collector.wifi \
   --no-collector.xfs \
   --no-collector.zfs
