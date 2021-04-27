@@ -1,10 +1,10 @@
 ---
 - name: k8s get token playbook
-  hosts: k8s-master
+  hosts: master
   roles:
     - k8s-token
 
 - name: kubeadm join playbook
-  hosts: k8s-worker
+  hosts: worker
   roles:
     - k8s-worker

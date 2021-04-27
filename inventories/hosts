@@ -1,7 +1,7 @@
-[k8s-master]
+[master]
 raspi4-01 ansible_host=100.64.1.101
 
-[k8s-worker]
+[worker]
 raspi4-02 ansible_host=100.64.1.102
 raspi4-03 ansible_host=100.64.1.103
 raspi4-04 ansible_host=100.64.1.104
@@ -13,15 +13,15 @@ raspi4-04 ansible_host=100.64.1.104
 ; raspiP-01 ansible_host=100.64.1.201
 
 [k8s-cluster:children]
-k8s-master
-k8s-worker
+master
+worker
 
 ; [sensor:children]
 ; zero
 ; pico
 
 [all:children]
-k8s-master
-k8s-worker
+master
+worker
 ; zero
 ; pico

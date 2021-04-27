@@ -1,0 +1,5 @@
+---
+- name: kubernetes worker drain and delete node playbook
+  hosts: master
+  roles:
+    - k8s-clean

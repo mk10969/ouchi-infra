@@ -3,13 +3,6 @@ global:
   evaluation_interval: 30s # By default, scrape targets every 15 seconds.
 
 scrape_configs:
-  - job_name: 'raspi-vmagent'
-    static_configs:
-      - targets:
-        - {{ hostvars[groups['k8s-master'][0]].ansible_host }}:8429
-        labels:
-          node_name: {{ hostvars[groups['k8s-master'][0]].inventory_hostname }}
-
   - job_name: 'raspi-node'
     static_configs:
 {% for host in groups['all'] %}
