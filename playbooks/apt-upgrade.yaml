@@ -1,6 +1,6 @@
 ---
 - name: apt udpate and upgrade playbook
-  hosts: k8s-cluster
+  hosts: cluster
   become: true
   tasks:
     - name: apt update

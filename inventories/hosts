@@ -12,7 +12,7 @@ raspi4-04 ansible_host=100.64.1.104
 ; [pico]
 ; raspiP-01 ansible_host=100.64.1.201
 
-[k8s-cluster:children]
+[cluster:children]
 master
 worker
 
