@@ -17,7 +17,7 @@
   $ ansible-playbook -i inventories/hosts playbooks/ping.yaml
   ```
 
-- whon using [rook/ceph](https://rook.io/docs/rook/v1.6/ceph-quickstart.html#prerequisites)  , prepare raw device and fresh raw device on k8s-workers
+- when using [rook/ceph](https://rook.io/docs/rook/v1.6/ceph-quickstart.html#prerequisites)  , prepare raw device and fresh raw device on kubernetes workers
 
   ```
   $ ansible-playbook -i inventories/hosts playbooks/dev-fresh.yaml
