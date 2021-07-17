@@ -1,4 +1,6 @@
 K8S:
+  CLUSTER:
+    NAME: ouchi-kubernetes
   CONFIG:
     OWNER: ubuntu
     GROUP: ubuntu

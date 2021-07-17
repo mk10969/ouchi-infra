@@ -2,21 +2,21 @@
 - name: Copy arogcd manifest file
   copy:
     src: ../files/argocd.yaml
-    dest: /home/{{ K8S.CONFIG.OWNER }}/argocd.yaml
-    owner: "{{ K8S.CONFIG.OWNER }}"
-    group: "{{ K8S.CONFIG.GROUP }}"
+    dest: /opt/argocd.yaml
+    # owner: "{{ K8S.CONFIG.OWNER }}"
+    # group: "{{ K8S.CONFIG.GROUP }}"
     mode: "{{ K8S.CONFIG.MODE }}"
 
 - name: Copy arogcd-app manifest file
   copy:
     src: ../files/argocd-app.yaml
-    dest: /home/{{ K8S.CONFIG.OWNER }}/argocd-app.yaml
-    owner: "{{ K8S.CONFIG.OWNER }}"
-    group: "{{ K8S.CONFIG.GROUP }}"
+    dest: /opt/argocd-app.yaml
+    # owner: "{{ K8S.CONFIG.OWNER }}"
+    # group: "{{ K8S.CONFIG.GROUP }}"
     mode: "{{ K8S.CONFIG.MODE }}"
 
 - name: Install argocd
-  shell: kubectl apply -f /home/{{ K8S.CONFIG.OWNER }}/argocd.yaml
+  shell: kubectl apply -f /opt/argocd.yaml
 
 - name: Wait for argocd server running
   shell: kubectl get pod -n argocd |grep argocd-server | awk '{print $3}'
@@ -48,4 +48,4 @@
       EOC
 
 - name: Deploy argocd-app
-  shell: kubectl apply -f /home/{{ K8S.CONFIG.OWNER }}/argocd-app.yaml
+  shell: kubectl apply -f /opt/argocd-app.yaml

@@ -1,6 +1,14 @@
 ---
+- name: Copy kubeadm-config.yaml
+  template:
+    src: ../templates/kubeadm-config.yaml.j2
+    dest: /opt/kubeadm-config.yaml
+    owner: "{{ K8S.CONFIG.OWNER }}"
+    group: "{{ K8S.CONFIG.GROUP }}"
+    mode: 0644
+
 - name: Execute kubeadm init
-  shell: kubeadm init --pod-network-cidr=10.244.0.0/16
+  shell: kubeadm init --config /opt/kubeadm-config.yaml
   register: result_kubeadm_init
   become: true
 

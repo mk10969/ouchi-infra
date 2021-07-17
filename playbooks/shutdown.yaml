@@ -1,0 +1,7 @@
+---
+- name: reboot playbook
+  hosts: all
+  become: true
+  tasks:
+  - name: shutdown
+    command: /usr/sbin/shutdown -h +1
