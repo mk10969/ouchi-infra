@@ -1,11 +1,14 @@
 network:
   version: 2
   renderer: networkd
-  ethernets:
-    eth0:
+  wifis:
+    wlan0:
       dhcp4: false
       dhcp6: false
       addresses: [{{ ansible_host }}/22]
       gateway4: 100.64.1.1
       nameservers:
         addresses: [100.64.1.1, 8.8.8.8]
+      access-points:
+          "SSID-HOGEHOGE":
+              password: "XXXXXXXXX"
