@@ -25,7 +25,7 @@
 - name: Change user shell for fish
   user:
     name: "{{ FISH.CONFIG.OWNER }}"
-    shell: /bin/fish
+    shell: /usr/bin/fish
   become: yes
 
 - name: Create directory /home/{{ FISH.CONFIG.OWNER }}/.config/fish
@@ -40,6 +40,14 @@
   copy:
     src: ../files/config.fish
     dest: "/home/{{ FISH.CONFIG.OWNER }}/.config/fish/config.fish"
+    owner: "{{ FISH.CONFIG.OWNER }}"
+    group: "{{ FISH.CONFIG.GROUP }}"
+    mode: "{{ FISH.CONFIG.MODE }}"
+
+- name: Add fish variables file (color theme)
+  copy:
+    src: ../files/fish_variables
+    dest: "/home/{{ FISH.CONFIG.OWNER }}/.config/fish/fish_variables"
     owner: "{{ FISH.CONFIG.OWNER }}"
     group: "{{ FISH.CONFIG.GROUP }}"
     mode: "{{ FISH.CONFIG.MODE }}"
