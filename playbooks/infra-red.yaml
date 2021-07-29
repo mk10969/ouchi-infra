@@ -1,0 +1,5 @@
+---
+- name: pigpiod service
+  hosts: master
+  roles:
+    - infra-red

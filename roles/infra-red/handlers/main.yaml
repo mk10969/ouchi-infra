@@ -1,0 +1,9 @@
+---
+- name: Require pigpiod restart
+  systemd:
+    name: pigpiod
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+  become: yes
+  listen: require_restart_pigpiod

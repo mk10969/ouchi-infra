@@ -1,0 +1,12 @@
+[Unit]
+Description=Gpio Daemon
+
+[Service]
+ExecStart=/usr/local/bin/pigpiod
+Type=forking
+
+PrivateTmp=false
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

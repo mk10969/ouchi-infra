@@ -1,0 +1,17 @@
+- name: Copy systemd file
+  copy:
+    src: ../files/pigpiod.service
+    dest: /lib/systemd/system/pigpiod.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: require_restart_pigpiod
+  become: true
+
+- name: Enabled and start pigpiod service
+  systemd:
+    name: pigpiod.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: true

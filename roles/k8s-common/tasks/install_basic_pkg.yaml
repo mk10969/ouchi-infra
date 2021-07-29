@@ -11,4 +11,10 @@
     - gnupg
     - lsb-release
     - lvm2
+    - python3-pip
+    - git
+    - gcc
+    - make
+    - libffi-dev
+    - libssl-dev
   become: yes

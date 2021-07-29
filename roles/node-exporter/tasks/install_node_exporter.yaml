@@ -10,7 +10,7 @@
 - name: Copy systemd file
   template:
     src: ../templates/node_exporter.service.j2
-    dest: /etc/systemd/system/node_exporter.service
+    dest: /lib/systemd/system/node_exporter.service
     owner: root
     group: root
     mode: 0644

@@ -1,5 +1,5 @@
 ---
-- name: Start and enable docker
+- name: Require docker restart
   systemd:
     name: docker
     state: restarted
@@ -8,7 +8,7 @@
   become: yes
   listen: require_restart_docker
 
-- name: Start and enable kubelet
+- name: Require kubelet restart
   systemd:
     name: kubelet
     state: restarted
