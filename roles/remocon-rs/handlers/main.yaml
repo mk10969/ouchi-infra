@@ -1,0 +1,9 @@
+---
+- name: Require remmocon-rs restart
+  systemd:
+    name: remmocon-rs.service
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+  become: yes
+  listen: require_remocon_rs_restart
