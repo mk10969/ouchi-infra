@@ -2,6 +2,10 @@
 
 ## Prerequisites  
 
+- write boot image  
+[setup](https://qiita.com/HeRo/items/c1c30d7267faeb304538
+)
+
 - install ansible on execution host
   ``` 
   pip install ansible
