@@ -5,7 +5,7 @@ set dotenv-load := true
 
 ##### variables ######
 APP_VERSION := "v1.0.0"
-REMOCON_RS_VERSION := "v0.3.2"
+REMOCON_RS_VERSION := "v0.3.3"
 NODE_EXPORTER_VERSION := "1.1.2"
 VMAGENT_VERSION := "v1.58.0"
 

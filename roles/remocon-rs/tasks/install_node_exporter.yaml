@@ -5,6 +5,7 @@
     owner: root
     group: root
     mode: 0755
+  notify: require_remocon_rs_restart
   become: true
 
 - name: Create directory {{ GPIO.SCRIPT.DEST }}
