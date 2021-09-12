@@ -1,0 +1,26 @@
+- name: Create directory {{ GPIO.SCRIPT.DEST }}
+  file:
+    path: "{{ GPIO.SCRIPT.DEST }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: Copy irrp.py file
+  copy:
+    src: "../files/irrp.py"
+    dest: "{{ GPIO.SCRIPT.DEST }}/irrp.py"
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: Copy codes.json file
+  copy:
+    src: "../files/codes.json"
+    dest: "{{ GPIO.SCRIPT.DEST }}/codes.json"
+    owner: root
+    group: root
+    mode: 0644
+  become: true

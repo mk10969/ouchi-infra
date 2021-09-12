@@ -1,0 +1,5 @@
+---
+- name: pigpiod service
+  hosts: zero
+  roles:
+    - sensor

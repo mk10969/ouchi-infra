@@ -1,12 +1,13 @@
-- name: Copy systemd file
-  copy:
-    src: ../files/pigpiod.service
-    dest: /lib/systemd/system/pigpiod.service
-    owner: root
-    group: root
-    mode: 0644
+- name: Install pigpiod
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - pigpio
+    - python3-pigpio
   notify: require_restart_pigpiod
-  become: true
+  become: yes
 
 - name: Enabled and start pigpiod service
   systemd:
