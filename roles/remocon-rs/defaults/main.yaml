@@ -1,7 +1,0 @@
-REMOCON_RS:
-  BINARY: "remocon-rs-aarch64-unknown-linux-gnu"
-  DEST: "/usr/local/bin"
-
-GPIO:
-  SCRIPT:
-    DEST: "/opt/scripts"

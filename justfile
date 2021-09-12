@@ -1,6 +1,5 @@
 ##### set env #####
 set shell := ["bash", "-uc"]
-set dotenv-load := true
 
 
 ##### variables ######
@@ -20,21 +19,15 @@ tag:
 push:
     git push origin {{ APP_VERSION }}
 
-update-remocon-rs:
+update-script:
    curl -sLf -H 'Accept: application/octet-stream' \
-        -o ./roles/remocon-rs/files/remocon-rs-aarch64-unknown-linux-gnu \
-        "https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/remocon-rs/releases/assets/$( \
-            curl -sL https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/remocon-rs/releases/tags/{{ REMOCON_RS_VERSION }} \
-            | jq '.assets[] | select(.name | contains("aarch64")) | .id')"
-
-   curl -sLf -H 'Accept: application/octet-stream' \
-        -o ./roles/remocon-rs/files/irrp.py \
+        -o ./roles/sensor/files/irrp.py \
         "https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/remocon-rs/releases/assets/$( \
             curl -sL https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/remocon-rs/releases/tags/{{ REMOCON_RS_VERSION }} \
             | jq '.assets[] | select(.name | contains("irrp.py")) | .id')"
 
    curl -sLf -H 'Accept: application/octet-stream' \
-        -o ./roles/remocon-rs/files/codes.json \
+        -o ./roles/sensor/files/codes.json \
         "https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/remocon-rs/releases/assets/$( \
             curl -sL https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/remocon-rs/releases/tags/{{ REMOCON_RS_VERSION }} \
             | jq '.assets[] | select(.name | contains("codes.json")) | .id')"

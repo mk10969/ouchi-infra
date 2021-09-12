@@ -1,5 +1,0 @@
----
-- name: install remocon-rs playbook
-  hosts: master
-  roles:
-    - remocon-rs
