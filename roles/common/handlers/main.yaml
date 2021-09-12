@@ -1,8 +1,8 @@
-# ---
-# - name: netplan_apply
-#   shell: netplan apply
-#   become: yes
-#   listen: require_netplan_apply
+---
+- name: netplan_apply
+  shell: netplan apply
+  become: yes
+  listen: require_netplan_apply
 
 - name: sshd_restart
   systemd:

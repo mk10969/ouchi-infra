@@ -2,6 +2,10 @@
 - name: k8s cluster setup playbook
   hosts: cluster
   roles:
+    # ssh, netplan, host, etc...
+    - common
+    # fish, starship
+    - modern-shell
     # install kubeadm, kubectl, kubelet, and docker.
     # configure cgroup, swap, bridge, and lvm.
     - k8s-common

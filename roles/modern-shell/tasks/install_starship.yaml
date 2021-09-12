@@ -1,13 +1,13 @@
 ---
-- name: Check starship version
-  shell: starship --version
-  register: check_starship_version
-  failed_when: false
-  changed_when: false
-
+# - name: Check starship version
+#   shell: starship --version
+#   register: check_starship_version
+#   failed_when: false
+#   changed_when: false
+### allways verison up
 - name: Install starship package
   script: ../files/starship_install.sh --yes
-  when: >
-    (check_starship_version.rc != 0) or
-    (STARSHIP.UPGRADE)
+  # when: >
+  #   (check_starship_version.rc != 0) or
+  #   (STARSHIP.UPGRADE)
   become: yes

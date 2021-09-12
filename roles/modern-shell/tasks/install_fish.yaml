@@ -6,21 +6,21 @@
     update_cache: yes
   become: yes
 
-- name: Check fish version
-  shell: fish --version
-  register: check_fish_version
-  failed_when: false
-  changed_when: false
-
+# - name: Check fish version
+#   shell: fish --version
+#   register: check_fish_version
+#   failed_when: false
+#   changed_when: false
+### allways verison up
 - name: Install fish shell packages
   apt:
     name: fish
     state: present
     update_cache: yes
   become: yes
-  when: >
-    (check_fish_version.rc != 0) or
-    (FISH.UPGRADE)
+  # when: >
+  #   (check_fish_version.rc != 0) or
+  #   (FISH.UPGRADE)
 
 - name: Change user shell for fish
   user:

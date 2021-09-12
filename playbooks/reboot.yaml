@@ -3,7 +3,7 @@
   hosts: all
   become: true
   tasks:
-    - name: Reboot the machine (Wait for 2 min)
+    - name: Reboot the machine (Wait for 5 min)
       reboot:
-        reboot_timeout: 120
+        reboot_timeout: 300
       changed_when: false

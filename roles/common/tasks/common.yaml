@@ -1,13 +1,13 @@
-# ---
-# - name: Add netplan file
-#   template:
-#     src: ../templates/99-config.j2
-#     dest: /etc/netplan/99-config.yaml
-#     owner: root
-#     group: root
-#     mode: 0644
-#   become: yes
-#   notify: require_netplan_apply
+---
+- name: Add netplan file
+  template:
+    src: ../templates/99-config.j2
+    dest: /etc/netplan/99-config.yaml
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+  notify: require_netplan_apply
 
 - name: Add hosts file
   template:
@@ -28,8 +28,6 @@
   timezone:
     name: Asia/Tokyo
 
-### TODO: fail ubuntu 18...
-# Basic password Auth = false
 - name: Add ssh config file
   copy:
     src: ../files/10-sshd.conf
