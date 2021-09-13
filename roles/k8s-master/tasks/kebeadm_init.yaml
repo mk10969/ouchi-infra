@@ -6,6 +6,7 @@
     owner: "{{ K8S.CONFIG.OWNER }}"
     group: "{{ K8S.CONFIG.GROUP }}"
     mode: 0644
+  become: true
 
 - name: Execute kubeadm init
   shell: kubeadm init --config /opt/kubeadm-config.yaml
