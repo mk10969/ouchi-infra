@@ -4,7 +4,7 @@ set shell := ["bash", "-uc"]
 
 ##### variables ######
 app_version                  := "v1.0.0"
-argocd_manifest_version      := "v1.0.1"
+argocd_manifest_version      := "v1.0.2"
 node_exporter_version        := "1.2.2"
 vmagent_version              := "v1.65.0"
 REMOCON_RS_VERSION := "1"
