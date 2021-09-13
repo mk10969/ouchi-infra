@@ -3,23 +3,35 @@ set shell := ["bash", "-uc"]
 
 
 ##### variables ######
-APP_VERSION := "v1.0.0"
-REMOCON_RS_VERSION := "v0.3.3"
-NODE_EXPORTER_VERSION := "1.2.2"
-VMAGENT_VERSION := "v1.65.0"
-
+app_version                  := "v1.0.0"
+argocd_manifest_version      := "v1.0.1"
+node_exporter_version        := "1.2.2"
+vmagent_version              := "v1.65.0"
+REMOCON_RS_VERSION := "1"
 
 ##### commands ######
+# app version
 version:
-    @echo {{ APP_VERSION }}
+    @echo {{ app_version }}
 
+# git tag
 tag:
-    git tag -a {{ APP_VERSION }} -m 'version up'
+    git tag -a {{ app_version }} -m 'version up'
 
+# tag push
 push:
-    git push origin {{ APP_VERSION }}
+    git push origin {{ app_version }}
 
-update-script:
+# argocd app update
+argocd-manifest:
+   curl -sLf -H 'Accept: application/octet-stream' \
+        -o ./roles/k8s-argocd/files/argocd.yaml \
+        "https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/ouchi-kubernetes/releases/assets/$( \
+            curl -sL https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/ouchi-kubernetes/releases/tags/{{ argocd_manifest_version }} \
+            | jq '.assets[] | select(.name | contains("argocd.yaml")) | .id')"
+
+# sensor-script update
+sensor-script:
    curl -sLf -H 'Accept: application/octet-stream' \
         -o ./roles/sensor/files/irrp.py \
         "https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/remocon-rs/releases/assets/$( \
@@ -32,20 +44,22 @@ update-script:
             curl -sL https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/remocon-rs/releases/tags/{{ REMOCON_RS_VERSION }} \
             | jq '.assets[] | select(.name | contains("codes.json")) | .id')"
 
-update-node-exporter:
-    curl -sLf -o ./tmp/node_exporter-{{ NODE_EXPORTER_VERSION }}.linux-arm64.tar.gz \
-        https://github.com/prometheus/node_exporter/releases/download/v{{ NODE_EXPORTER_VERSION }}/node_exporter-{{ NODE_EXPORTER_VERSION }}.linux-arm64.tar.gz
-    tar zxf ./tmp/node_exporter-{{ NODE_EXPORTER_VERSION }}.linux-arm64.tar.gz -C ./tmp
-    cp -pfr ./tmp/node_exporter-{{ NODE_EXPORTER_VERSION }}.linux-arm64/node_exporter ./roles/node-exporter/files/
-    rm -fr ./tmp/node_exporter-{{ NODE_EXPORTER_VERSION }}.linux-arm64.tar.gz
-    rm -fr ./tmp/node_exporter-{{ NODE_EXPORTER_VERSION }}.linux-arm64
+# node-exporter update
+node-exporter:
+    curl -sLf -o ./tmp/node_exporter-{{ node_exporter_version }}.linux-arm64.tar.gz \
+        https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-arm64.tar.gz
+    tar zxf ./tmp/node_exporter-{{ node_exporter_version }}.linux-arm64.tar.gz -C ./tmp
+    cp -pfr ./tmp/node_exporter-{{ node_exporter_version }}.linux-arm64/node_exporter ./roles/node-exporter/files/
+    rm -fr ./tmp/node_exporter-{{ node_exporter_version }}.linux-arm64.tar.gz
+    rm -fr ./tmp/node_exporter-{{ node_exporter_version }}.linux-arm64
 
-update-vmagent:
-    curl -sLf -o ./tmp/vmutils-arm64-{{ VMAGENT_VERSION }}.tar.gz \
-        https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/{{ VMAGENT_VERSION }}/vmutils-arm64-{{ VMAGENT_VERSION }}.tar.gz
+# vmagent update
+vmagent:
+    curl -sLf -o ./tmp/vmutils-arm64-{{ vmagent_version }}.tar.gz \
+        https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/{{ vmagent_version }}/vmutils-arm64-{{ vmagent_version }}.tar.gz
     mkdir -p ./tmp/vmutils
-    tar zxf ./tmp/vmutils-arm64-{{ VMAGENT_VERSION }}.tar.gz -C ./tmp/vmutils
+    tar zxf ./tmp/vmutils-arm64-{{ vmagent_version }}.tar.gz -C ./tmp/vmutils
     cp -pfr ./tmp/vmutils/vmagent-prod ./roles/vmagent/files/vmagent
     rm -fr ./tmp/vmutils
-    rm -fr ./tmp/vmutils-arm64-{{ VMAGENT_VERSION }}.tar.gz
+    rm -fr ./tmp/vmutils-arm64-{{ vmagent_version }}.tar.gz
 
