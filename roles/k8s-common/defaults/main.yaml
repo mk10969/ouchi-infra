@@ -1,2 +1,5 @@
 UBUNTU:
   USER: ubuntu
+
+KUBERNETES:
+  VERSION: "1.21.4-00"

@@ -19,9 +19,9 @@
     state: present
     update_cache: yes
   loop:
-    - kubelet
-    - kubeadm
-    - kubectl
+    - kubelet={{ KUBERNETES.VERSION }}
+    - kubeadm={{ KUBERNETES.VERSION }}
+    # - kubectl={{ KUBERNETES.VERSION }} # kubeadm installしたら勝手に入る。
   become: yes
   notify: require_restart_kubelet
 

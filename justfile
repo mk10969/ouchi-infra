@@ -4,9 +4,16 @@ set shell := ["bash", "-uc"]
 
 ##### variables ######
 app_version                  := "v1.0.0"
-argocd_manifest_version      := "v1.0.2"
+
+# https://github.com/mk10969/ouchi-kubernetes
+ouchi_k8s_version            := "v1.0.6"
+
+# https://github.com/prometheus/node_exporter
 node_exporter_version        := "1.2.2"
+
+# https://github.com/VictoriaMetrics/VictoriaMetrics
 vmagent_version              := "v1.65.0"
+
 REMOCON_RS_VERSION := "1"
 
 ##### commands ######
@@ -23,11 +30,11 @@ push:
     git push origin {{ app_version }}
 
 # argocd app update
-argocd-manifest:
+argocd:
    curl -sLf -H 'Accept: application/octet-stream' \
         -o ./roles/k8s-argocd/files/argocd.yaml \
         "https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/ouchi-kubernetes/releases/assets/$( \
-            curl -sL https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/ouchi-kubernetes/releases/tags/{{ argocd_manifest_version }} \
+            curl -sL https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/ouchi-kubernetes/releases/tags/{{ ouchi_k8s_version }} \
             | jq '.assets[] | select(.name | contains("argocd.yaml")) | .id')"
 
 # sensor-script update
