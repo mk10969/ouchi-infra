@@ -1,6 +1,6 @@
 ---
 - name: check raw device sda status playbook
-  hosts: all
+  hosts: cluster
   tasks:
     - name: Check lsblk -f
       shell: lsblk -f |grep sda | sed -e 's/ \+/ /g'

@@ -1,7 +1,7 @@
 ---
 - name: reboot playbook
-  hosts: all
+  hosts: cluster
   tasks:
-  - name: shutdown
-    command: /usr/sbin/shutdown -h now
-    become: true
+    - name: shutdown
+      command: /usr/sbin/shutdown -h now
+      become: true
