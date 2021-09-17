@@ -6,7 +6,7 @@ set shell := ["bash", "-uc"]
 app_version                  := "v1.0.0"
 
 # https://github.com/mk10969/ouchi-kubernetes
-ouchi_k8s_version            := "v1.0.6"
+ouchi_k8s_version            := "v1.1.1"
 
 # https://github.com/prometheus/node_exporter
 node_exporter_version        := "1.2.2"

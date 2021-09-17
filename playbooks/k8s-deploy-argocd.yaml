@@ -4,6 +4,16 @@
   roles:
     - k8s-argocd
   tasks:
+    - name: Wait for metallb-system namespace to be created
+      shell: kubectl get ns -A | grep metallb-system
+      register: created_namespace
+      until: created_namespace.rc == 0
+      # Re-execute(30 x 5 seconds) until Ready,
+      # and then proceed to the next task.
+      retries: 30
+      delay: 10
+      changed_when: false
+
     - name: Create metallb memberlist secret (metallb-system)
       shell: kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="(openssl rand -base64 128)"
       changed_when: false
