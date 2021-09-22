@@ -1,11 +1,29 @@
-- name: Copy node_exporter binary file
+- name: Check CPU architecture
+  shell: uname -m
+  register: cpu_architecture
+  changed_when: false
+
+- name: Copy node_exporter binary file for raspi4
   copy:
-    src: ../files/node_exporter
+    src: ../files/node_exporter-arm64
     dest: "{{ NODE_EXPORTER.DEST }}/node_exporter"
     owner: root
     group: root
     mode: 0755
   become: true
+  notify: require_node_exporter_restart
+  when: cpu_architecture.stdout == 'aarch64'
+
+- name: Copy node_exporter binary file for raspi zero
+  copy:
+    src: ../files/node_exporter-armv6
+    dest: "{{ NODE_EXPORTER.DEST }}/node_exporter"
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+  notify: require_node_exporter_restart
+  when: cpu_architecture.stdout == 'armv6l'
 
 - name: Copy systemd file
   template:

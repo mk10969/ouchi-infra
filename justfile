@@ -53,12 +53,21 @@ sensor-script:
 
 # node-exporter update
 node-exporter:
+    echo "For raspi4 model B"
     curl -sLf -o ./tmp/node_exporter-{{ node_exporter_version }}.linux-arm64.tar.gz \
         https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-arm64.tar.gz
     tar zxf ./tmp/node_exporter-{{ node_exporter_version }}.linux-arm64.tar.gz -C ./tmp
-    cp -pfr ./tmp/node_exporter-{{ node_exporter_version }}.linux-arm64/node_exporter ./roles/node-exporter/files/
+    cp -pfr ./tmp/node_exporter-{{ node_exporter_version }}.linux-arm64/node_exporter ./roles/node-exporter/files/node_exporter-arm64
     rm -fr ./tmp/node_exporter-{{ node_exporter_version }}.linux-arm64.tar.gz
     rm -fr ./tmp/node_exporter-{{ node_exporter_version }}.linux-arm64
+
+    echo "For raspi zero"
+    curl -sLf -o ./tmp/node_exporter-{{ node_exporter_version }}.linux-armv6.tar.gz \
+        https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-armv6.tar.gz
+    tar zxf ./tmp/node_exporter-{{ node_exporter_version }}.linux-armv6.tar.gz -C ./tmp
+    cp -pfr ./tmp/node_exporter-{{ node_exporter_version }}.linux-armv6/node_exporter ./roles/node-exporter/files/node_exporter-armv6
+    rm -fr ./tmp/node_exporter-{{ node_exporter_version }}.linux-armv6.tar.gz
+    rm -fr ./tmp/node_exporter-{{ node_exporter_version }}.linux-armv6
 
 # vmagent update
 vmagent:
