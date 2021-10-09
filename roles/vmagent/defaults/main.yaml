@@ -1,9 +1,0 @@
-VICTORIA_METRICS:
-  # vmagent path
-  REMOTE_URL: "http://192.168.3.200:8429/api/v1/write"
-
-VMAGENT:
-  DEST: "/usr/local/bin"
-
-PROMETHEUS:
-  DEST: "/etc/prometheus"

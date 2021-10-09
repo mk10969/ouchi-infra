@@ -10,6 +10,7 @@ ExecStart={{ NODE_EXPORTER.DEST }}/node_exporter \
   --collector.filesystem \
   --collector.thermal_zone \
   --collector.uname \
+  --collector.loadavg \
   --no-collector.vmstat \
   --no-collector.arp \
   --no-collector.bcache \
@@ -26,7 +27,6 @@ ExecStart={{ NODE_EXPORTER.DEST }}/node_exporter \
   --no-collector.interrupts \
   --no-collector.ipvs \
   --no-collector.ksmd \
-  --no-collector.loadavg \
   --no-collector.logind \
   --no-collector.mdadm \
   --no-collector.meminfo_numa \

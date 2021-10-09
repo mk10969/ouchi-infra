@@ -1,5 +1,0 @@
----
-- name: install vmagent playbook
-  hosts: master # localhostでもいいかもね
-  roles:
-    - vmagent
