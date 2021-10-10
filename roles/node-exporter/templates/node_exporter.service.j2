@@ -11,6 +11,8 @@ ExecStart={{ NODE_EXPORTER.DEST }}/node_exporter \
   --collector.thermal_zone \
   --collector.uname \
   --collector.loadavg \
+  --no-collector.netstat \
+  --no-collector.systemd \
   --no-collector.vmstat \
   --no-collector.arp \
   --no-collector.bcache \
@@ -33,7 +35,6 @@ ExecStart={{ NODE_EXPORTER.DEST }}/node_exporter \
   --no-collector.mountstats \
   --no-collector.netclass \
   --no-collector.netdev \
-  --no-collector.netstat \
   --no-collector.nfs \
   --no-collector.nfsd \
   --no-collector.ntp \
@@ -49,7 +50,6 @@ ExecStart={{ NODE_EXPORTER.DEST }}/node_exporter \
   --no-collector.softnet \
   --no-collector.stat \
   --no-collector.supervisord \
-  --no-collector.systemd \
   --no-collector.tcpstat \
   --no-collector.textfile \
   --no-collector.time \
