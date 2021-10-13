@@ -14,7 +14,6 @@ node_exporter_version        := "1.2.2"
 # https://github.com/VictoriaMetrics/VictoriaMetrics
 vmagent_version              := "v1.65.0"
 
-REMOCON_RS_VERSION := "1"
 
 ##### commands ######
 # app version
@@ -36,20 +35,6 @@ argocd:
         "https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/ouchi-kubernetes/releases/assets/$( \
             curl -sL https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/ouchi-kubernetes/releases/tags/{{ ouchi_k8s_version }} \
             | jq '.assets[] | select(.name | contains("argocd.yaml")) | .id')"
-
-# sensor-script update
-sensor-script:
-   curl -sLf -H 'Accept: application/octet-stream' \
-        -o ./roles/sensor/files/irrp.py \
-        "https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/remocon-rs/releases/assets/$( \
-            curl -sL https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/remocon-rs/releases/tags/{{ REMOCON_RS_VERSION }} \
-            | jq '.assets[] | select(.name | contains("irrp.py")) | .id')"
-
-   curl -sLf -H 'Accept: application/octet-stream' \
-        -o ./roles/sensor/files/codes.json \
-        "https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/remocon-rs/releases/assets/$( \
-            curl -sL https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/remocon-rs/releases/tags/{{ REMOCON_RS_VERSION }} \
-            | jq '.assets[] | select(.name | contains("codes.json")) | .id')"
 
 # node-exporter update
 node-exporter:
@@ -78,4 +63,3 @@ vmagent:
     cp -pfr ./tmp/vmutils/vmagent-prod ./roles/vmagent/files/vmagent
     rm -fr ./tmp/vmutils
     rm -fr ./tmp/vmutils-arm64-{{ vmagent_version }}.tar.gz
-

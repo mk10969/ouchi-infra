@@ -2,8 +2,8 @@
   file:
     path: "{{ GPIO.SCRIPT.DEST }}"
     state: directory
-    owner: root
-    group: root
+    owner: ubuntu
+    group: ubuntu
     mode: 0755
   become: true
 
@@ -11,8 +11,8 @@
   copy:
     src: "../files/irrp.py"
     dest: "{{ GPIO.SCRIPT.DEST }}/irrp.py"
-    owner: root
-    group: root
+    owner: ubuntu
+    group: ubuntu
     mode: 0755
   become: true
 
@@ -20,7 +20,7 @@
   copy:
     src: "../files/codes.json"
     dest: "{{ GPIO.SCRIPT.DEST }}/codes.json"
-    owner: root
-    group: root
+    owner: ubuntu
+    group: ubuntu
     mode: 0644
   become: true
