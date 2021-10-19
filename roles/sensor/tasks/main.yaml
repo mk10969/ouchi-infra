@@ -1,2 +1,2 @@
-- import_tasks: install_pigpiod.yaml
-- import_tasks: deploy_script.yaml
+- import_tasks: install_pakages.yaml
+- import_tasks: deploy_files.yaml

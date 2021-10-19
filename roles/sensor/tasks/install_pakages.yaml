@@ -1,4 +1,4 @@
-- name: Install pigpiod
+- name: Install packages
   apt:
     name: "{{ item }}"
     state: present
@@ -6,6 +6,10 @@
   loop:
     - pigpio
     - python3-pigpio
+    - python3-smbus
+    # - python3-dev
+    # - python3-pip
+    - i2c-tools
   notify: require_restart_pigpiod
   become: yes
 
