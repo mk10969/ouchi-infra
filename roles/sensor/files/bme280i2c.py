@@ -178,23 +178,33 @@ class BME280I2C:
         print(' Humidity : {:.1f}%'.format(self.H))
 
 
-def main():
+def get_weather():
     bme280ch1 = BME280I2C(0x76)
-    bme280ch2 = BME280I2C(0x77)
-
     if bme280ch1.meas():
         # 外付BME280センサー
         print('BME280 0x76 ')
         bme280ch1.print_cal()
         bme280ch1.print_reg()
         bme280ch1.print_meas()
+    else:
+        raise Exception('ID Read Failed')
 
+
+def get_weather2():
+    bme280ch2 = BME280I2C(0x77)
     if bme280ch2.meas():
         # 基板上BME280センサー
         print('BME280 0x77')
         bme280ch2.print_cal()
         bme280ch2.print_reg()
         bme280ch2.print_meas()
+    else:
+        raise Exception('ID Read Failed')
+
+
+def main():
+    get_weather()
+    get_weather2()
 
 
 if __name__ == '__main__':

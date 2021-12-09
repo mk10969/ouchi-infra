@@ -2,7 +2,7 @@
 # https://stackoverflow.com/questions/42904712/i2c-not-detecting-issues-in-hardware-or-any-other
 - name: Copy /boot/confis.txt file
   copy:
-    src: "../files/boot_config.txt"
+    src: "../files/configs/boot_config.txt"
     dest: /boot/config.txt
     owner: root
     group: root
@@ -11,7 +11,7 @@
 
 - name: Copy /etc/modules file
   copy:
-    src: "../files/modules"
+    src: "../files/configs/modules"
     dest: /etc/modules
     owner: root
     group: root
@@ -22,6 +22,14 @@
   file:
     path: "{{ GPIO.SCRIPT.DEST }}"
     state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: 0755
+
+- name: Copy app.py file
+  copy:
+    src: "../files/app.py"
+    dest: "{{ GPIO.SCRIPT.DEST }}/app.py"
     owner: ubuntu
     group: ubuntu
     mode: 0755
@@ -46,6 +54,14 @@
   copy:
     src: "../files/bme280i2c.py"
     dest: "{{ GPIO.SCRIPT.DEST }}/bme280i2c.py"
+    owner: ubuntu
+    group: ubuntu
+    mode: 0755
+
+- name: Copy tsl2572.py file
+  copy:
+    src: "../files/tsl2572.py"
+    dest: "{{ GPIO.SCRIPT.DEST }}/tsl2572.py"
     owner: ubuntu
     group: ubuntu
     mode: 0755

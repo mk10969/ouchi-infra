@@ -1,5 +1,11 @@
 # ouchi-ansible
 
+raspi 4 model B
+OS: ubuntu 20.04 LTS
+
+raspi zero w
+OS: 
+
 ## Prerequisites  
 
 - write boot image  
