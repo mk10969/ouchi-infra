@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-
 """
 BME280 Control Module via I2C
  2019/11/30
 """
 
+from datetime import datetime
 import smbus
 import time
 
@@ -14,21 +14,21 @@ class BME280I2C:
     @staticmethod
     def get_signed8(uint):
         if uint > 127:
-            return uint-256
+            return uint - 256
         return uint
 
     # Return signed int from 16bit uint
     @staticmethod
     def get_signed16(uint):
         if uint > 32767:
-            return uint-65536
+            return uint - 65536
         return uint
 
     # i2c_addr 0x76 or 0x77
     def __init__(self, i2c_addr):
         self.i2c_addr = i2c_addr
         self.i2c = smbus.SMBus(1)
-        self.cal = {}               # Calibration data
+        self.cal = {}  # Calibration data
         self.adc_T = 0
         self.adc_P = 0
         self.adc_H = 0
@@ -112,48 +112,50 @@ class BME280I2C:
 
     # Calculate temp from adc_T and calibration data
     def comp_T(self):
-        var1 = (
-            (((self.adc_T >> 3) - (self.cal['dig_T1'] << 1))) * (self.cal['dig_T2'])) >> 11
+        var1 = ((((self.adc_T >> 3) - (self.cal['dig_T1'] << 1))) *
+                (self.cal['dig_T2'])) >> 11
         var2 = (((((self.adc_T >> 4) - (self.cal['dig_T1'])) *
                   ((self.adc_T >> 4) - (self.cal['dig_T1']))) >> 12) *
                 (self.cal['dig_T3'])) >> 14
         self.t_fine = var1 + var2
-        self.T = ((self.t_fine * 5 + 128) >> 8)/100
+        self.T = ((self.t_fine * 5 + 128) >> 8) / 100
 
     # Calculate pressure from adc_P and calibration data
     def comp_P(self):
         var1 = self.t_fine - 128000
         var2 = var1 * var1 * self.cal['dig_P6']
-        var2 = var2 + ((var1*self.cal['dig_P5']) << 17)
+        var2 = var2 + ((var1 * self.cal['dig_P5']) << 17)
         var2 = var2 + (self.cal['dig_P4'] << 35)
-        var1 = ((var1 * var1 * self.cal['dig_P3'])
-                >> 8) + ((var1 * self.cal['dig_P2']) << 12)
-        var1 = (((1 << 47)+var1))*(self.cal['dig_P1']) >> 33
+        var1 = ((var1 * var1 * self.cal['dig_P3']) >> 8) + (
+            (var1 * self.cal['dig_P2']) << 12)
+        var1 = (((1 << 47) + var1)) * (self.cal['dig_P1']) >> 33
         if var1 == 0:
             return
 
         p = 1048576 - self.adc_P
-        p = (((p << 31)-var2)*3125)//var1
+        p = (((p << 31) - var2) * 3125) // var1
         var1 = (self.cal['dig_P9'] * (p >> 13) * (p >> 13)) >> 25
         var2 = (self.cal['dig_P8'] * p) >> 19
         p = ((p + var1 + var2) >> 8) + ((self.cal['dig_P7']) << 4)
-        self.P = p/25600
+        self.P = p / 25600
 
     # Calculate humidity from adc_H and calibration data
     def comp_H(self):
         v_x1_u32r = (self.t_fine - 76800)
-        v_x1_u32r = (((((self.adc_H << 14) - ((self.cal['dig_H4']) << 20) -
-                        ((self.cal['dig_H5']) * v_x1_u32r)) + 16384) >> 15) *
-                     (((((((v_x1_u32r * self.cal['dig_H6']) >> 10) * (((v_x1_u32r *
-                                                                        self.cal['dig_H3']) >> 11) + 32768)) >> 10) + 2097152) *
-                       self.cal['dig_H2'] + 8192) >> 14))
-        v_x1_u32r = (v_x1_u32r - (((((v_x1_u32r >> 15) * (v_x1_u32r >> 15)) >> 7) *
-                                   self.cal['dig_H1']) >> 4))
+        v_x1_u32r = (
+            ((((self.adc_H << 14) - ((self.cal['dig_H4']) << 20) -
+               ((self.cal['dig_H5']) * v_x1_u32r)) + 16384) >> 15) *
+            (((((((v_x1_u32r * self.cal['dig_H6']) >> 10) *
+                 (((v_x1_u32r * self.cal['dig_H3']) >> 11) + 32768)) >> 10) +
+               2097152) * self.cal['dig_H2'] + 8192) >> 14))
+        v_x1_u32r = (v_x1_u32r -
+                     (((((v_x1_u32r >> 15) *
+                         (v_x1_u32r >> 15)) >> 7) * self.cal['dig_H1']) >> 4))
         if v_x1_u32r < 0:
             v_x1_u32r = 0
         if v_x1_u32r > 419430400:
             v_x1_u32r = 419430400
-        self.H = (v_x1_u32r >> 12)/1024
+        self.H = (v_x1_u32r >> 12) / 1024
 
     # Measure T/P/H
     def meas(self):
@@ -177,35 +179,36 @@ class BME280I2C:
         print(' Pressure : {:.1f}hPa'.format(self.P))
         print(' Humidity : {:.1f}%'.format(self.H))
 
+    def to_json(self) -> dict:
+        return {
+            'timestamp': datetime.now().timestamp(),
+            'temp': self.T,
+            'tempUnit': 'celsius',
+            'pressure': self.P,
+            'pressureUnit': 'hPa',
+            'humidity': self.H,
+            'humidityUnit': '%'
+        }
 
-def get_weather():
+
+def get_weather() -> dict:
+    # 外付BME280センサー
     bme280ch1 = BME280I2C(0x76)
     if bme280ch1.meas():
-        # 外付BME280センサー
-        print('BME280 0x76 ')
-        bme280ch1.print_cal()
-        bme280ch1.print_reg()
-        bme280ch1.print_meas()
+        return bme280ch1.to_json()
     else:
         raise Exception('ID Read Failed')
 
 
-def get_weather2():
+def get_weather2() -> dict:
+    # 基板上BME280センサー
     bme280ch2 = BME280I2C(0x77)
     if bme280ch2.meas():
-        # 基板上BME280センサー
-        print('BME280 0x77')
-        bme280ch2.print_cal()
-        bme280ch2.print_reg()
-        bme280ch2.print_meas()
+        return bme280ch2.to_json()
     else:
         raise Exception('ID Read Failed')
-
-
-def main():
-    get_weather()
-    get_weather2()
 
 
 if __name__ == '__main__':
-    main()
+    print(get_weather())
+    print(get_weather2())

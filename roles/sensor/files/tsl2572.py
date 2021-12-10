@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-
 """
 TSL2572 Control Module via I2C
  2018/11/15
 """
 
+from datetime import datetime
 import smbus
 import time
 
@@ -80,16 +80,16 @@ class TSL2572:
 
     # One time ALS integration and update ch0 and ch1
     def als_integration(self):
-        self.write_address(0x0, [0x1])    # Stop ALS integration
+        self.write_address(0x0, [0x1])  # Stop ALS integration
         self.set_again(self.again)
         self.set_atime(self.atime)
-        self.write_address(0x0, [0x3])     # Start ALS integration
+        self.write_address(0x0, [0x3])  # Start ALS integration
 
         # Check status every 10ms
         while True:
             avalid, aint = self.read_status()
             if avalid == 1 and aint == 1:
-                self.write_address(0x0, [0x1])    # Stop ALS integration
+                self.write_address(0x0, [0x1])  # Stop ALS integration
                 break
             else:
                 time.sleep(0.01)
@@ -130,7 +130,7 @@ class TSL2572:
             self.again = TSL2572.AGAIN_8
             self.atime = TSL2572.ATIME_200MS
             self.als_integration()
-        self.write_address(0x0, [0x0])    # Sleep
+        self.write_address(0x0, [0x0])  # Sleep
         self.calc_lux()
         return True
 
@@ -154,9 +154,9 @@ class TSL2572:
         elif TSL2572.AGAIN_120 == self.again:
             g = 120
 
-        cpl = (t * g)/60
-        lux1 = (self.ch0 - 1.87*self.ch1) / cpl
-        lux2 = (0.63*self.ch0 - self.ch1) / cpl
+        cpl = (t * g) / 60
+        lux1 = (self.ch0 - 1.87 * self.ch1) / cpl
+        lux2 = (0.63 * self.ch0 - self.ch1) / cpl
 
         self.lux = max([0, lux1, lux2])
 
@@ -187,20 +187,22 @@ class TSL2572:
     def print_meas(self):
         print(' Lux : {:.1f}lux'.format(self.lux))
 
+    def to_json(self) -> dict:
+        return {
+            'timestamp': datetime.now().timestamp(),
+            'lux': self.lux,
+            'luxUnit': 'lux'
+        }
 
-def get_lux():
+
+def get_lux() -> dict:
     tsl2572 = TSL2572(0x39)
     if tsl2572.id_read():
         tsl2572.meas_single()
-        tsl2572.print_reg()
-        tsl2572.print_meas()
+        return tsl2572.to_json()
     else:
         raise Exception('ID Read Failed')
 
 
-def main():
-    get_lux()
-
-
 if __name__ == '__main__':
-    main()
+    print(get_lux())

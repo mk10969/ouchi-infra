@@ -1,36 +1,57 @@
 #!/usr/bin/env python3
 
+import dataclasses
 import time
 import json
 import os
 import argparse
+from typing import List
 
 import pigpio  # http://abyz.co.uk/rpi/pigpio/python.html
 
-
+# いまいちだな・・・
 last_tick = 0
 in_code = False
 code = []
 fetching_code = False
 
 
-class IRRemoteControl:
+@dataclasses.dataclass(frozen=True)
+class IROption:
+    id: str
+    gpio: int
+    file: str
+    freq: float = 38.0
+    gap: int = 100
+    glitch: int = 100
+    pre: int = 200
+    post: int = 15
+    short: int = 10
+    tolerance: int = 15
+    no_confirm: bool = False
+    verbose: bool = False
 
+
+class IRRemoteControl:
     @staticmethod
     def backup(f):
         """
         f -> f.bak -> f.bak1 -> f.bak2
         """
         try:
-            os.rename(os.path.realpath(f)+".bak1", os.path.realpath(f)+".bak2")
+            os.rename(
+                os.path.realpath(f) + ".bak1",
+                os.path.realpath(f) + ".bak2")
         except:
             pass
         try:
-            os.rename(os.path.realpath(f)+".bak", os.path.realpath(f)+".bak1")
+            os.rename(
+                os.path.realpath(f) + ".bak",
+                os.path.realpath(f) + ".bak1")
         except:
             pass
         try:
-            os.rename(os.path.realpath(f), os.path.realpath(f)+".bak")
+            os.rename(os.path.realpath(f), os.path.realpath(f) + ".bak")
         except:
             pass
 
@@ -41,11 +62,11 @@ class IRRemoteControl:
         """
         wf = []
         cycle = 1000.0 / frequency
-        cycles = int(round(micros/cycle))
+        cycles = int(round(micros / cycle))
         on = int(round(cycle / 2.0))
         sofar = 0
         for c in range(cycles):
-            target = int(round((c+1)*cycle))
+            target = int(round((c + 1) * cycle))
             sofar += on
             off = target - sofar
             sofar += off
@@ -53,18 +74,19 @@ class IRRemoteControl:
             wf.append(pigpio.pulse(0, 1 << gpio, off))
         return wf
 
-    def __init__(self, args):
-        self.GPIO = args.gpio
-        self.FILE = args.file
-        self.GLITCH = args.glitch
-        self.PRE_MS = args.pre
-        self.POST_MS = args.post
-        self.FREQ = args.freq
-        self.VERBOSE = args.verbose
-        self.SHORT = args.short
-        self.GAP_MS = args.gap
-        self.NO_CONFIRM = args.no_confirm
-        self.TOLERANCE = args.tolerance
+    def __init__(self, option: IROption):
+        self.ID = option.id
+        self.GPIO = option.gpio
+        self.FILE = option.file
+        self.GLITCH = option.glitch
+        self.PRE_MS = option.pre
+        self.POST_MS = option.post
+        self.FREQ = option.freq
+        self.VERBOSE = option.verbose
+        self.SHORT = option.short
+        self.GAP_MS = option.gap
+        self.NO_CONFIRM = option.no_confirm
+        self.TOLERANCE = option.tolerance
         self.POST_US = self.POST_MS * 1000
         self.PRE_US = self.PRE_MS * 1000
         self.GAP_S = self.GAP_MS / 1000.0
@@ -75,12 +97,11 @@ class IRRemoteControl:
         self.pi = pigpio.pi()  # Connect to Pi.
 
     def __del__(self):
-        if self.is_connected():
-            self.pi.stop()  # Disconnect from Pi.
+        self.pi.stop()  # Disconnect from Pi.
 
-    def is_connected(self):
+    def check_connection(self):
         if not self.pi.connected:
-            exit(0)
+            raise RuntimeError('Pigpio Connection Failed')
 
     def normalise(self, c):
         """
@@ -117,27 +138,29 @@ class IRRemoteControl:
         if self.VERBOSE:
             print("before normalise", c)
         entries = len(c)
-        p = [0]*entries  # Set all entries not processed.
+        p = [0] * entries  # Set all entries not processed.
         for i in range(entries):
             if not p[i]:  # Not processed?
                 v = c[i]
                 tot = v
                 similar = 1.0
                 # Find all pulses with similar lengths to the start pulse.
-                for j in range(i+2, entries, 2):
+                for j in range(i + 2, entries, 2):
                     if not p[j]:  # Unprocessed.
                         # Similar.
-                        if (c[j]*self.TOLER_MIN) < v < (c[j]*self.TOLER_MAX):
+                        if (c[j] * self.TOLER_MIN) < v < (c[j] *
+                                                          self.TOLER_MAX):
                             tot = tot + c[j]
                             similar += 1.0
                 # Calculate the average pulse length.
                 newv = round(tot / similar, 2)
                 c[i] = newv
                 # Set all similar pulses to the average value.
-                for j in range(i+2, entries, 2):
+                for j in range(i + 2, entries, 2):
                     if not p[j]:  # Unprocessed.
                         # Similar.
-                        if (c[j]*self.TOLER_MIN) < v < (c[j]*self.TOLER_MAX):
+                        if (c[j] * self.TOLER_MIN) < v < (c[j] *
+                                                          self.TOLER_MAX):
                             c[j] = newv
                             p[j] = 1
         if self.VERBOSE:
@@ -165,7 +188,7 @@ class IRRemoteControl:
             if (v < self.TOLER_MIN) or (v > self.TOLER_MAX):
                 return False
         for i in range(len(p1)):
-            p1[i] = int(round((p1[i]+p2[i])/2.0))
+            p1[i] = int(round((p1[i] + p2[i]) / 2.0))
         if self.VERBOSE:
             print("after compare", p1)
         return True
@@ -200,12 +223,12 @@ class IRRemoteControl:
                 v = plen
                 tot = plen * ms[plen]
                 similar = ms[plen]
-            elif plen < (v*self.TOLER_MAX):
+            elif plen < (v * self.TOLER_MAX):
                 e.append(plen)
                 tot += (plen * ms[plen])
                 similar += ms[plen]
             else:
-                v = int(round(tot/float(similar)))
+                v = int(round(tot / float(similar)))
                 # set all previous to v
                 for i in e:
                     ms[i] = v
@@ -214,7 +237,7 @@ class IRRemoteControl:
                 tot = plen * ms[plen]
                 similar = ms[plen]
 
-        v = int(round(tot/float(similar)))
+        v = int(round(tot / float(similar)))
         # set all previous to v
         for i in e:
             ms[i] = v
@@ -264,7 +287,7 @@ class IRRemoteControl:
                 self.end_of_code()
 
     def record(self):
-        self.is_connected()
+        self.check_connection()
         try:
             f = open(self.FILE, "r")
             records = json.load(f)
@@ -278,43 +301,42 @@ class IRRemoteControl:
 
         # Process each id
         print("Recording")
-        for arg in args.id:
-            print("Press key for '{}'".format(arg))
-            code = []
-            fetching_code = True
-            while fetching_code:
-                time.sleep(0.1)
-            print("Okay")
-            time.sleep(0.5)
+        print("Press key for '{}'".format(self.ID))
+        code = []
+        fetching_code = True
+        while fetching_code:
+            time.sleep(0.1)
+        print("Okay")
+        time.sleep(0.5)
 
-            if self.CONFIRM:
-                press_1 = code[:]
-                done = False
+        if self.CONFIRM:
+            press_1 = code[:]
+            done = False
 
-                tries = 0
-                while not done:
-                    print("Press key for '{}' to confirm".format(arg))
-                    code = []
-                    fetching_code = True
-                    while fetching_code:
-                        time.sleep(0.1)
-                    press_2 = code[:]
-                    the_same = self.compare(press_1, press_2)
-                    if the_same:
-                        done = True
-                        records[arg] = press_1[:]
-                        print("Okay")
-                        time.sleep(0.5)
+            tries = 0
+            while not done:
+                print("Press key for '{}' to confirm".format(self.ID))
+                code = []
+                fetching_code = True
+                while fetching_code:
+                    time.sleep(0.1)
+                press_2 = code[:]
+                the_same = self.compare(press_1, press_2)
+                if the_same:
+                    done = True
+                    records[self.ID] = press_1[:]
+                    print("Okay")
+                    time.sleep(0.5)
+                else:
+                    tries += 1
+                    if tries <= 3:
+                        print("No match")
                     else:
-                        tries += 1
-                        if tries <= 3:
-                            print("No match")
-                        else:
-                            print("Giving up on key '{}'".format(arg))
-                            done = True
-                        time.sleep(0.5)
-            else:  # No confirm.
-                records[arg] = code[:]
+                        print("Giving up on key '{}'".format(self.ID))
+                        done = True
+                    time.sleep(0.5)
+        else:  # No confirm.
+            records[self.ID] = code[:]
 
         self.pi.set_glitch_filter(self.GPIO, 0)  # Cancel glitch filter.
         self.pi.set_watchdog(self.GPIO, 0)  # Cancel watchdog.
@@ -323,11 +345,12 @@ class IRRemoteControl:
         self.backup(self.FILE)
 
         f = open(self.FILE, "w")
-        f.write(json.dumps(records, sort_keys=True).replace("],", "],\n")+"\n")
+        f.write(
+            json.dumps(records, sort_keys=True).replace("],", "],\n") + "\n")
         f.close()
 
     def playbook(self):
-        self.is_connected()
+        self.check_connection()
         try:
             f = open(self.FILE, "r")
         except:
@@ -342,77 +365,92 @@ class IRRemoteControl:
 
         if self.VERBOSE:
             print("Playing")
-        for arg in args.id:
-            if arg in records:
-                code = records[arg]
-                # Create wave
-                marks_wid = {}
-                spaces_wid = {}
-                wave = [0]*len(code)
-                for i in range(0, len(code)):
-                    ci = code[i]
-                    if i & 1:  # Space
-                        if ci not in spaces_wid:
-                            self.pi.wave_add_generic([pigpio.pulse(0, 0, ci)])
-                            spaces_wid[ci] = self.pi.wave_create()
-                        wave[i] = spaces_wid[ci]
-                    else:  # Mark
-                        if ci not in marks_wid:
-                            wf = self.carrier(self.GPIO, self.FREQ, ci)
-                            self.pi.wave_add_generic(wf)
-                            marks_wid[ci] = self.pi.wave_create()
-                        wave[i] = marks_wid[ci]
-                delay = emit_time - time.time()
 
-                if delay > 0.0:
-                    time.sleep(delay)
-                self.pi.wave_chain(wave)
-                if self.VERBOSE:
-                    print("key " + arg)
-                while self.pi.wave_tx_busy():
-                    time.sleep(0.002)
-                emit_time = time.time() + self.GAP_S
-                for i in marks_wid:
-                    self.pi.wave_delete(marks_wid[i])
-                marks_wid = {}
-                for i in spaces_wid:
-                    self.pi.wave_delete(spaces_wid[i])
-                spaces_wid = {}
-            else:
-                print("Id {} not found".format(arg))
+        if self.ID in records:
+            code = records[self.ID]
+            # Create wave
+            marks_wid = {}
+            spaces_wid = {}
+            wave = [0] * len(code)
+            for i in range(0, len(code)):
+                ci = code[i]
+                if i & 1:  # Space
+                    if ci not in spaces_wid:
+                        self.pi.wave_add_generic([pigpio.pulse(0, 0, ci)])
+                        spaces_wid[ci] = self.pi.wave_create()
+                    wave[i] = spaces_wid[ci]
+                else:  # Mark
+                    if ci not in marks_wid:
+                        wf = self.carrier(self.GPIO, self.FREQ, ci)
+                        self.pi.wave_add_generic(wf)
+                        marks_wid[ci] = self.pi.wave_create()
+                    wave[i] = marks_wid[ci]
+            delay = emit_time - time.time()
+
+            if delay > 0.0:
+                time.sleep(delay)
+            self.pi.wave_chain(wave)
+            if self.VERBOSE:
+                print("key " + self.ID)
+            while self.pi.wave_tx_busy():
+                time.sleep(0.002)
+            emit_time = time.time() + self.GAP_S
+            for i in marks_wid:
+                self.pi.wave_delete(marks_wid[i])
+            marks_wid = {}
+            for i in spaces_wid:
+                self.pi.wave_delete(spaces_wid[i])
+            spaces_wid = {}
+        else:
+            print("Id {} not found".format(self.ID))
 
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser()
 
     g = p.add_mutually_exclusive_group(required=True)
-    g.add_argument("-p", "--play",   help="play keys",   action="store_true")
+    g.add_argument("-p", "--play", help="play keys", action="store_true")
     g.add_argument("-r", "--record", help="record keys", action="store_true")
-    p.add_argument("-g", "--gpio", help="GPIO for RX/TX",
-                   required=True, type=int)
-    p.add_argument("-f", "--file", help="Filename",       required=True)
+    p.add_argument("-g",
+                   "--gpio",
+                   help="GPIO for RX/TX",
+                   required=True,
+                   type=int)
+    p.add_argument("-f", "--file", help="Filename", required=True)
     p.add_argument('id', nargs='+', type=str, help='IR codes')
-    p.add_argument("--freq",      help="frequency kHz",
-                   type=float, default=38.0)
-    p.add_argument("--gap",       help="key gap ms",
-                   type=int, default=100)
-    p.add_argument("--glitch",    help="glitch us",
-                   type=int, default=100)
-    p.add_argument("--post",      help="postamble ms",
-                   type=int, default=15)
-    p.add_argument("--pre",       help="preamble ms",
-                   type=int, default=200)
-    p.add_argument("--short",     help="short code length",
-                   type=int, default=10)
-    p.add_argument("--tolerance", help="tolerance percent",
-                   type=int, default=15)
-    p.add_argument("-v", "--verbose", help="Be verbose",
-                   action="store_true")
-    p.add_argument("--no-confirm", help="No confirm needed",
+    p.add_argument("--freq", help="frequency kHz", type=float, default=38.0)
+    p.add_argument("--gap", help="key gap ms", type=int, default=100)
+    p.add_argument("--glitch", help="glitch us", type=int, default=100)
+    p.add_argument("--post", help="postamble ms", type=int, default=15)
+    p.add_argument("--pre", help="preamble ms", type=int, default=200)
+    p.add_argument("--short", help="short code length", type=int, default=10)
+    p.add_argument("--tolerance",
+                   help="tolerance percent",
+                   type=int,
+                   default=15)
+    p.add_argument("-v", "--verbose", help="Be verbose", action="store_true")
+    p.add_argument("--no-confirm",
+                   help="No confirm needed",
                    action="store_true")
     args = p.parse_args()
+    print(args)
 
-    irRemoteControl = IRRemoteControl(args)
+    option: IROption = IROption(
+        id=args.id[0],  # 複数指定できるが、最初のだけとる
+        gpio=args.gpio,
+        file=args.file,
+        glitch=args.glitch,
+        pre=args.pre,
+        post=args.post,
+        freq=args.freq,
+        verbose=args.verbose,
+        short=args.short,
+        gap=args.gap,
+        no_confirm=args.no_confirm,
+        tolerance=args.tolerance)
+
+    print(option)
+    irRemoteControl = IRRemoteControl(option)
 
     if args.record:
         irRemoteControl.record()

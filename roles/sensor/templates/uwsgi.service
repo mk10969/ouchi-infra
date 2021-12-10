@@ -1,0 +1,14 @@
+[Unit]
+Description = uWSGI
+After = syslog.target
+
+[Service]
+Type=notify
+ExecStart = /usr/bin/uwsgi --ini [好きなディレクトリ]/uwsgi.ini
+Restart=always
+KillSignal=SIGQUIT
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
