@@ -1,6 +1,6 @@
 ---
-- name: reboot playbook
-  hosts: cluster
+- name: reboot sensor device playbook
+  hosts: sensor
   become: true
   tasks:
     - name: Reboot the machine (Wait for 10 min)

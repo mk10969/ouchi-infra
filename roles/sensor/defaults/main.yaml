@@ -1,3 +1,5 @@
-GPIO:
-  SCRIPT:
-    DEST: "/home/ubuntu/scripts"
+SENSOR:
+  APP:
+    DEST: "/var/www/sensor"
+  UWSGI:
+    DEST: "/opt/uwsgi"

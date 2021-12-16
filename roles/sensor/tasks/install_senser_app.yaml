@@ -1,0 +1,56 @@
+### nginx config deploy
+### uwsgi ini uwsgi service deploy and uwsgi systemd start and enable.
+
+- name: Create directory {{ SENSOR.APP.DEST }}
+  file:
+    path: "{{ SENSOR.APP.DEST }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: Copy app.py file
+  copy:
+    src: "../files/src/app.py"
+    dest: "{{ SENSOR.APP.DEST }}/app.py"
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: Copy irrp.py file
+  copy:
+    src: "../files/src/irrp.py"
+    dest: "{{ SENSOR.APP.DEST }}/irrp.py"
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: Copy codes.json file
+  copy:
+    src: "../files/src/codes.json"
+    dest: "{{ SENSOR.APP.DEST }}/codes.json"
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: Copy bme280i2c.py file
+  copy:
+    src: "../files/src/bme280i2c.py"
+    dest: "{{ SENSOR.APP.DEST }}/bme280i2c.py"
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: Copy tsl2572.py file
+  copy:
+    src: "../files/src/tsl2572.py"
+    dest: "{{ SENSOR.APP.DEST }}/tsl2572.py"
+    owner: root
+    group: root
+    mode: 0755
+  become: true

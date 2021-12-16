@@ -1,0 +1,8 @@
+[uwsgi]
+module = index
+master = true
+socket = {{ SENSOR.UWSGI.DEST }}/uwsgi.sock
+chmod-socket = 666
+wsgi-file = {{ SENSOR.APP.DEST }}/app.py
+pidfile = {{ SENSOR.UWSGI.DEST }}/uwsgi.pid
+logto = {{ SENSOR.UWSGI.DEST }}/uwsgi.log

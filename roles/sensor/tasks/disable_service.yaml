@@ -1,0 +1,16 @@
+- name: Disable swap
+  command: swapoff --all
+  become: yes
+  when: ansible_swaptotal_mb > 0
+
+- name: Stop and disable services (view; systemctl list-units --type=service)
+  service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+  loop:
+    - "dphys-swapfile"
+    - "keyboard-setup"
+    - "triggerhappy"
+    - "plymouth"
+  become: true
