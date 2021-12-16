@@ -2,9 +2,9 @@
 
 from flask import Flask, jsonify
 from enum import Enum
-from .irrp import IRRemoteControl, IROption
-from .bme280i2c import get_weather
-from .tsl2572 import get_lux
+from irrp import IRRemoteControl, IROption
+from bme280i2c import get_weather
+from tsl2572 import get_lux
 
 
 # use Flask

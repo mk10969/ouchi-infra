@@ -12,9 +12,27 @@
     - require_restart_nginx
 
 ### uwsgi ###
-- name: Create directory {{ SENSOR.UWSGI.DEST }}
+- name: Create directory {{ UWSGI.ETC.DEST }}
   file:
-    path: "{{ SENSOR.UWSGI.DEST }}"
+    path: "{{ UWSGI.ETC.DEST }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: Create directory {{ UWSGI.LOG.DEST }}
+  file:
+    path: "{{ UWSGI.LOG.DEST }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: Create directory {{ UWSGI.OPT.DEST }}
+  file:
+    path: "{{ UWSGI.OPT.DEST }}"
     state: directory
     owner: root
     group: root
@@ -24,7 +42,7 @@
 - name: Copy uwsgi.ini file
   template:
     src: "../templates/uwsgi.ini.j2"
-    dest: "{{ SENSOR.UWSGI.DEST }}/uwsgi.ini"
+    dest: "{{ UWSGI.ETC.DEST }}/uwsgi.ini"
     owner: root
     group: root
     mode: 0644

@@ -4,7 +4,7 @@ After = syslog.target
 
 [Service]
 Type=notify
-ExecStart = /usr/local/bin/uwsgi --ini {{ SENSOR.UWSGI.DEST }}/uwsgi.ini
+ExecStart = /usr/local/bin/uwsgi --ini {{ UWSGI.ETC.DEST }}/uwsgi.ini
 Restart=always
 KillSignal=SIGQUIT
 StandardError=syslog

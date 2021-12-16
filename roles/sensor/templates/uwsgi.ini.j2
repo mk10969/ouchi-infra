@@ -1,8 +1,19 @@
 [uwsgi]
-module = index
 master = true
-socket = {{ SENSOR.UWSGI.DEST }}/uwsgi.sock
+socket = {{ UWSGI.OPT.DEST }}/uwsgi.sock
 chmod-socket = 666
+
+{# socket = 127.0.0.1:3031 #}
+
+# chdirしないとModuleNotFoundError
+# (カレントディレクトリのファイルを読み込めない)
+chdir = {{ SENSOR.APP.DEST }}
+# main file
 wsgi-file = {{ SENSOR.APP.DEST }}/app.py
-pidfile = {{ SENSOR.UWSGI.DEST }}/uwsgi.pid
-logto = {{ SENSOR.UWSGI.DEST }}/uwsgi.log
+# export instance module name (flask default: app)
+callable = app
+
+pidfile = /run/uwsgi.pid
+logto = {{ UWSGI.LOG.DEST }}/uwsgi.log
+
+max-requests = 1000

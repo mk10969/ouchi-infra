@@ -1,9 +1,9 @@
 server {
     listen       80;
-    server_name  ouchi.sensor;
+    server_name  _;
 
     location / {
         include uwsgi_params;
-        uwsgi_pass unix:///{{ SENSOR.UWSGI.DEST }}/uwsgi.sock;
+        uwsgi_pass unix:{{ UWSGI.OPT.DEST }}/uwsgi.sock;
     }
 }
