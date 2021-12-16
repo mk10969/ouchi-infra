@@ -1,4 +1,5 @@
-#- import_tasks: install_pakages.yaml
-- import_tasks: disable_service.yaml
-- import_tasks: deploy_config_files.yaml
-- import_tasks: install_senser_app.yaml
+# - import_tasks: install_pakages.yaml
+# - import_tasks: disable_service.yaml
+# - import_tasks: deploy_config_files.yaml
+- import_tasks: install_senser_middle.yaml
+#- import_tasks: install_senser_app.yaml

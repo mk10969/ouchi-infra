@@ -1,4 +1,4 @@
-- name: Install packages
+- name: Install apt packages
   apt:
     name: "{{ item }}"
     state: present
@@ -25,20 +25,4 @@
     - { name: "flask", version: "2.0.2" }
     - { name: "pigpio", version: "1.78" }
     - { name: "smbus", version: "1.1.post2" }
-  become: true
-
-- name: Enabled and start nginx service
-  systemd:
-    name: nginx.service
-    enabled: yes
-    state: started
-    daemon_reload: yes
-  become: true
-
-- name: Enabled and start pigpiod service
-  systemd:
-    name: pigpiod.service
-    enabled: yes
-    state: started
-    daemon_reload: yes
   become: true

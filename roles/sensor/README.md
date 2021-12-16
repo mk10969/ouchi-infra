@@ -21,13 +21,13 @@ sudo su -
 useradd -m ubuntu
 passwd ubuntu 
 ```
+
 3. sudoグループ追加とNo password設定
 
 
 
 
 ## IR recording
-
 python3 irrp.py -r -g4 -f codes light::on --no-confirm --post 130
 python3 irrp.py -r -g4 -f codes2 light::off --no-confirm --post 130
 python3 irrp.py -r -g4 -f codes5 light::dark --no-confirm --post 130

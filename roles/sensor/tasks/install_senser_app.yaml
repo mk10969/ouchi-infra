@@ -1,6 +1,4 @@
-### nginx config deploy
-### uwsgi ini uwsgi service deploy and uwsgi systemd start and enable.
-
+##### application #####
 - name: Create directory {{ SENSOR.APP.DEST }}
   file:
     path: "{{ SENSOR.APP.DEST }}"

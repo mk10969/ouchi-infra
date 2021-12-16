@@ -9,8 +9,8 @@
     state: stopped
     enabled: false
   loop:
-    - "dphys-swapfile"
-    - "keyboard-setup"
-    - "triggerhappy"
-    - "plymouth"
+    - "dphys-swapfile.service"
+    - "keyboard-setup.service"
+    - "triggerhappy.service"
+    # - "plymouth.service"
   become: true

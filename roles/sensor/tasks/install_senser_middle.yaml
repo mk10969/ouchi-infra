@@ -1,0 +1,81 @@
+##### middleware #####
+### nginx ###
+- name: Copy nginx config file
+  template:
+    src: "../templates/nginx.conf.j2"
+    dest: /etc/nginx/conf.d/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify:
+    - require_restart_nginx
+
+### uwsgi ###
+- name: Create directory {{ SENSOR.UWSGI.DEST }}
+  file:
+    path: "{{ SENSOR.UWSGI.DEST }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: Copy uwsgi.ini file
+  template:
+    src: "../templates/uwsgi.ini.j2"
+    dest: "{{ SENSOR.UWSGI.DEST }}/uwsgi.ini"
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify:
+    - require_restart_uwsgi
+
+- name: Copy uwsgi.service file
+  template:
+    src: "../templates/uwsgi.service.j2"
+    dest: "/lib/systemd/system/uwsgi.service"
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify:
+    - require_restart_uwsgi
+
+### pigpiod ###
+- name: Copy pigpiod.service
+  copy:
+    src: "../files/configs/pigpiod.service"
+    dest: /lib/systemd/system/pigpiod.service
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify:
+    - require_restart_pigpiod
+
+##### service #####
+- name: Enabled and start nginx service
+  systemd:
+    name: nginx.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: true
+
+- name: Enabled and start uwsgi service
+  systemd:
+    name: uwsgi.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: true
+
+- name: Enabled and start pigpiod service
+  systemd:
+    name: pigpiod.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: true

@@ -8,6 +8,15 @@
   become: yes
   listen: require_restart_nginx
 
+- name: Require uwsgi restart
+  systemd:
+    name: uwsgi.service
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+  become: yes
+  listen: require_restart_uwsgi
+
 - name: Require pigpiod restart
   systemd:
     name: pigpiod.service

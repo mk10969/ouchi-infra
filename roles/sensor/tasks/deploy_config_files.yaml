@@ -26,14 +26,3 @@
     group: root
     mode: 0644
   become: true
-
-- name: Copy pigpiod.service
-  copy:
-    src: "../files/configs/pigpiod.service"
-    dest: /lib/systemd/system/pigpiod.service
-    owner: root
-    group: root
-    mode: 0644
-  become: true
-  notify:
-    - require_restart_pigpiod
