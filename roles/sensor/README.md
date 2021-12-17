@@ -1,5 +1,10 @@
 # About Infra Red
 
+### TODO
+enable SSL (Let's Encrypt) 
+ボタンを押して、rebootするコマンド
+
+
 ## init
 
 1. wifiの設定
@@ -50,30 +55,4 @@ python3 irrp.py -p -g13 -f codes6 light::bright
 python3 irrp.py -p -g13 -f codes7 light::warm
 python3 irrp.py -p -g13 -f codes8 light::white
 
-
-## 無駄なサービスを停止する
- - 一覧表示
-```
-systemctl list-units --type=service
-```
- - 停止
-```
-sudo systemctl stop keyboard-setup
-sudo systemctl disable keyboard-setup
-
-sudo systemctl stop kbd
-sudo systemctl disable kbd
-
-sudo swapoff --all
-sudo systemctl stop dphys-swapfile
-sudo systemctl disable dphys-swapfile
-
-sudo systemctl stop plymouth
-sudo systemctl disable plymouth
-
-```
-
-
-sudo systemctl stop dhcpcd
-sudo systemctl disable dhcpcd
 

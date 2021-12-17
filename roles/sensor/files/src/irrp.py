@@ -5,9 +5,9 @@ import time
 import json
 import os
 import argparse
-from typing import List
+# http://abyz.me.uk/rpi/pigpio/python.html
+import pigpio
 
-import pigpio  # http://abyz.co.uk/rpi/pigpio/python.html
 
 # いまいちだな・・・
 last_tick = 0

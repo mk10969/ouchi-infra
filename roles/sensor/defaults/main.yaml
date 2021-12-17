@@ -1,6 +1,3 @@
-SENSOR:
-  APP:
-    DEST: "/var/www/sensor"
 UWSGI:
   ETC:
     DEST: "/etc/uwsgi"
@@ -8,3 +5,11 @@ UWSGI:
     DEST: "/var/log/uwsgi"
   OPT:
     DEST: "/opt/uwsgi"
+
+SENSOR:
+  APP:
+    DEST: "/var/www/sensor"
+
+SCRIPT:
+  OPT:
+    DEST: "/opt/script"

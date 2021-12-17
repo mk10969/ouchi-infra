@@ -2,3 +2,4 @@
 - import_tasks: setup_os.yaml
 - import_tasks: deploy_middle.yaml
 - import_tasks: deploy_app.yaml
+- import_tasks: deploy_scripts.yaml

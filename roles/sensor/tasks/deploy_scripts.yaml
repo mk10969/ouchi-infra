@@ -1,0 +1,18 @@
+##### script file #####
+- name: Create directory {{ SCRIPT.OPT.DEST }}
+  file:
+    path: "{{ SCRIPT.OPT.DEST }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: Copy event_handler.py file
+  copy:
+    src: "../files/event_handler.py"
+    dest: "{{ SCRIPT.OPT.DEST }}/event_handler.py"
+    owner: root
+    group: root
+    mode: 0755
+  become: true
