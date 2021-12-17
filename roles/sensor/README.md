@@ -24,7 +24,11 @@ passwd ubuntu
 
 3. sudoグループ追加とNo password設定
 
-
+4. nginx.conf 
+```
+	# include /etc/nginx/sites-enabled/*;
+```
+コメアウト
 
 
 ## IR recording

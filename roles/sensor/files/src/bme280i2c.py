@@ -197,7 +197,7 @@ def get_weather() -> dict:
     if bme280ch1.meas():
         return bme280ch1.to_json()
     else:
-        raise Exception('ID Read Failed')
+        raise RuntimeError('bme280ch1: ID Read Failed')
 
 
 def get_weather2() -> dict:
@@ -206,7 +206,7 @@ def get_weather2() -> dict:
     if bme280ch2.meas():
         return bme280ch2.to_json()
     else:
-        raise Exception('ID Read Failed')
+        raise RuntimeError('bme280ch1: ID Read Failed')
 
 
 if __name__ == '__main__':

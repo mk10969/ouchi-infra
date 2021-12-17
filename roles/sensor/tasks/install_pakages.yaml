@@ -1,7 +1,8 @@
 - name: Install apt packages
   apt:
-    name: "{{ item }}"
+    # インストール済みならそのまま
     state: present
+    name: "{{ item }}"
     update_cache: yes
   loop:
     - nginx
@@ -17,6 +18,8 @@
 - name: Install python packages
   pip:
     executable: pip3
+    # インストール済みならそのまま
+    state: present
     name: "{{ item.name }}"
     # default(omit)は値が指定されてない場合、そのオプション自体を省略(記述なし)する
     version: "{{ item.version | default(omit) }}"

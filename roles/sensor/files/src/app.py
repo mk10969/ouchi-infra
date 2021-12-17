@@ -23,10 +23,8 @@ def weather():
     try:
         weather = get_weather()
         return jsonify(weather)
-    except:
-        return jsonify({
-            "status": "error",
-        })
+    except RuntimeError as e:
+        return internal_server_error(e)
 
 
 @app.route('/lux', methods=["GET"])
@@ -34,10 +32,8 @@ def lux():
     try:
         lux = get_lux()
         return jsonify(lux)
-    except:
-        return jsonify({
-            "status": "error",
-        })
+    except RuntimeError as e:
+        return internal_server_error(e)
 
 
 @app.route('/command/<string:name>', methods=["POST"])
@@ -52,10 +48,32 @@ def command(name):
         return jsonify({
             "status": "ok",
         })
-    except:
-        return jsonify({
-            "status": "error",
-        })
+
+    except RuntimeError as e:
+        return internal_server_error(e)
+
+    except ValueError as e:
+        return bad_request(e)
+
+
+def internal_server_error(error: RuntimeError):
+    res = jsonify({
+        "error": {
+            "name": "RuntimeError",
+            "description": error.args[0]
+        }
+    })
+    return res, 500
+
+
+def bad_request(error: ValueError):
+    res = jsonify({
+        "error": {
+            "name": "ValueError",
+            "description": error.args[0]
+        }
+    })
+    return res, 400
 
 
 class Opt(Enum):
@@ -71,7 +89,7 @@ class Opt(Enum):
         for e in Opt:
             if e.name == target:
                 return e.value
-        raise ValueError('{} は有効な値はありません'.format(target))
+        raise ValueError(f'{target} is not an available command')
 
 
 if __name__ == '__main__':

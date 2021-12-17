@@ -201,7 +201,7 @@ def get_lux() -> dict:
         tsl2572.meas_single()
         return tsl2572.to_json()
     else:
-        raise Exception('ID Read Failed')
+        raise RuntimeError('tsl2572: ID Read Failed')
 
 
 if __name__ == '__main__':
