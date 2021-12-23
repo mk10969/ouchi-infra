@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
+import argparse
 import pigpio
 import os
 import time
+from datetime import datetime
 
 
 class PigpioFactory:
@@ -67,44 +69,65 @@ class PigpioFactory:
         self.pi.write(self.LED_WHITE, 0)
 
     @check_connection
-    def click_on_red_switch(self, func1, func2):
-        self.pi.set_mode(self.SWITCH_RED, pigpio.INPUT)
-        self.pi.set_pull_up_down(self.SWITCH_RED, pigpio.PUD_UP)
-        try:
-            while True:
-                switch_state = self.pi.read(self.SWITCH_BLACK)
-                if 0 == switch_state:
-                    func1()
-                    print("click on switch...")
-                else:
-                    func2()
-                time.sleep(0.20)
-                print('===========')
-        except KeyboardInterrupt:
-            print("stop")
+    def click_on_red_switch(self, func):
+        self.__loop(self.SWITCH_RED, func)
 
     @check_connection
-    def click_on_black_switch(self, func1, func2):
-        self.pi.set_mode(self.SWITCH_BLACK, pigpio.INPUT)
-        self.pi.set_pull_up_down(self.SWITCH_BLACK, pigpio.PUD_UP)
+    def click_on_black_switch(self, func):
+        self.__loop(self.SWITCH_BLACK, func)
+
+    def __loop(self, switch: str, func):
+        self.pi.set_mode(switch, pigpio.INPUT)
+        self.pi.set_pull_up_down(switch, pigpio.PUD_UP)
         try:
             while True:
-                switch_state = self.pi.read(self.SWITCH_BLACK)
+                switch_state = self.pi.read(switch)
                 if 0 == switch_state:
-                    func1()
-                    print("click on switch...")
+                    print(f'{datetime.now()} event fired.')
+                    func()
                 else:
-                    func2()
+                    pass
                 time.sleep(0.20)
-                print('===========')
         except KeyboardInterrupt:
-            print("stop")
+            print(f'{datetime.now()} loop stopped.')
 
 
-def event1():
+def reboot():
     p = PigpioFactory()
-    p.click_on_black_switch(p.on_white, p.off_white)
+
+    def event_handler():
+        p.on_yellow()
+        os.system("sudo shutdown -r 1")
+        time.sleep(3)
+        p.off_yellow()
+
+    p.click_on_red_switch(event_handler)
+
+
+def health_check():
+    p = PigpioFactory()
+
+    def event_handler():
+        p.on_green()
+        time.sleep(3)
+        p.off_green()
+
+    p.click_on_black_switch(event_handler)
+
+
+### Use python command, call a function directly ####
+# python -c "import event_handler; event_handler.health_check()"
+# However, it seems that xxx.py must be in the current directory...
 
 
 if __name__ == '__main__':
-    event1()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('function_name',
+                        type=str,
+                        help='set fuction name in this file')
+    args = parser.parse_args()
+
+    # get functions in this file.
+    func_dict = {k: v for k, v in locals().items() if callable(v)}
+    # run function
+    func_dict[args.function_name]()

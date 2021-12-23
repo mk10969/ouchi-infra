@@ -1,0 +1,12 @@
+[Unit]
+Description=Zero Health Check Service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python {{ SCRIPT.OPT.DEST }}/event_handler.py health_check
+
+PrivateTmp=false
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

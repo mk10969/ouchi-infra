@@ -1,0 +1,12 @@
+[Unit]
+Description=Zero Reboot Service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python {{ SCRIPT.OPT.DEST }}/event_handler.py reboot
+
+PrivateTmp=false
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

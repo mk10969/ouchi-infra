@@ -16,3 +16,46 @@
     group: root
     mode: 0755
   become: true
+  notify:
+    - require_restart_zero_reboot
+    - require_restart_zero_health_check
+
+##### service file #####
+- name: Copy zero-health-check.service file
+  template:
+    src: "../templates/zero-health-check.service.j2"
+    dest: "/lib/systemd/system/zero-health-check.service"
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify:
+    - require_restart_zero_health_check
+
+- name: Copy zero-reboot.service file
+  template:
+    src: "../templates/zero-reboot.service.j2"
+    dest: "/lib/systemd/system/zero-reboot.service"
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify:
+    - require_restart_zero_reboot
+
+##### service enable and start #####
+- name: Enabled and start zero-health-check service
+  systemd:
+    name: zero-health-check.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: true
+
+- name: Enabled and start zero-reboot service
+  systemd:
+    name: zero-reboot.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: true

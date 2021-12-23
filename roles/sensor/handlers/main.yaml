@@ -25,3 +25,21 @@
     enabled: yes
   become: yes
   listen: require_restart_pigpiod
+
+- name: Require zero-health-check restart
+  systemd:
+    name: zero-health-check.service
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+  become: yes
+  listen: require_restart_zero_health_check
+
+- name: Require zero-reboot restart
+  systemd:
+    name: zero-reboot.service
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+  become: yes
+  listen: require_restart_zero_reboot
