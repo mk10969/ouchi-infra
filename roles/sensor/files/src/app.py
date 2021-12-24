@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from flask import Flask, jsonify
+from flask_cors import CORS
 from enum import Enum
 from irrp import IRRemoteControl, IROption
 from bme280i2c import get_weather
@@ -9,6 +10,7 @@ from tsl2572 import get_lux
 
 # use Flask
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/', methods=["GET"])
@@ -93,4 +95,4 @@ class Opt(Enum):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5050, debug=True)
+    app.run(host='127.0.0.1', port=5050, debug=True)

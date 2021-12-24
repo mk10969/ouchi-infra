@@ -48,7 +48,6 @@ class PigpioFactory:
 
     @check_connection
     def off_yellow(self):
-
         self.pi.write(self.LED_YELLOW, 0)
 
     @check_connection
