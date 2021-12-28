@@ -30,3 +30,5 @@
     - { name: "pigpio", version: "1.78" }
     - { name: "smbus", version: "1.1.post2" }
   become: true
+# https://zokibayashi.hatenablog.com/entry/2017/09/25/231055
+# power management off
