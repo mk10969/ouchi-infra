@@ -6,7 +6,7 @@
     owner: root
     group: root
     mode: 0644
-  become: yes
+  become: true
   notify: require_netplan_apply
 
 - name: Add hosts file
@@ -16,7 +16,7 @@
     owner: root
     group: root
     mode: 0644
-  become: yes
+  become: true
 
 - name: Set hostname
   become: true

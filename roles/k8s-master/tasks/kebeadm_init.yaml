@@ -33,4 +33,4 @@
     owner: "{{ K8S.CONFIG.OWNER }}"
     group: "{{ K8S.CONFIG.GROUP }}"
     mode: 0600
-  become: yes
+  become: true

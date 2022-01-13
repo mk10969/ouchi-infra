@@ -10,4 +10,4 @@
   # when: >
   #   (check_starship_version.rc != 0) or
   #   (STARSHIP.UPGRADE)
-  become: yes
+  become: true

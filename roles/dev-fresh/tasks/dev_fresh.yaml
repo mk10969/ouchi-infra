@@ -9,7 +9,7 @@
 
 - name: Run cleanup shell (target raw device fresh)
   shell: /home/{{ K8S.CONFIG.OWNER }}/cleanup.sh
-  become: yes
+  become: true
 
 - name: Check lsblk -f
   shell: lsblk -f |grep {{ RAW_DEVICE_NAME }} | sed -e 's/ \+/ /g'

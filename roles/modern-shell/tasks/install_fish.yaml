@@ -4,7 +4,7 @@
     repo: "ppa:fish-shell/release-3"
     state: present
     update_cache: yes
-  become: yes
+  become: true
 
 # - name: Check fish version
 #   shell: fish --version
@@ -17,7 +17,7 @@
     name: fish
     state: present
     update_cache: yes
-  become: yes
+  become: true
   # when: >
   #   (check_fish_version.rc != 0) or
   #   (FISH.UPGRADE)
@@ -26,7 +26,7 @@
   user:
     name: "{{ FISH.CONFIG.OWNER }}"
     shell: /usr/bin/fish
-  become: yes
+  become: true
 
 - name: Create directory /home/{{ FISH.CONFIG.OWNER }}/.config/fish
   file:

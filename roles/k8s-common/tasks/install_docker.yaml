@@ -3,7 +3,7 @@
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
-  become: yes
+  become: true
 
 - name: Add docker apt repository
   apt_repository:
@@ -11,7 +11,7 @@
     state: present
     filename: docker
     update_cache: yes
-  become: yes
+  become: true
 
 - name: Install Docker packages
   apt:
@@ -22,7 +22,7 @@
     - docker-ce
     - docker-ce-cli
     - containerd.io
-  become: yes
+  become: true
   notify: require_restart_docker
 
 - name: Hold Docker packages
@@ -33,14 +33,14 @@
     - docker-ce
     - docker-ce-cli
     - containerd.io
-  become: yes
+  become: true
 
 - name: Add user to docker group
   user:
     name: "{{ UBUNTU.USER }}"
     groups: ["docker"] # add group. do not change primmary group
     append: yes
-  become: yes
+  become: true
 
 # - name: Systemd unmask docker.service
 #   systemd:
@@ -62,7 +62,7 @@
     owner: root
     group: root
     mode: 0644
-  become: yes
+  become: true
   notify: require_restart_docker
 
 - name: Create directory /etc/systemd/system/docker.service.d
@@ -72,7 +72,7 @@
     owner: root
     group: root
     mode: 0755
-  become: yes
+  become: true
   notify: require_restart_docker
 
 - name: Check docker version

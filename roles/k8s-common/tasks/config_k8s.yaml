@@ -1,7 +1,7 @@
 ---
 - name: Disable swap
   command: swapoff -a
-  become: yes
+  become: true
   when: ansible_swaptotal_mb > 0
 
 - name: Check swap state (/etc/fstab)
@@ -16,14 +16,14 @@
     path: /etc/fstab
     regexp: ([^\s]+\s+swap\s+.*)
     replace: '# \1'
-  become: yes
+  become: true
   when: swap_state_in_fstab.stdout != '0'
 
 - name: Load br_netfilter module
   modprobe:
     name: br_netfilter
     state: present
-  become: yes
+  become: true
   # modprobe br_netfilter は、sysctlで設定変更する「前」に行う。
   # とドキュメントに書いてあった
   # > Make sure that the br_netfilter module is loaded before this step.
@@ -42,7 +42,7 @@
     - { key: "net.bridge.bridge-nf-call-iptables", value: 1 }
     - { key: "net.bridge.bridge-nf-call-ip6tables", value: 1 }
     # - { key: "net.ipv4.ip_forward", value: 1 }
-  become: yes
+  become: true
 
 - name: Add cgroup config
   copy:
@@ -51,7 +51,7 @@
     owner: root
     group: root
     mode: 0755
-  become: yes
+  become: true
 # udev_sync=1 and udev_rules=1
 # - name: Change lvm2 config file
 #   copy:

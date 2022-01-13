@@ -3,7 +3,7 @@
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     state: present
-  become: yes
+  become: true
 
 - name: Add k8s apt repository
   apt_repository:
@@ -11,7 +11,7 @@
     state: present
     filename: kubernetes
     update_cache: yes
-  become: yes
+  become: true
 
 - name: Install k8s packages
   apt:
@@ -22,7 +22,7 @@
     - kubelet={{ KUBERNETES.VERSION }}
     - kubeadm={{ KUBERNETES.VERSION }}
     # - kubectl={{ KUBERNETES.VERSION }} # kubeadm installしたら勝手に入る。
-  become: yes
+  become: true
   notify: require_restart_kubelet
 
 - name: Hold k8s packages
@@ -33,7 +33,7 @@
     - kubelet
     - kubeadm
     - kubectl
-  become: yes
+  become: true
 
 - name: Check kubelet version
   shell: kubelet --version

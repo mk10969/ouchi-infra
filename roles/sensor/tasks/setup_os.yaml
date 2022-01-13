@@ -10,7 +10,7 @@
     owner: root
     group: root
     mode: 0644
-  become: yes
+  become: true
 
 - name: Set timezone to Asia/Tokyo
   become: true
@@ -48,7 +48,7 @@
 
 - name: Disable swap
   command: swapoff --all
-  become: yes
+  become: true
   when: ansible_swaptotal_mb > 0
 
 - name: Stop and disable services (view; systemctl list-units --type=service)

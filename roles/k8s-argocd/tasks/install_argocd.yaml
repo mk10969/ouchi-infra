@@ -6,7 +6,7 @@
     owner: "{{ K8S.CONFIG.OWNER }}"
     group: "{{ K8S.CONFIG.GROUP }}"
     mode: "{{ K8S.CONFIG.MODE }}"
-  become: yes
+  become: true
 
 - name: Copy arogcd-app manifest file
   copy:
@@ -15,7 +15,7 @@
     owner: "{{ K8S.CONFIG.OWNER }}"
     group: "{{ K8S.CONFIG.GROUP }}"
     mode: "{{ K8S.CONFIG.MODE }}"
-  become: yes
+  become: true
 
 - name: Install argocd
   shell: kubectl apply -f /opt/argocd.yaml

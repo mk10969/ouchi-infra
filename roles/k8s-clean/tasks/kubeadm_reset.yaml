@@ -1,4 +1,4 @@
 ---
 - name: Kubeadm reset
   shell: kubeadm reset --force
-  become: yes
+  become: true
