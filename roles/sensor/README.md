@@ -2,8 +2,6 @@
 
 ### TODO
 enable SSL (Let's Encrypt) 
-ボタンを押して、rebootするコマンド
-
 
 ## init
 
@@ -30,29 +28,12 @@ passwd ubuntu
 3. sudoグループ追加とNo password設定
 
 4. nginx.conf 
+コメアウト
 ```
 	# include /etc/nginx/sites-enabled/*;
 ```
-コメアウト
 
 
 ## IR recording
-python3 irrp.py -r -g4 -f codes light::on --no-confirm --post 130
-python3 irrp.py -r -g4 -f codes2 light::off --no-confirm --post 130
-python3 irrp.py -r -g4 -f codes5 light::dark --no-confirm --post 130
-python3 irrp.py -r -g4 -f codes6 light::bright --no-confirm --post 130
-python3 irrp.py -r -g4 -f codes7 light::warm --no-confirm --post 130
-python3 irrp.py -r -g4 -f codes8 light::white --no-confirm --post 130
-python3 irrp.py -r -g4 -f codes3 aircon::on --no-confirm --post 130
-python3 irrp.py -r -g4 -f codes4 aircon::off --no-confirm --post 130
-
-
-## IR sending
-python3 irrp.py -p -g13 -f codes light::on
-python3 irrp.py -p -g13 -f codes2 light::off
-python3 irrp.py -p -g13 -f codes5 light::dark
-python3 irrp.py -p -g13 -f codes6 light::bright
-python3 irrp.py -p -g13 -f codes7 light::warm
-python3 irrp.py -p -g13 -f codes8 light::white
-
-
+下記のコマンドを実行後、赤外線センサーをデバイスに向かって照射する
+python3 /<Path>/irrp.py -r -g4 -f codes light::on --no-confirm --post 130
