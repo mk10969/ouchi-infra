@@ -3,16 +3,13 @@ set shell := ["bash", "-uc"]
 
 
 ##### variables ######
-app_version                  := "v1.0.0"
+app_version                  := "v1.0.3"
 
 # https://github.com/mk10969/ouchi-kubernetes
 ouchi_k8s_version            := "v1.1.1"
 
 # https://github.com/prometheus/node_exporter
 node_exporter_version        := "1.2.2"
-
-# https://github.com/VictoriaMetrics/VictoriaMetrics
-vmagent_version              := "v1.65.0"
 
 
 ##### commands ######
@@ -53,13 +50,3 @@ node-exporter:
     cp -pfr ./tmp/node_exporter-{{ node_exporter_version }}.linux-armv6/node_exporter ./roles/node-exporter/files/node_exporter-armv6
     rm -fr ./tmp/node_exporter-{{ node_exporter_version }}.linux-armv6.tar.gz
     rm -fr ./tmp/node_exporter-{{ node_exporter_version }}.linux-armv6
-
-# vmagent update
-vmagent:
-    curl -sLf -o ./tmp/vmutils-arm64-{{ vmagent_version }}.tar.gz \
-        https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/{{ vmagent_version }}/vmutils-arm64-{{ vmagent_version }}.tar.gz
-    mkdir -p ./tmp/vmutils
-    tar zxf ./tmp/vmutils-arm64-{{ vmagent_version }}.tar.gz -C ./tmp/vmutils
-    cp -pfr ./tmp/vmutils/vmagent-prod ./roles/vmagent/files/vmagent
-    rm -fr ./tmp/vmutils
-    rm -fr ./tmp/vmutils-arm64-{{ vmagent_version }}.tar.gz
