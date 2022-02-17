@@ -3722,7 +3722,7 @@ spec:
             - -n
             - /usr/local/bin/argocd
             - /var/run/argocd/argocd-cmp-server
-          image: quay.io/argoproj/argocd:v2.2.2
+          image: alinbalutoiu/argocd:v2.2.2
           name: copyutil
           volumeMounts:
             - mountPath: /var/run/argocd
