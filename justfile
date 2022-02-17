@@ -9,7 +9,7 @@ app_version                  := "v1.0.3"
 ouchi_k8s_version            := "v1.1.1"
 
 # https://github.com/prometheus/node_exporter
-node_exporter_version        := "1.2.2"
+node_exporter_version        := "1.3.1"
 
 
 ##### commands ######
@@ -35,7 +35,7 @@ argocd:
 
 # node-exporter update
 node-exporter:
-    echo "For raspi4 model B"
+    @echo "For raspi4 model B"
     curl -sLf -o ./tmp/node_exporter-{{ node_exporter_version }}.linux-arm64.tar.gz \
         https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-arm64.tar.gz
     tar zxf ./tmp/node_exporter-{{ node_exporter_version }}.linux-arm64.tar.gz -C ./tmp
@@ -43,7 +43,7 @@ node-exporter:
     rm -fr ./tmp/node_exporter-{{ node_exporter_version }}.linux-arm64.tar.gz
     rm -fr ./tmp/node_exporter-{{ node_exporter_version }}.linux-arm64
 
-    echo "For raspi zero"
+    @echo "For raspi zero"
     curl -sLf -o ./tmp/node_exporter-{{ node_exporter_version }}.linux-armv6.tar.gz \
         https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-armv6.tar.gz
     tar zxf ./tmp/node_exporter-{{ node_exporter_version }}.linux-armv6.tar.gz -C ./tmp

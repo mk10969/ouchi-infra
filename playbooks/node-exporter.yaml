@@ -1,0 +1,12 @@
+---
+- name: deploy node exporter to cluster
+  hosts: cluster
+  roles:
+    # monitoring host os metrics
+    - node-exporter
+
+- name: deploy node exporter to sensor
+  hosts: zero
+  roles:
+    # monitoring host os metrics
+    - node-exporter
