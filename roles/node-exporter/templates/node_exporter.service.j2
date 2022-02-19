@@ -15,6 +15,7 @@ ExecStart={{ NODE_EXPORTER.DEST }}/node_exporter \
   --collector.netstat \
   --collector.vmstat \
   --collector.systemd \
+  --collector.time \
   --no-collector.arp \
   --no-collector.bcache \
   --no-collector.bonding \
@@ -52,7 +53,6 @@ ExecStart={{ NODE_EXPORTER.DEST }}/node_exporter \
   --no-collector.supervisord \
   --no-collector.tcpstat \
   --no-collector.textfile \
-  --no-collector.time \
   --no-collector.timex \
   --no-collector.wifi \
   --no-collector.xfs \
