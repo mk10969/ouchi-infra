@@ -14,8 +14,8 @@ ExecStart={{ NODE_EXPORTER.DEST }}/node_exporter \
   --collector.netdev \
   --collector.netstat \
   --collector.vmstat \
-  --collector.systemd \
-  --collector.time \
+  --no-collector.systemd \
+  --no-collector.time \
   --no-collector.arp \
   --no-collector.bcache \
   --no-collector.bonding \

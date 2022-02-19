@@ -10,6 +10,7 @@
     - i2c-tools
     - python3-dev
     - python3-pip
+    - tcpdump
   notify:
     - require_restart_nginx
     - require_restart_pigpiod
@@ -32,3 +33,5 @@
   become: true
 # https://zokibayashi.hatenablog.com/entry/2017/09/25/231055
 # power management off
+# No effect...
+# cron.yaml => add pinger
