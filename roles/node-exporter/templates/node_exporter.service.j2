@@ -11,9 +11,10 @@ ExecStart={{ NODE_EXPORTER.DEST }}/node_exporter \
   --collector.thermal_zone \
   --collector.uname \
   --collector.loadavg \
-  --no-collector.netstat \
-  --no-collector.systemd \
-  --no-collector.vmstat \
+  --collector.netdev \
+  --collector.netstat \
+  --collector.vmstat \
+  --collector.systemd \
   --no-collector.arp \
   --no-collector.bcache \
   --no-collector.bonding \
@@ -34,7 +35,6 @@ ExecStart={{ NODE_EXPORTER.DEST }}/node_exporter \
   --no-collector.meminfo_numa \
   --no-collector.mountstats \
   --no-collector.netclass \
-  --no-collector.netdev \
   --no-collector.nfs \
   --no-collector.nfsd \
   --no-collector.ntp \

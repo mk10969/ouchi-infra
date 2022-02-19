@@ -3,5 +3,3 @@
   hosts: zero
   roles:
     - sensor
-    # monitoring host os metrics
-    - node-exporter

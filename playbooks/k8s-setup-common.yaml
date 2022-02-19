@@ -9,5 +9,3 @@
     # install kubeadm, kubectl, kubelet, and docker.
     # configure cgroup, swap, bridge, and lvm.
     - k8s-common
-    # monitoring host os metrics
-    - node-exporter

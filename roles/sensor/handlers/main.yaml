@@ -43,3 +43,12 @@
     enabled: yes
   become: yes
   listen: require_restart_zero_reboot
+
+- name: Require cron restart
+  systemd:
+    name: cron.service
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+  become: yes
+  listen: require_restart_cron

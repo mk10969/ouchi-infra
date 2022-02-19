@@ -1,0 +1,9 @@
+- name: Cron ping to router
+  become: true
+  cron:
+    name: ping to router
+    minute: "*/1"
+    job: "ping -i 10 -c 5 100.64.1.1 > /var/log/cron_ping.log 2>&1"
+    state: present
+  notify:
+    - require_restart_cron
