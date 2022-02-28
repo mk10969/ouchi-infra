@@ -1,4 +1,4 @@
-# ouchi-ansible
+# ouchi-infra
 
 raspi 4 model B  
 OS: ubuntu 20.04.3 LTS (Focal Fossa)
