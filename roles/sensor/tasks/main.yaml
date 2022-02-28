@@ -3,4 +3,3 @@
 - import_tasks: deploy_middle.yaml
 - import_tasks: deploy_app.yaml
 - import_tasks: deploy_scripts.yaml
-- import_tasks: cron.yaml

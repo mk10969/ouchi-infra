@@ -1,9 +1,9 @@
 # ouchi-ansible
 
-raspi 4 model B
+raspi 4 model B  
 OS: ubuntu 20.04.3 LTS (Focal Fossa)
 
-raspi zero w
+raspi zero w  
 OS: Raspbian GNU/Linux 11 (bullseye)
 
 ## Prerequisites  
@@ -58,4 +58,13 @@ Argo CD is a declarative, GitOps continuous delivery tool for kubernetes.
 
 ```
 $ ansible-playbook -i inventories/hosts playbooks/k8s-deploy-argocd.yaml
+```
+
+
+## Deployment Node Exporter
+
+Exporter for machine metrics.
+
+```
+$ ansible-playbook -i inventories/hosts playbooks/node-exporter.yaml
 ```
