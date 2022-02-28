@@ -1,16 +1,16 @@
 [master]
-raspi4-01 ansible_host=192.168.100.101
+raspi4-01 ansible_host=100.64.1.101
 
 [worker]
-raspi4-02 ansible_host=192.168.100..102
-raspi4-03 ansible_host=192.168.100..103
-raspi4-04 ansible_host=192.168.100..104
+raspi4-02 ansible_host=100.64.1.102
+raspi4-03 ansible_host=100.64.1.103
+raspi4-04 ansible_host=100.64.1.104
 
 [zero]
-raspi0-01 ansible_host=192.168.100..151
+raspi0-01 ansible_host=100.64.1.151
 
 ; [pico]
-; raspiP-01 ansible_host=192.168.100..201
+; raspiP-01 ansible_host=100.64.1.201
 
 [cluster:children]
 master

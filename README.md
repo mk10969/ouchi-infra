@@ -1,10 +1,10 @@
 # ouchi-ansible
 
 raspi 4 model B
-OS: ubuntu 20.04 LTS
+OS: ubuntu 20.04.3 LTS (Focal Fossa)
 
 raspi zero w
-OS: 
+OS: Raspbian GNU/Linux 11 (bullseye)
 
 ## Prerequisites  
 
