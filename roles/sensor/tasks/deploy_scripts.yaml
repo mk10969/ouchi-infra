@@ -42,20 +42,3 @@
   become: true
   notify:
     - require_restart_zero_reboot
-
-##### service enable and start #####
-- name: Enabled and start zero-health-check service
-  systemd:
-    name: zero-health-check.service
-    enabled: yes
-    state: started
-    daemon_reload: yes
-  become: true
-
-- name: Enabled and start zero-reboot service
-  systemd:
-    name: zero-reboot.service
-    enabled: yes
-    state: started
-    daemon_reload: yes
-  become: true

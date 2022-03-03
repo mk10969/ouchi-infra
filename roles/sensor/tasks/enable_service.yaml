@@ -1,0 +1,40 @@
+##### service #####
+- name: Enabled and start nginx service
+  systemd:
+    name: nginx.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: true
+
+- name: Enabled and start uwsgi service
+  systemd:
+    name: uwsgi.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: true
+
+- name: Enabled and start pigpiod service
+  systemd:
+    name: pigpiod.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: true
+
+- name: Enabled and start zero-health-check service
+  systemd:
+    name: zero-health-check.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: true
+
+- name: Enabled and start zero-reboot service
+  systemd:
+    name: zero-reboot.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: true

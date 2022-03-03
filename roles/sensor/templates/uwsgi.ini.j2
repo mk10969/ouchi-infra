@@ -16,5 +16,5 @@ wsgi-file = {{ SENSOR.APP.DEST }}/app.py
 pidfile = /run/uwsgi.pid
 logto = {{ UWSGI.LOG.DEST }}/uwsgi.log
 
-max-requests = 1000
+max-requests = 100
 vacuum = true

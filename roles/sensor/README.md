@@ -1,4 +1,4 @@
-# About Infra Red
+# Raspberry Pi Zero WH
 
 ### TODO
 enable SSL (Let's Encrypt) 
@@ -16,18 +16,45 @@ ssh
 ```
 を、/Volumes/boot/にコピーする
 
-2. ユーザの作成
-ssh pi@xxx.xxx.xxx.xxx
-で、ログインし、ubuntuユーザを作成する
+
+2. ログイン
+```
+$ ssh pi@raspberrypi.local
+password raspberry
+```
+
+
+3. ユーザの作成
 ```
 sudo su -
 useradd -m ubuntu
 passwd ubuntu 
 ```
 
-3. sudoグループ追加とNo password設定
 
-4. nginx.conf 
+4. グループの追加
+```
+$ groups pi
+```
+```
+$ sudo usermod -G adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,render,netdev,spi,i2c,gpio,lpadmin ubuntu
+```
+
+
+5. ssh keyの作成
+```
+$ ssh-keygen -t rsa -b 4096
+```
+
+
+6. no password (非推奨)
+```
+ubuntu ALL=(ALL) NOPASSWD: ALL
+```
+TODO: ansible-vault
+
+
+7. nginx.conf 
 コメアウト
 ```
 	# include /etc/nginx/sites-enabled/*;
