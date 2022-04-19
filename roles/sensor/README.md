@@ -60,6 +60,9 @@ TODO: ansible-vault
 	# include /etc/nginx/sites-enabled/*;
 ```
 
+8. wifi power management off
+https://geek.tacoskingdom.com/blog/38
+
 
 ## IR recording
 下記のコマンドを実行後、赤外線センサーをデバイスに向かって照射する
