@@ -4,3 +4,4 @@
 - import_tasks: deploy_app.yaml
 - import_tasks: deploy_scripts.yaml
 - import_tasks: enable_service.yaml
+- import_tasks: cron.yaml

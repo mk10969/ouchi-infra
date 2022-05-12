@@ -62,8 +62,9 @@ TODO: ansible-vault
 
 8. wifi power management off
 https://geek.tacoskingdom.com/blog/38
-
+https://elsammit-beginnerblg.hatenablog.com/entry/2021/02/16/213737
 
 ## IR recording
 下記のコマンドを実行後、赤外線センサーをデバイスに向かって照射する
-python3 /<Path>/irrp.py -r -g4 -f codes light::on --no-confirm --post 130
+python3 /<Path>/irrp.py -r -g4 -f <FilePath> light::on --no-confirm --post 130
+

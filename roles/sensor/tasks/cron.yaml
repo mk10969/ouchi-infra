@@ -1,0 +1,9 @@
+- name: Cron ping to gateway
+  become: true
+  cron:
+    name: ping to gateway
+    minute: "*/1"
+    job: "ping -c 1 100.64.1.1; test $? -eq 1 && sudo ifconfig wlan0 up"
+    state: present
+  notify:
+    - require_restart_cron

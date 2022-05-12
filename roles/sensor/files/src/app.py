@@ -88,6 +88,14 @@ class Opt(Enum):
     lightDark = 'light::dark'
     lightWarm = 'light::warm'
     lightWhite = 'light::white'
+    airDehumidifying = 'air::Dehumidifying'
+    airCooling = 'air::cooling'
+    airHeating = 'air::heating'
+    airOff = 'air::off'
+    circulatorPower = 'circulator::power'
+    circulatorSpin = 'circulator::spin'
+    circulatorUp = 'circulator::up'
+    circulatorDown = 'circulator::down'
 
     @classmethod
     def value_of(cls, target: str):

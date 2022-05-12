@@ -5,7 +5,7 @@
     state: restarted
     daemon_reload: yes
     enabled: yes
-  become: yes
+  become: true
   listen: require_restart_nginx
 
 - name: Require uwsgi restart
@@ -14,7 +14,7 @@
     state: restarted
     daemon_reload: yes
     enabled: yes
-  become: yes
+  become: true
   listen: require_restart_uwsgi
 
 - name: Require pigpiod restart
@@ -23,7 +23,7 @@
     state: restarted
     daemon_reload: yes
     enabled: yes
-  become: yes
+  become: true
   listen: require_restart_pigpiod
 
 - name: Require zero-health-check restart
@@ -32,7 +32,7 @@
     state: restarted
     daemon_reload: yes
     enabled: yes
-  become: yes
+  become: true
   listen: require_restart_zero_health_check
 
 - name: Require zero-reboot restart
@@ -41,7 +41,7 @@
     state: restarted
     daemon_reload: yes
     enabled: yes
-  become: yes
+  become: true
   listen: require_restart_zero_reboot
 
 - name: Require cron restart
@@ -50,5 +50,5 @@
     state: restarted
     daemon_reload: yes
     enabled: yes
-  become: yes
+  become: true
   listen: require_restart_cron
