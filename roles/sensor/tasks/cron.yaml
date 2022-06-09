@@ -1,3 +1,7 @@
+# https://zokibayashi.hatenablog.com/entry/2017/09/25/231055
+# power management off
+# No effect...
+
 - name: Cron ping to gateway
   become: true
   cron:

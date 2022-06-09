@@ -30,8 +30,5 @@
     - { name: "flask-cors", version: "3.0.10" }
     - { name: "pigpio", version: "1.78" }
     - { name: "smbus", version: "1.1.post2" }
+    - { name: "pybluez", version: "0.23" }
   become: true
-# https://zokibayashi.hatenablog.com/entry/2017/09/25/231055
-# power management off
-# No effect...
-# cron.yaml => add pinger

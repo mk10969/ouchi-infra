@@ -26,6 +26,16 @@
     mode: 0664
   become: true
 
+- name: Add ssh config file
+  copy:
+    src: ../files/10-sshd.conf
+    dest: /etc/ssh/sshd_config.d/10-sshd.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify: require_sshd_restart
+
 # https://reference.wolfram.com/language/tutorial/I2CSetup.html.ja?source=footer
 # https://stackoverflow.com/questions/42904712/i2c-not-detecting-issues-in-hardware-or-any-other
 - name: Copy /boot/confis.txt file
