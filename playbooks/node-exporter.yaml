@@ -5,8 +5,8 @@
     # monitoring host os metrics
     - node-exporter
 
-- name: deploy node exporter to sensor
-  hosts: zero
+- name: deploy node exporter to edge
+  hosts: edge
   roles:
     # monitoring host os metrics
     - node-exporter

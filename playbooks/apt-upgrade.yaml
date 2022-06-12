@@ -1,6 +1,6 @@
 ---
 - name: apt udpate and upgrade playbook
-  hosts: cluster
+  hosts: all
   become: true
   tasks:
     - name: apt update

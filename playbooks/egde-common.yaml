@@ -1,0 +1,8 @@
+---
+- name: edge setup playbook
+  hosts: edge
+  roles:
+    # ssh, netplan, host, etc...
+    - common
+    # fish, starship
+    - modern-shell

@@ -7,4 +7,4 @@
   tasks:
     - name: Remove rook/ceph data
       shell: rm -fr /var/lib/rook
-      become: yes
+      become: true

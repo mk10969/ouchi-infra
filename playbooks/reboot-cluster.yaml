@@ -1,9 +1,0 @@
----
-- name: reboot cluster device playbook
-  hosts: cluster
-  become: true
-  tasks:
-    - name: Reboot the machine (Wait for 10 min)
-      reboot:
-        reboot_timeout: 600
-      changed_when: false

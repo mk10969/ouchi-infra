@@ -1,5 +1,0 @@
----
-- name: sensor edge device setup playbook
-  hosts: zero
-  roles:
-    - sensor

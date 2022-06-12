@@ -1,5 +1,5 @@
 # setting OS and installing kubernetes with deployment tools
-- import_playbook: k8s-setup-common.yaml
+- import_playbook: k8s-common.yaml
 
 # reboot
 - import_playbook: reboot.yaml
