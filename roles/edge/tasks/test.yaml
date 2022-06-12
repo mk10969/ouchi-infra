@@ -1,0 +1,8 @@
+---
+- name: Add test file
+  template:
+    src: ../templates/test.j2
+    dest: /home/ubuntu/test.txt
+    owner: ubuntu
+    group: ubuntu
+    mode: 0644

@@ -6,3 +6,5 @@
     - common
     # fish, starship
     - modern-shell
+    # # edge
+    - edge

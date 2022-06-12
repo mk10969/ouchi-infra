@@ -1,1 +1,7 @@
 - import_tasks: common.yaml
+
+- import_tasks: ethernet.yaml
+  when: inventory_hostname in groups["cluster"]
+
+- import_tasks: wifi.yaml
+  when: inventory_hostname in groups["edge"]

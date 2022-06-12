@@ -1,14 +1,4 @@
 ---
-- name: Add netplan file
-  template:
-    src: ../templates/99-config.j2
-    dest: /etc/netplan/99-config.yaml
-    owner: root
-    group: root
-    mode: 0644
-  become: true
-  notify: require_netplan_apply
-
 - name: Add hosts file
   template:
     src: ../templates/hosts.j2

@@ -9,8 +9,8 @@ OS: Raspbian GNU/Linux 11 (bullseye)
 ## Prerequisites  
 
 - write boot image  
-[setup raspi 4](https://qiita.com/HeRo/items/c1c30d7267faeb304538
-)  
+[setup raspi 4](https://qiita.com/HeRo/items/c1c30d7267faeb304538)
+  
 [setup raspi zero](https://qiita.com/hishi/items/8bdfd9d72fa8fe2e7573)
 
 - install ansible on execution host
