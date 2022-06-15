@@ -1,0 +1,8 @@
+---
+- name: sensor setup playbook
+  hosts: sensor
+  roles:
+    # ssh, netplan, host, etc...
+    - common
+    # sensor
+    - sensor

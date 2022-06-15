@@ -5,3 +5,6 @@
 
 - import_tasks: wifi.yaml
   when: inventory_hostname in groups["edge"]
+
+- import_tasks: zero-wifi.yaml
+  when: inventory_hostname in groups["sensor"]

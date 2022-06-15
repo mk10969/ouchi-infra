@@ -6,25 +6,19 @@ raspi4-02 ansible_host=100.64.1.102
 raspi4-03 ansible_host=100.64.1.103
 
 [edge]
-raspi4-04 ansible_host=100.64.1.201
+raspi4-51 ansible_host=100.64.1.201
 
-; [zero]
-; raspi0-01 ansible_host=100.64.1.151
+[sensor]
+raspi0-01 ansible_host=100.64.1.151
 
-; [pico]
-; raspiP-01 ansible_host=100.64.1.201
 
 [cluster:children]
 master
 worker
 
-; [sensor:children]
-; zero
-; pico
 
 [all:children]
 master
 worker
 edge
-; zero
-; pico
+sensor

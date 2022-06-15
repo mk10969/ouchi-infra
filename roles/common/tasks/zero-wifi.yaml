@@ -1,0 +1,9 @@
+- name: Copy dhcpcd.conf
+  template:
+    src: "../templates/dhcpcd.conf.j2"
+    dest: /etc/dhcpcd.conf
+    owner: root
+    group: netdev
+    mode: 0664
+  become: true
+  notify: require_dhcpcd_restart

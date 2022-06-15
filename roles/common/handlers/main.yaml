@@ -4,6 +4,14 @@
   become: true
   listen: require_netplan_apply
 
+- name: dhcpcd_restart
+  systemd:
+    name: dhcpcd.service
+    state: restarted
+    daemon_reload: yes
+  become: true
+  listen: require_dhcpcd_restart
+
 - name: sshd_restart
   systemd:
     name: sshd.service

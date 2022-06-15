@@ -2,12 +2,24 @@
 # power management off
 # No effect...
 
-- name: Cron ping to gateway
+- name: Cron reboot morning
   become: true
   cron:
-    name: ping to gateway
-    minute: "*/1"
-    job: "ping -c 1 100.64.1.1; test $? -eq 1 && sudo ifconfig wlan0 up"
+    name: reboot morning
+    minute: "0"
+    hour: "4"
+    job: "/sbin/reboot"
+    state: present
+  notify:
+    - require_restart_cron
+
+- name: Cron reboot evening
+  become: true
+  cron:
+    name: reboot evening
+    minute: "0"
+    hour: "16"
+    job: "/sbin/reboot"
     state: present
   notify:
     - require_restart_cron

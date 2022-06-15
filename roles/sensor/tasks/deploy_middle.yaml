@@ -63,8 +63,8 @@
 
 ### pigpiod ###
 - name: Copy pigpiod.service
-  copy:
-    src: "../files/configs/pigpiod.service"
+  template:
+    src: "../templates/pigpiod.service.j2"
     dest: /lib/systemd/system/pigpiod.service
     owner: root
     group: root

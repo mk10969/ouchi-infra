@@ -1,41 +1,3 @@
-- name: Set hostname
-  become: true
-  hostname:
-    name: "{{ inventory_hostname }}"
-
-- name: Add hosts file
-  template:
-    src: ../templates/hosts.j2
-    dest: /etc/hosts
-    owner: root
-    group: root
-    mode: 0644
-  become: true
-
-- name: Set timezone to Asia/Tokyo
-  become: true
-  timezone:
-    name: Asia/Tokyo
-
-- name: Copy dhcpcd.conf
-  template:
-    src: "../templates/dhcpcd.conf.j2"
-    dest: /etc/dhcpcd.conf
-    owner: root
-    group: netdev
-    mode: 0664
-  become: true
-
-- name: Add ssh config file
-  copy:
-    src: ../files/10-sshd.conf
-    dest: /etc/ssh/sshd_config.d/10-sshd.conf
-    owner: root
-    group: root
-    mode: 0644
-  become: true
-  notify: require_sshd_restart
-
 # https://reference.wolfram.com/language/tutorial/I2CSetup.html.ja?source=footer
 # https://stackoverflow.com/questions/42904712/i2c-not-detecting-issues-in-hardware-or-any-other
 - name: Copy /boot/confis.txt file
@@ -55,11 +17,6 @@
     group: root
     mode: 0644
   become: true
-
-- name: Disable swap
-  command: swapoff --all
-  become: true
-  when: ansible_swaptotal_mb > 0
 
 - name: Stop and disable services (view; systemctl list-units --type=service)
   service:

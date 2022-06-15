@@ -1,5 +1,14 @@
-127.0.0.1 localhost
+127.0.0.1		localhost
+127.0.1.1		{{ inventory_hostname }}
+
+{# raspi zero のみ、ipv6のローカルホストを指定する (pigpiodがipv6でLISTEN) #}
+{% if inventory_hostname in groups['sensor'] %}
+::1		localhost ip6-localhost ip6-loopback
+ff02::1		ip6-allnodes
+ff02::2		ip6-allrouters
+{% endif %}
+
 
 {% for host in groups['all'] %}
-{{ hostvars[host].ansible_host }} {{ hostvars[host].inventory_hostname }}
+{{ hostvars[host].ansible_host }}		{{ hostvars[host].inventory_hostname }}
 {% endfor %}
