@@ -40,6 +40,12 @@ def lux():
     except RuntimeError as e:
         return internal_server_error(e)
 
+@app.route('/command/list', methods=["GET"])
+def get_all_commands():
+    res = {
+        "commands": Opt.all_name()
+    }
+    return res, 200
 
 @app.route('/command/<string:name>', methods=["POST"])
 def command(name):
@@ -104,6 +110,9 @@ class Opt(Enum):
                 return e.value
         raise ValueError(f'{target} is not an available command')
 
+    @classmethod
+    def all_name(cls):
+        return [e.name for e in Opt]
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5050, debug=True)
