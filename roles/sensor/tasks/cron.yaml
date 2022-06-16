@@ -12,14 +12,13 @@
     state: present
   notify:
     - require_restart_cron
-
-- name: Cron reboot evening
-  become: true
-  cron:
-    name: reboot evening
-    minute: "0"
-    hour: "16"
-    job: "/sbin/reboot"
-    state: present
-  notify:
-    - require_restart_cron
+# - name: Cron reboot evening
+#   become: true
+#   cron:
+#     name: reboot evening
+#     minute: "0"
+#     hour: "16"
+#     job: "/sbin/reboot"
+#     state: present
+#   notify:
+#     - require_restart_cron

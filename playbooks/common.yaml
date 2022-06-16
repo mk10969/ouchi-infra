@@ -1,0 +1,6 @@
+---
+- name: common playbook
+  hosts: all
+  roles:
+    # ssh, netplan, host, etc...
+    - common

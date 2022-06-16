@@ -1,12 +1,6 @@
 ---
 - name: deploy node exporter to cluster
-  hosts: cluster
-  roles:
-    # monitoring host os metrics
-    - node-exporter
-
-- name: deploy node exporter to edge
-  hosts: edge
+  hosts: all
   roles:
     # monitoring host os metrics
     - node-exporter
