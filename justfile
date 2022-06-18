@@ -3,10 +3,10 @@ set shell := ["bash", "-uc"]
 
 
 ##### variables ######
-app_version                  := "v1.0.3"
+app_version                  := "v1.1.0"
 
 # https://github.com/mk10969/ouchi-kubernetes
-ouchi_k8s_version            := "v1.1.1"
+ouchi_k8s_version            := "v1.2.4"
 
 # https://github.com/prometheus/node_exporter
 node_exporter_version        := "1.3.1"
