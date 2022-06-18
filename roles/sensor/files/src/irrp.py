@@ -354,55 +354,114 @@ class IRRemoteControl:
         try:
             f = open(self.FILE, "r")
         except:
-            print("Can't open: {}".format(self.FILE))
-            exit(0)
+            raise RuntimeError("Can't open file")
+
         records = json.load(f)
         f.close()
-        # IR TX connected to this GPIO.
-        self.pi.set_mode(self.GPIO, pigpio.OUTPUT)
-        self.pi.wave_add_new()
-        emit_time = time.time()
+
+        if self.ID not in records:
+            raise ValueError(f'record ID not found')
 
         if self.VERBOSE:
             print("Playing")
 
-        if self.ID in records:
-            code = records[self.ID]
-            # Create wave
-            marks_wid = {}
-            spaces_wid = {}
-            wave = [0] * len(code)
-            for i in range(0, len(code)):
-                ci = code[i]
-                if i & 1:  # Space
-                    if ci not in spaces_wid:
-                        self.pi.wave_add_generic([pigpio.pulse(0, 0, ci)])
-                        spaces_wid[ci] = self.pi.wave_create()
-                    wave[i] = spaces_wid[ci]
-                else:  # Mark
-                    if ci not in marks_wid:
-                        wf = self.carrier(self.GPIO, self.FREQ, ci)
-                        self.pi.wave_add_generic(wf)
-                        marks_wid[ci] = self.pi.wave_create()
-                    wave[i] = marks_wid[ci]
-            delay = emit_time - time.time()
+        # IR TX connected to this GPIO.
+        self.pi.set_mode(self.GPIO, pigpio.OUTPUT)
+        self.pi.wave_clear()
+        # 生成できる波形の長さには制限があるので、種類とcodeの長さごとにまとめて節約する
+        mark_wids = {}  # Mark(38kHzパルス)波形, key:長さ, value:ID
+        space_wids = {}  # Speace(待機)波形, key:長さ, value:ID
+        send_wids = [0] * len(code)  # 送信する波形IDのリスト
 
-            if delay > 0.0:
-                time.sleep(delay)
-            self.pi.wave_chain(wave)
-            if self.VERBOSE:
-                print("key " + self.ID)
-            while self.pi.wave_tx_busy():
-                time.sleep(0.002)
-            emit_time = time.time() + self.GAP_S
-            for i in marks_wid:
-                self.pi.wave_delete(marks_wid[i])
-            marks_wid = {}
-            for i in spaces_wid:
-                self.pi.wave_delete(spaces_wid[i])
-            spaces_wid = {}
-        else:
-            print("Id {} not found".format(self.ID))
+        for i in range(len(code)):
+            if i % 2 == 0:
+                # 同じ長さのMark波形が無い場合は新しく生成
+                if code[i] not in mark_wids:
+                    pulses = []
+                    n = code[i] // 26  # 38kHz = 26us周期の繰り返し回数
+                    for _j in range(n):
+                        pulses.append(pigpio.pulse(1 << self.GPIO, 0, 8))  # 8us highパルス
+                        pulses.append(pigpio.pulse(0, 1 << self.GPIO, 18))  # 18us lowパルス
+                    self.pi.wave_add_generic(pulses)
+                    mark_wids[code[i]] = self.pi.wave_create()
+                send_wids[i] = mark_wids[code[i]]
+            else:
+                # 同じ長さのSpace波形が無い場合は新しく生成
+                if code[i] not in space_wids:
+                    self.pi.wave_add_generic([pigpio.pulse(0, 0, code[i])])
+                    space_wids[code[i]] = self.pi.wave_create()
+                send_wids[i] = space_wids[code[i]]
+
+        ### Compressing a wave code if the length is more than 600 ###
+        ENTRY_MAX = 600
+        LOOP_MAX = 20
+        if len(send_wids) > ENTRY_MAX:
+            import collections
+
+            def make_ngram(l, n):
+                ngrams = list(zip(*(l[i:] for i in range(n))))
+                return(collections.Counter(ngrams).most_common())
+
+            def depth_of_tuple(t):
+                if isinstance(t, tuple):
+                    if t == tuple() : return 1
+                    return 1 + max(depth_of_tuple(item) for item in t)
+                else:
+                    return 0
+
+            def nonloop_decode(wave, i, t):
+                wave[i:i+1] = [t[num] for num in range(len(t)-1)]*t[-1]
+                return wave
+
+            def loop_decode(wave, i, t):
+                repeat_unit = [t[num] for num in range(len(t)-1)]
+                code = [255, 0, 255, 1, t[-1], 0]
+                code[2:2] = repeat_unit
+                wave[i:i+1] = code
+                return wave
+
+            #encoding the original wave to the tuple code
+            for wl in range(2, len(send_wids)//2):
+                pre_len = 0
+                while len(send_wids) != pre_len:
+                    pre_len = len(send_wids)
+                    ngrams = make_ngram(send_wids, wl)
+                    for ngram in ngrams:
+                        ngram_wave = ngram[0]
+                        ngram_freq = ngram[1]
+                        if ngram_freq >= 2:
+                            for i in range(len(send_wids) - len(ngram_wave)):
+                                if tuple(send_wids[i:i+wl]) == ngram_wave:
+                                    for rn in range(2, ngram_freq):
+                                        if send_wids[i:i+(wl*rn)] != list(ngram_wave * rn):
+                                            if wl*(rn-2) > 6 or depth_of_tuple(ngram_wave) >= 2 and rn-1 >= 2 :
+                                                loop_code = list(ngram_wave) + [rn-1]
+                                                send_wids[i:i+((rn-1)*wl)] = [tuple(loop_code)]
+                                            break
+
+            #decoding the tuple-type code into the wave code
+            rest_loop_count = LOOP_MAX
+            for _d in range(depth_of_tuple(tuple(send_wids))):
+                for i,item in enumerate(send_wids):
+                    if isinstance(item, tuple):
+                        if rest_loop_count <= 0:
+                            nonloop_decode(send_wids, i, item)
+                        elif depth_of_tuple(item) > 1:
+                            loop_decode(send_wids, i, item)
+                            rest_loop_count -= 1
+            efficiencies = sorted(set([(len(item)-1)*(item[-1]-1) for item in send_wids if isinstance(item, tuple)]), reverse=True)
+            for eff in efficiencies:
+                for i,item in enumerate(send_wids):
+                    if isinstance(item, tuple):
+                        if rest_loop_count <= 0:
+                            nonloop_decode(send_wids, i, item)
+                        elif (len(item)-1)*(item[-1]-1) == eff:
+                            loop_decode(send_wids, i, item)
+                            rest_loop_count -= 1
+        ### Compression end ###
+
+        self.pi.wave_chain(send_wids)
+        self.pi.wave_clear()
 
 
 if __name__ == '__main__':

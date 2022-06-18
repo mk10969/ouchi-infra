@@ -39,3 +39,5 @@ https://elsammit-beginnerblg.hatenablog.com/entry/2021/02/16/213737
 下記のコマンドを実行後、赤外線センサーをデバイスに向かって照射する
 python3 /<Path>/irrp.py -r -g4 -f <FilePath> light::on --no-confirm --post 130
 
+## IR sending
+python3 /<Path>/irrp.py -p -g17 -f codes.json light:on
