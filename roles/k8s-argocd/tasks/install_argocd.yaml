@@ -20,7 +20,27 @@
 - name: Install argocd
   shell: kubectl apply -f /opt/argocd.yaml
 
-- name: Wait for argocd server running
+- name: Wait for argocd-application-controller running
+  shell: kubectl get pod -n argocd |grep argocd-application-controller | awk '{print $3}'
+  register: argocd_application_controller_state
+  until: argocd_application_controller_state.stdout == "Running"
+  # Re-execute(60 x 10 seconds) until Ready,
+  # and then proceed to the next task.
+  retries: 60
+  delay: 10
+  changed_when: false
+
+- name: Wait for argocd-redis running
+  shell: kubectl get pod -n argocd |grep argocd-redis | awk '{print $3}'
+  register: argocd_redis_state
+  until: argocd_redis_state.stdout == "Running"
+  # Re-execute(60 x 10 seconds) until Ready,
+  # and then proceed to the next task.
+  retries: 60
+  delay: 10
+  changed_when: false
+
+- name: Wait for argocd-server running
   shell: kubectl get pod -n argocd |grep argocd-server | awk '{print $3}'
   register: argocd_server_state
   until: argocd_server_state.stdout == "Running"
@@ -30,10 +50,20 @@
   delay: 10
   changed_when: false
 
-- name: Wait for argocd repo server running
+- name: Wait for argocd-repo-server running
   shell: kubectl get pod -n argocd |grep argocd-repo-server | awk '{print $3}'
-  register: argocd_server_state
-  until: argocd_server_state.stdout == "Running"
+  register: argocd_repo_server_state
+  until: argocd_repo_server_state.stdout == "Running"
+  # Re-execute(60 x 10 seconds) until Ready,
+  # and then proceed to the next task.
+  retries: 60
+  delay: 10
+  changed_when: false
+
+- name: Wait for argocd-dex-server running
+  shell: kubectl get pod -n argocd |grep argocd-dex-server | awk '{print $3}'
+  register: argocd_dex_server_state
+  until: argocd_dex_server_state.stdout == "Running"
   # Re-execute(60 x 10 seconds) until Ready,
   # and then proceed to the next task.
   retries: 60
