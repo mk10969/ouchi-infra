@@ -3,7 +3,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 from enum import Enum
-from irrp import IRRemoteControl, IROption
+from send import InfraredSender, IROption
 from bme280i2c import get_weather
 from tsl2572 import get_lux
 
@@ -51,11 +51,13 @@ def get_all_commands():
 def command(name):
     # body = request.get_json()
     try:
-        option: IROption = IROption(id=Opt.value_of(name),
-                                    gpio=13,
-                                    file='./codes.json')
-        irRemocon = IRRemoteControl(option)
-        irRemocon.playbook()
+        option: IROption = IROption(
+            id=Opt.value_of(name),
+            gpio=13,
+            file='./codes.json')
+
+        sender = InfraredSender(option)
+        sender.run()
         return jsonify({
             "status": "ok",
         })

@@ -34,10 +34,12 @@ https://geek.tacoskingdom.com/blog/38
 https://elsammit-beginnerblg.hatenablog.com/entry/2021/02/16/213737
 
 
+## get irrp.py
+curl http://abyz.me.uk/rpi/pigpio/code/irrp_py.zip > irrp.py.zip
 
 ## IR recording
 下記のコマンドを実行後、赤外線センサーをデバイスに向かって照射する
 python3 /<Path>/irrp.py -r -g4 -f <FilePath> light::on --no-confirm --post 130
 
 ## IR sending
-python3 /<Path>/irrp.py -p -g13 -f codes.json light::on
+python3 /<Path>/send.py -g13 -f codes.json light::on

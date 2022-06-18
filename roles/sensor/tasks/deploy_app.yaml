@@ -19,10 +19,10 @@
   notify:
     - require_restart_uwsgi
 
-- name: Copy irrp.py file
+- name: Copy send.py file
   copy:
-    src: "../files/src/irrp.py"
-    dest: "{{ SENSOR.APP.DEST }}/irrp.py"
+    src: "../files/src/send.py"
+    dest: "{{ SENSOR.APP.DEST }}/send.py"
     owner: root
     group: root
     mode: 0755
