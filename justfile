@@ -29,8 +29,8 @@ push:
 argocd:
    curl -sLf -H 'Accept: application/octet-stream' \
         -o ./roles/k8s-argocd/files/argocd.yaml \
-        "https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/ouchi-kubernetes/releases/assets/$( \
-            curl -sL https://$GITHUB_ACCESS_TOKEN@api.github.com/repos/mk10969/ouchi-kubernetes/releases/tags/{{ ouchi_k8s_version }} \
+        "https://api.github.com/repos/mk10969/ouchi-kubernetes/releases/assets/$( \
+            curl -sL https://api.github.com/repos/mk10969/ouchi-kubernetes/releases/tags/{{ ouchi_k8s_version }} \
             | jq '.assets[] | select(.name | contains("argocd.yaml")) | .id')"
 
 # node-exporter update
