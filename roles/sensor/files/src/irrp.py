@@ -353,44 +353,42 @@ class IRRemoteControl:
         self.check_connection()
         try:
             f = open(self.FILE, "r")
+            records = json.load(f)
         except:
-            raise RuntimeError("Can't open file")
-
-        records = json.load(f)
-        f.close()
+            raise RuntimeError("Can't read file")
+        finally:
+            f.close()
 
         if self.ID not in records:
             raise ValueError(f'record ID not found')
 
-        if self.VERBOSE:
-            print("Playing")
-
+        __code = records[self.ID]
         # IR TX connected to this GPIO.
         self.pi.set_mode(self.GPIO, pigpio.OUTPUT)
         self.pi.wave_clear()
-        # 生成できる波形の長さには制限があるので、種類とcodeの長さごとにまとめて節約する
+
         mark_wids = {}  # Mark(38kHzパルス)波形, key:長さ, value:ID
         space_wids = {}  # Speace(待機)波形, key:長さ, value:ID
-        send_wids = [0] * len(code)  # 送信する波形IDのリスト
+        send_wids = [0] * len(__code)  # 送信する波形IDのリスト
 
-        for i in range(len(code)):
+        for i in range(len(__code)):
             if i % 2 == 0:
                 # 同じ長さのMark波形が無い場合は新しく生成
-                if code[i] not in mark_wids:
+                if __code[i] not in mark_wids:
                     pulses = []
-                    n = code[i] // 26  # 38kHz = 26us周期の繰り返し回数
+                    n = __code[i] // 26  # 38kHz = 26us周期の繰り返し回数
                     for _j in range(n):
                         pulses.append(pigpio.pulse(1 << self.GPIO, 0, 8))  # 8us highパルス
                         pulses.append(pigpio.pulse(0, 1 << self.GPIO, 18))  # 18us lowパルス
                     self.pi.wave_add_generic(pulses)
-                    mark_wids[code[i]] = self.pi.wave_create()
-                send_wids[i] = mark_wids[code[i]]
+                    mark_wids[__code[i]] = self.pi.wave_create()
+                send_wids[i] = mark_wids[__code[i]]
             else:
                 # 同じ長さのSpace波形が無い場合は新しく生成
-                if code[i] not in space_wids:
-                    self.pi.wave_add_generic([pigpio.pulse(0, 0, code[i])])
-                    space_wids[code[i]] = self.pi.wave_create()
-                send_wids[i] = space_wids[code[i]]
+                if __code[i] not in space_wids:
+                    self.pi.wave_add_generic([pigpio.pulse(0, 0, __code[i])])
+                    space_wids[__code[i]] = self.pi.wave_create()
+                send_wids[i] = space_wids[__code[i]]
 
         ### Compressing a wave code if the length is more than 600 ###
         ENTRY_MAX = 600
@@ -415,9 +413,9 @@ class IRRemoteControl:
 
             def loop_decode(wave, i, t):
                 repeat_unit = [t[num] for num in range(len(t)-1)]
-                code = [255, 0, 255, 1, t[-1], 0]
-                code[2:2] = repeat_unit
-                wave[i:i+1] = code
+                __code = [255, 0, 255, 1, t[-1], 0]
+                __code[2:2] = repeat_unit
+                wave[i:i+1] = __code
                 return wave
 
             #encoding the original wave to the tuple code
@@ -492,7 +490,6 @@ if __name__ == '__main__':
                    help="No confirm needed",
                    action="store_true")
     args = p.parse_args()
-    print(args)
 
     option: IROption = IROption(
         id=args.id[0],  # 複数指定できるが、最初のだけとる
