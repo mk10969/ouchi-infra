@@ -85,7 +85,7 @@
     cmd: |
       kubectl exec -i pod/{{ argocd_server_pod_name.stdout }} -n argocd -- bash <<'EOC'
       argocd login localhost:8080 --username admin --password {{ argocd_admin_password.stdout }} --insecure
-      argocd repo add https://github.com/mk10969/ouchi-kubernetes --username mk10969
+      argocd repo add https://github.com/mk10969/ouchi-kubernetes
       EOC
   register: argocd_repository
 
