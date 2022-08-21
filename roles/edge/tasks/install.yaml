@@ -1,0 +1,42 @@
+---
+- name: Add influxdata GPG key
+  apt_key:
+    url: https://repos.influxdata.com/influxdb.key
+    state: present
+  become: true
+
+- name: Add influxdata apt repository
+  apt_repository:
+    repo: "deb https://repos.influxdata.com/debian {{ ansible_distribution_release }} stable"
+    state: present
+    filename: influxdata
+    update_cache: yes
+  become: true
+
+- name: Install packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - telegraf
+    # - kubectl={{ KUBERNETES.VERSION }} # kubeadm installしたら勝手に入る。
+  become: true
+  notify: require_restart_telegraf
+
+- name: Enabled and start telegraf service
+  systemd:
+    name: telegraf.service
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: true
+
+- name: Check telegraf version
+  shell: telegraf --version
+  register: check_telegraf_version
+  changed_when: false
+
+- name: Debug telegraf version
+  debug:
+    msg: "{{ check_telegraf_version.stdout }}"

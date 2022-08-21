@@ -1,2 +1,1 @@
-- import_tasks: test.yaml
-  when: inventory_hostname in groups["edge"]
+- import_tasks: install.yaml
