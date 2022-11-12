@@ -43,3 +43,8 @@ python3 /<Path>/irrp.py -r -g4 -f <FilePath> light::on --no-confirm --post 130
 
 ## IR sending
 python3 /<Path>/send.py -g13 -f codes.json light::on
+
+## CUIで起動
+メモリ節約のため、GUIではなくCUIで起動する。
+https://www.lisz-works.com/entry/raspi0-conifg
+https://www.dogrow.net/linux/blog75/
