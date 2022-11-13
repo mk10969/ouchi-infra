@@ -7,7 +7,7 @@
   cron:
     name: reboot morning
     minute: "0"
-    hour: "4,16"
+    hour: "4"
     job: "/sbin/reboot"
     state: present
   notify:

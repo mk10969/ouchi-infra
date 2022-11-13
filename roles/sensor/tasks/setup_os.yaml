@@ -18,6 +18,20 @@
     mode: 0644
   become: true
 
+# https://hnw.hatenablog.com/entry/2020/10/11/134737
+# Power Management 確認方法
+# $ dmesg | grep power
+# $ sudo iwconfig wlan0 | grep 'Power Management'
+# $ iw dev wlan0 get power_save
+- name: Copy /etc/dhcpcd.exit-hook file
+  copy:
+    src: "../files/configs/dhcpcd.exit-hook"
+    dest: /etc/dhcpcd.exit-hook
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
 - name: Stop and disable services (view; systemctl list-units --type=service)
   service:
     name: "{{ item }}"

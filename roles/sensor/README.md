@@ -30,8 +30,7 @@ $ touch .ssh/authorized_keys
 ```
 
 4. wifi power management off
-https://geek.tacoskingdom.com/blog/38
-https://elsammit-beginnerblg.hatenablog.com/entry/2021/02/16/213737
+https://hnw.hatenablog.com/entry/2020/10/11/134737
 
 
 ## get irrp.py
