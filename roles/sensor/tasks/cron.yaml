@@ -2,12 +2,12 @@
 # power management off
 # No effect...
 
-- name: Cron reboot morning
+- name: Cron reboot
   become: true
   cron:
-    name: reboot morning
+    name: reboot
     minute: "0"
-    hour: "4"
+    hour: "*" ## 毎時
     job: "/sbin/reboot"
     state: present
   notify:

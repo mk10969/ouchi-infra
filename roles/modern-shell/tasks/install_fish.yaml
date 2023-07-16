@@ -34,7 +34,6 @@
     state: directory
     owner: "{{ FISH.CONFIG.OWNER }}"
     group: "{{ FISH.CONFIG.GROUP }}"
-    mode: 0700
 
 - name: Add fish config file
   copy:
