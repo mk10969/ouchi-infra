@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
-"""
-TSL2572 Control Module via I2C
- 2018/11/15
-"""
 
 from datetime import datetime
 import smbus
 import time
-
 
 class TSL2572:
     AGAIN_0_16 = 0
@@ -26,7 +21,7 @@ class TSL2572:
         self.ch0 = 0
         self.ch1 = 0
         self.lux = 0
-        self.again = TSL2572.AGAIN_8
+        self.again = TSL2572.AGAIN_120
         self.atime = TSL2572.ATIME_200MS
 
     # I2C read length byte from addr
@@ -98,15 +93,6 @@ class TSL2572:
         self.ch0 = (data[1] << 8) | data[0]
         self.ch1 = (data[3] << 8) | data[2]
 
-    # One time lux measurement
-    #  Run ALS integration with auto again/atime and calculate lux
-    #  Select below again/atime automatically based on default measurement result
-    #  again, atime, scale, max count
-    #   0.16,    50,  0.04,     19456
-    #      1,   200,     1,     65535  (Default)
-    #      8,   200,     8,     65535
-    #    120,   200,   120,     65535
-    #    120,   600,   360,     65535
     def meas_single(self):
         if not self.id_read():
             return False
@@ -160,33 +146,6 @@ class TSL2572:
 
         self.lux = max([0, lux1, lux2])
 
-    # Print atime, again setting and ch0/ch1 data
-    def print_reg(self):
-        if TSL2572.ATIME_50MS == self.atime:
-            print(' ADC Time : 50ms')
-        elif TSL2572.ATIME_200MS == self.atime:
-            print(' ADC Time : 200ms')
-        elif TSL2572.ATIME_600MS == self.atime:
-            print(' ADC Time : 600ms')
-
-        if TSL2572.AGAIN_0_16 == self.again:
-            print(' ADC Gain : 0.16')
-        elif TSL2572.AGAIN_1 == self.again:
-            print(' ADC Gain : 1')
-        elif TSL2572.AGAIN_8 == self.again:
-            print(' ADC Gain : 8')
-        elif TSL2572.AGAIN_16 == self.again:
-            print(' ADC Gain : 16')
-        elif TSL2572.AGAIN_120 == self.again:
-            print(' ADC Gain : 120')
-
-        print(' ch0 : 0x{:X}'.format(self.ch0))
-        print(' ch1 : 0x{:X}'.format(self.ch1))
-
-    # Print lux
-    def print_meas(self):
-        print(' Lux : {:.1f}lux'.format(self.lux))
-
     def to_json(self) -> dict:
         return {
             'timestamp': datetime.now().timestamp(),
@@ -202,7 +161,6 @@ def get_lux() -> dict:
         return tsl2572.to_json()
     else:
         raise RuntimeError('tsl2572: ID Read Failed')
-
 
 if __name__ == '__main__':
     print(get_lux())
