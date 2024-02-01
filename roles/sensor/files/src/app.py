@@ -7,11 +7,6 @@ from send import InfraredSender, IROption
 from bme280i2c import get_weather
 from tsl2572 import get_lux
 
-# use Flask
-# defaultでは、マルチスレッドおよび、非同期処理を行うことができない
-# なので、１リクエストが完了するまで、次のリクエストの処理を行えない。
-# シングルスレッドの同期処理であっても、性能に大きな影響を及ぼさないので、このまま利用する。
-
 app = Flask(__name__)
 CORS(app)
 

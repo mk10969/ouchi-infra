@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
-"""
-BME280 Control Module via I2C
- 2019/11/30
-"""
 
 from datetime import datetime
 import smbus
 import time
-
 
 class BME280I2C:
     # Return signed int from 16bit uint

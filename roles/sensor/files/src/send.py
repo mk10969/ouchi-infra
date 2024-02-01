@@ -4,13 +4,11 @@ import dataclasses
 import json
 import argparse
 
-
 @dataclasses.dataclass(frozen=True)
 class IROption:
     id: str
     gpio: int
     file: str
-
 
 class InfraredSender:
 
