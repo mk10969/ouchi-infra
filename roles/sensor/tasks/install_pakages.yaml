@@ -24,9 +24,9 @@
     # default(omit)は値が指定されてない場合、そのオプション自体を省略(記述なし)する
     version: "{{ item.version | default(omit) }}"
   loop:
-    - { name: "uwsgi", version: "2.0.20" }
-    - { name: "flask", version: "2.0.2" }
-    - { name: "flask-cors", version: "3.0.10" }
+    - { name: "uwsgi", version: "2.0.27" }
+    - { name: "flask", version: "3.0.3" }
+    - { name: "flask-cors", version: "5.0.0" }
     - { name: "pigpio", version: "1.78" }
     - { name: "smbus", version: "1.1.post2" }
     # - { name: "pybluez", version: "0.23" }
