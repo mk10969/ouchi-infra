@@ -7,7 +7,7 @@
   cron:
     name: reboot
     minute: "0"
-    hour: "*" ## 毎時
+    hour: "*/2" # every 2 hours
     job: "/sbin/reboot"
     state: present
   notify:

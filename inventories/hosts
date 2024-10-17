@@ -11,14 +11,11 @@ raspi4-51 ansible_host=100.64.1.151
 [sensor]
 raspi0-01 ansible_host=100.64.1.201
 
-
 [cluster:children]
 master
 worker
 
-
 [all:children]
-master
-worker
+cluster
 edge
 sensor
